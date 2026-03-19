@@ -229,6 +229,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     // =====================================================================
+    // Academy - LMS (painel/academia)
+    // =====================================================================
+    Route::prefix('painel/academia')->name('memberpanel.academy.')->middleware(['auth', 'verified'])->group(function () {
+        Route::get('/curso/{course}', [\Modules\Academy\App\Http\Controllers\MemberPanel\ClassroomController::class, 'show'])->name('classroom');
+        Route::get('/curso/{course}/aula/{lesson}', [\Modules\Academy\App\Http\Controllers\MemberPanel\ClassroomController::class, 'show'])->name('classroom.lesson');
+    });
+
+    // =====================================================================
+    // Community - Fórum (painel/comunidade)
+    // =====================================================================
+    Route::prefix('painel/comunidade')->name('memberpanel.community.')->middleware(['auth', 'verified'])->group(function () {
+        Route::get('/', [\Modules\Community\App\Http\Controllers\MemberPanel\CommunityFeedController::class, 'index'])->name('index');
+    });
+
+    Route::prefix('painel/nepesearch')->name('memberpanel.nepesearch.')->middleware(['auth', 'verified'])->group(function () {
+        Route::get('/buscar', [\Modules\NepeSearch\App\Http\Controllers\NepeSearchController::class, 'search'])->name('search');
+    });
+
+    // =====================================================================
     // Sermons - Sermões, Séries, Estudos, Comentários (painel/sermoes, etc.)
     // =====================================================================
     Route::prefix('painel/sermoes')->name('memberpanel.sermons.')->group(function () {

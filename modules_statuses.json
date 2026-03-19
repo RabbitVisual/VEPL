@@ -10,5 +10,8 @@
     "Sermons": true,
     "Intercessor": true,
     "Worship": true,
-    "Treasury": true
+    "Treasury": true,
+    "Academy": true,
+    "Community": true,
+    "NepeSearch": true
 }

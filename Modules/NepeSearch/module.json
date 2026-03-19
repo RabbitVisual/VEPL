@@ -1,0 +1,11 @@
+{
+    "name": "NepeSearch",
+    "alias": "nepesearch",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\NepeSearch\\App\\Providers\\NepeSearchServiceProvider"
+    ],
+    "files": []
+}

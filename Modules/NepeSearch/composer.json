@@ -1,0 +1,30 @@
+{
+    "name": "vertex/nepesearch",
+    "description": "",
+    "authors": [
+        {
+            "name": "Reinan Rodrigues",
+            "email": "r.rodriguesjs@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\NepeSearch\\": "app/",
+            "Modules\\NepeSearch\\Database\\Factories\\": "database/factories/",
+            "Modules\\NepeSearch\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\NepeSearch\\Tests\\": "tests/"
+        }
+    }
+}

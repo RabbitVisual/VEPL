@@ -62,7 +62,13 @@
             "Modules\\Intercessor\\App\\": "Modules/Intercessor/app/",
             "Modules\\Intercessor\\Database\\Seeders\\": "Modules/Intercessor/database/seeders/",
             "Modules\\Worship\\App\\": "Modules/Worship/app/",
-            "Modules\\Worship\\Database\\Seeders\\": "Modules/Worship/database/seeders/"
+            "Modules\\Worship\\Database\\Seeders\\": "Modules/Worship/database/seeders/",
+            "Modules\\Academy\\App\\": "Modules/Academy/app/",
+            "Modules\\Academy\\Database\\Seeders\\": "Modules/Academy/database/seeders/",
+            "Modules\\Community\\App\\": "Modules/Community/app/",
+            "Modules\\Community\\Database\\Seeders\\": "Modules/Community/database/seeders/",
+            "Modules\\NepeSearch\\App\\": "Modules/NepeSearch/app/",
+            "Modules\\NepeSearch\\Database\\Seeders\\": "Modules/NepeSearch/database/seeders/"
         },
         "files": [
             "app/Helpers/SettingsHelper.php"
