@@ -1,0 +1,274 @@
+@extends('admin::components.layouts.master')
+
+@section('title', 'Editar Estudo - Administração')
+
+@section('content')
+<div class="max-w-6xl mx-auto space-y-8">
+<!-- Page Header -->
+<div class="flex items-center justify-between">
+    <div>
+        <h1 class="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">Editar Estudo Teológico</h1>
+        <p class="text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-2">
+            <i class="fa-pro fa-solid fa-graduation-cap text-blue-500"></i>
+            Refinando Material de Discipulado & Acadêmico
+        </p>
+    </div>
+    <div class="flex items-center space-x-3">
+        <a href="{{ route('admin.sermons.studies.index') }}"
+            class="inline-flex items-center px-4 py-2 border border-slate-200 dark:border-slate-800 text-sm font-bold rounded-xl text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all shadow-sm">
+            <i class="fa-pro fa-solid fa-arrow-left mr-2"></i>
+            Voltar
+        </a>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="lg:col-span-2 space-y-6">
+        <div class="bg-white dark:bg-slate-900 rounded-[2rem] shadow-sm border border-slate-200 dark:border-slate-800 p-8">
+            <form action="{{ route('admin.sermons.studies.update', $study) }}" method="POST" enctype="multipart/form-data" class="space-y-8" id="studyForm">
+                @csrf
+                @method('PUT')
+
+                <!-- Basic Info -->
+                <div class="space-y-6">
+                    <div>
+                        <label for="title" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-2">
+                            <i class="fa-pro fa-solid fa-heading text-blue-500"></i>
+                            Título do Estudo
+                        </label>
+                        <input type="text" name="title" id="title" value="{{ old('title', $study->title) }}" required
+                            class="block w-full rounded-2xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/30 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-blue-500/20 sm:text-sm font-bold py-3 transition-all"
+                            placeholder="Ex: A Doutrina da Justificação">
+                    </div>
+
+                    <div>
+                        <label for="subtitle" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-2">
+                            <i class="fa-pro fa-solid fa-subscript text-slate-400 text-xs"></i>
+                            Subtítulo ou Tema Central
+                        </label>
+                        <input type="text" name="subtitle" id="subtitle" value="{{ old('subtitle', $study->subtitle) }}"
+                            class="block w-full rounded-xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/30 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-blue-500/20 sm:text-sm transition-all"
+                            placeholder="Uma análise reformada sobre Romanos 5">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="series_id" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-2">
+                                <i class="fa-pro fa-solid fa-layer-group text-slate-400"></i>
+                                Série Teológica
+                            </label>
+                            <select name="series_id" id="series_id"
+                                class="block w-full rounded-xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/30 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-blue-500/20 sm:text-sm transition-all font-bold">
+                                <option value="">Estudo Avulso</option>
+                                @foreach($series as $s)
+                                    <option value="{{ $s->id }}" {{ old('series_id', $study->series_id) == $s->id ? 'selected' : '' }}>{{ $s->title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="category_id" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-2">
+                                <i class="fa-pro fa-solid fa-tag text-slate-400"></i>
+                                Categoria Acadêmica
+                            </label>
+                            <select name="category_id" id="category_id" required
+                                class="block w-full rounded-xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/30 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-blue-500/20 sm:text-sm transition-all font-bold">
+                                <option value="">Selecione...</option>
+                                @foreach($categories as $c)
+                                    <option value="{{ $c->id }}" {{ old('category_id', $study->category_id) == $c->id ? 'selected' : '' }}>{{ $c->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Media Section -->
+                <div class="border-t border-slate-100 dark:border-slate-800 pt-8 mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="md:col-span-2">
+                        <h3 class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest mb-4 flex items-center gap-2">
+                            <i class="fa-pro fa-solid fa-play-circle text-blue-500"></i>
+                            Anexos Multinível
+                        </h3>
+                    </div>
+
+                    @if($study->audio_url || $study->video_url)
+                        <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            @if($study->audio_url)
+                                <div class="p-4 bg-slate-50 dark:bg-slate-950/30 rounded-2xl border border-slate-200 dark:border-slate-800 flex items-center justify-between group">
+                                    <div class="flex items-center gap-3">
+                                        <div class="h-10 w-10 rounded-xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-500">
+                                            <i class="fa-pro fa-solid fa-waveform-lines"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Áudio Vinculado</p>
+                                            <p class="text-xs font-bold text-slate-700 dark:text-slate-300 truncate max-w-[150px]">
+                                                {{ !filter_var($study->audio_url, FILTER_VALIDATE_URL) ? 'Arquivo Interno' : 'Link Externo' }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <label class="flex items-center gap-2 cursor-pointer p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all text-red-500">
+                                        <input type="checkbox" name="remove_audio" value="1" class="sr-only peer">
+                                        <i class="fa-pro fa-solid fa-trash-can peer-checked:text-red-600"></i>
+                                        <span class="text-[10px] font-black uppercase">Excluir</span>
+                                    </label>
+                                </div>
+                            @endif
+
+                            @if($study->video_url)
+                                <div class="p-4 bg-slate-50 dark:bg-slate-950/30 rounded-2xl border border-slate-200 dark:border-slate-800 flex items-center justify-between group">
+                                    <div class="flex items-center gap-3">
+                                        <div class="h-10 w-10 rounded-xl bg-red-50 dark:bg-red-900/20 flex items-center justify-center text-red-500">
+                                            <i class="fa-pro fa-solid fa-play"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Vídeo Vinculado</p>
+                                            <p class="text-xs font-bold text-slate-700 dark:text-slate-300 truncate max-w-[150px]">{{ $study->video_url }}</p>
+                                        </div>
+                                    </div>
+                                    <a href="{{ $study->video_url }}" target="_blank" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all text-slate-400 hover:text-blue-500">
+                                        <i class="fa-pro fa-solid fa-external-link"></i>
+                                    </a>
+                                </div>
+                            @endif
+                        </div>
+                    @endif
+
+                    <div>
+                        <label for="video_url" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-2">
+                            <i class="fa-pro fa-brands fa-youtube text-red-500"></i>
+                            Novo Link de Vídeo
+                        </label>
+                        <input type="url" name="video_url" id="video_url" value="{{ old('video_url', $study->video_url) }}"
+                            class="block w-full rounded-xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/30 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-blue-500/20 sm:text-sm transition-all"
+                            placeholder="Alterar URL do Vídeo...">
+                    </div>
+
+                    <div>
+                        <label for="audio_url" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-2">
+                            <i class="fa-pro fa-solid fa-waveform-lines text-blue-500"></i>
+                            Novo Link de Áudio/Podcast
+                        </label>
+                        <input type="url" name="audio_url" id="audio_url" value="{{ old('audio_url', filter_var($study->audio_url, FILTER_VALIDATE_URL) ? $study->audio_url : '') }}"
+                            class="block w-full rounded-xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/30 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-blue-500/20 sm:text-sm transition-all"
+                            placeholder="Alterar URL do Áudio...">
+                    </div>
+
+                    <div class="md:col-span-2 bg-slate-50 dark:bg-slate-950/30 rounded-2xl p-6 border border-slate-200 dark:border-slate-800">
+                        <label for="audio_file" class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-3">Substituir por Áudio Nativo (MP3/M4A)</label>
+                        <input type="file" name="audio_file" id="audio_file" accept="audio/*"
+                            class="block w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-6 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-slate-900 file:text-white hover:file:bg-slate-800 transition-all cursor-pointer">
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="border-t border-slate-100 dark:border-slate-800 pt-8 mt-4">
+                    <label for="content" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-4 flex items-center gap-2">
+                        <i class="fa-pro fa-solid fa-feather-pointed text-blue-500"></i>
+                        Plexo do Estudo (Conteúdo Profundo)
+                    </label>
+                    <textarea name="content" id="content" rows="15" required
+                        class="block w-full rounded-2xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/30 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-blue-500/20 sm:text-sm transition-all">{{ old('content', $study->content) }}</textarea>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sidebar Lateral -->
+    <div class="space-y-6">
+        <!-- Publicação -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 p-6">
+            <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-6 flex items-center justify-between">
+                <span>Engrenagens</span>
+                <i class="fa-pro fa-solid fa-gears"></i>
+            </h3>
+
+            <div class="space-y-6">
+                <div>
+                    <label for="status" class="block text-xs font-bold text-slate-500 mb-2">Estado Ministerial</label>
+                    <select name="status" id="status" form="studyForm" required
+                        class="block w-full rounded-xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/30 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-blue-500/20 text-sm font-bold transition-all">
+                        <option value="draft" {{ old('status', $study->status) == 'draft' ? 'selected' : '' }}>Rascunho</option>
+                        <option value="published" {{ old('status', $study->status) == 'published' ? 'selected' : '' }}>Publicado</option>
+                        <option value="archived" {{ old('status', $study->status) == 'archived' ? 'selected' : '' }}>Arquivado</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="visibility" class="block text-xs font-bold text-slate-500 mb-2">Privacidade</label>
+                    <select name="visibility" id="visibility" form="studyForm" required
+                        class="block w-full rounded-xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/30 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-blue-500/20 text-sm font-bold transition-all">
+                        <option value="public" {{ old('visibility', $study->visibility) == 'public' ? 'selected' : '' }}>Geral / Público</option>
+                        <option value="members" {{ old('visibility', $study->visibility) == 'members' ? 'selected' : '' }}>Somente Membros</option>
+                        <option value="private" {{ old('visibility', $study->visibility) == 'private' ? 'selected' : '' }}>Somente Administradores</option>
+                    </select>
+                </div>
+
+                <div class="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-950/30 rounded-2xl border border-slate-100 dark:border-slate-800">
+                    <span class="text-xs font-bold text-slate-600 dark:text-slate-400">Estudo em Destaque</span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" name="is_featured" value="1" form="studyForm" class="sr-only peer" {{ old('is_featured', $study->is_featured) ? 'checked' : '' }}>
+                        <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none dark:bg-slate-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="mt-8">
+                <button type="submit" form="studyForm"
+                    class="w-full py-4 bg-slate-900 dark:bg-blue-600 hover:bg-slate-800 dark:hover:bg-blue-700 text-white font-black rounded-2xl shadow-xl shadow-blue-500/10 transform hover:-translate-y-1 transition-all flex items-center justify-center gap-3">
+                    <i class="fa-pro fa-solid fa-cloud-upload"></i>
+                    ATUALIZAR ESTUDO
+                </button>
+            </div>
+        </div>
+
+        <!-- Capa -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 text-center">
+            <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-6 flex items-center justify-between">
+                <span>Visual Acadêmico</span>
+                <i class="fa-pro fa-solid fa-image"></i>
+            </h3>
+
+            <div class="relative group mx-auto w-full aspect-video rounded-[2rem] bg-slate-50 dark:bg-slate-950 border-2 border-dashed border-slate-200 dark:border-slate-800 flex flex-col items-center justify-center overflow-hidden transition-all hover:border-blue-500/50">
+                <div id="cover-preview" class="absolute inset-0 z-0">
+                     @if($study->cover_image)
+                        <img src="{{ asset('storage/' . $study->cover_image) }}" class="w-full h-full object-cover">
+                     @else
+                        <i class="fa-pro fa-solid fa-scroll-old text-5xl text-slate-300 dark:text-slate-800 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></i>
+                     @endif
+                </div>
+                <div class="relative z-10 p-4">
+                    <button type="button" onclick="document.getElementById('cover_image_file').click()"
+                        class="bg-white dark:bg-slate-900 text-slate-900 dark:text-white p-3 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 transform hover:scale-110 transition-all">
+                        <i class="fa-pro fa-solid fa-camera"></i>
+                    </button>
+                </div>
+                <input type="file" name="cover_image_file" id="cover_image_file" form="studyForm" accept="image/*" class="hidden" onchange="previewCover(event)">
+            </div>
+
+            @if($study->cover_image)
+                <div class="mt-4 flex items-center justify-center">
+                    <label class="flex items-center gap-2 cursor-pointer text-xs font-bold text-red-500 hover:text-red-600 transition-colors">
+                        <input type="checkbox" name="remove_cover" value="1" form="studyForm" class="rounded border-slate-300 text-red-600 focus:ring-red-500">
+                        Remover Capa Atual
+                    </label>
+                </div>
+            @endif
+
+            <p class="mt-4 text-[10px] text-slate-400 font-bold uppercase tracking-widest">Capas Estilizadas recomendadas</p>
+        </div>
+    </div>
+</div>
+</div>
+@push('scripts')
+<script>
+    function previewCover(event) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            const preview = document.getElementById('cover-preview');
+            preview.innerHTML = `<img src="${reader.result}" class="w-full h-full object-cover">`;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
+@endpush
+@endsection

@@ -1,0 +1,51 @@
+# Walkthrough: Remoção de Módulos (VEPL)
+
+Os módulos solicitados foram removidos com sucesso para adaptar o sistema ao novo propósito de "Escola de Pastores e Líderes".
+
+## Módulos Removidos
+1.  **EBD** (Escola Bíblica Dominical)
+2.  **ChurchCouncil** (Conselho da Igreja)
+3.  **Marketplace** (Loja Missionária)
+4.  **PastoralPanel** (Painel Pastoral)
+5.  **Projection** (Projeção)
+6.  **SocialAction** (Ação Social)
+7.  **Assets** (Patrimônio)
+
+## Mudanças Realizadas
+
+### 1. Exclusão de Arquivos e Pastas
+- Todos os diretórios dentro de `Modules/` correspondentes aos módulos acima foram excluídos.
+- O arquivo [modules_statuses.json](file:///c:/laragon/www/VEPL/modules_statuses.json) foi atualizado automaticamente pelo comando `php artisan module:delete`.
+
+### 2. Limpeza de Configurações do Sistema
+#### [composer.json](file:///c:/laragon/www/VEPL/composer.json)
+- Removidas as entradas PSR-4 de `autoload` para os módulos excluídos.
+- Assegurado que os módulos mantidos (`Events`, `Sermons`, `Intercessor`, `Worship`, `Gamification`) permaneçam configurados.
+
+#### [vite.config.js](file:///c:/laragon/www/VEPL/vite.config.js)
+- Removidas as referências de assets do módulo `Projection`.
+
+### 3. Interface Visual (Sidebars)
+#### [Admin Sidebar](file:///C:/laragon/www/VEPL/Modules/Admin/resources/views/components/sidebar.blade.php)
+- Removidos todos os blocos de menus colapsáveis dos 7 módulos.
+- Removidas variáveis PHP e lógica de permissões relacionadas (ex: `TreasuryPermission`).
+- Limpeza do objeto `x-data` do Alpine.js para remover estados de menus inválidos.
+
+#### [MemberPanel Sidebar](file:///C:/laragon/www/VEPL/Modules/MemberPanel/resources/views/components/sidebar.blade.php)
+- Removidos links de "Minhas Compras" (Marketplace).
+- Removido acesso ao "Conselho" (ChurchCouncil).
+- Removido acesso à "Tesouraria" (Treasury).
+- Removidos portais de Aluno e Professor (EBD).
+- Removido acesso à "Projeção" e "Ação Social".
+
+### 4. Manutenção e Otimização
+- Executado `composer dump-autoload` para regenerar o mapeamento de classes.
+- Executado `php artisan optimize:clear` para limpar caches de rota, configuração e visualização.
+
+## Verificação do Banco de Dados
+- O banco de dados configurado no [.env](file:///c:/laragon/www/VEPL/.env) (`vepl_escola_pastoral`) não foi encontrado no ambiente local do Laragon.
+- **Observação**: Se você migrar este projeto para um servidor onde essas tabelas já existam, elas deverão ser removidas manualmente via SQL (`DROP TABLE ...`), pois os arquivos de migração que permitiam o `down()` foram excluídos junto com os módulos.
+
+## Próximos Passos Recomendados
+- [ ] Executar `php artisan migrate` após criar o banco de dados para garantir que os módulos restantes (`Worship`, `Intercessor`, `Bible`, etc) criem suas tabelas corretamente.
+- [ ] Verificar as permissões/funções (Roles) no banco de dados, caso existissem papéis específicos para os módulos removidos.
