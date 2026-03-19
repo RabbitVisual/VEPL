@@ -15,7 +15,7 @@
                         <span class="text-gray-900 dark:text-white font-medium">Meu Perfil</span>
                     </nav>
                     <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">Meu Perfil</h1>
-                    <p class="text-gray-500 dark:text-slate-400 mt-1 text-sm max-w-md">Sua jornada, conquistas e informações cadastrais em um só lugar.</p>
+                    <p class="text-gray-500 dark:text-slate-400 mt-1 text-sm max-w-md">Sua jornada e informações cadastrais em um só lugar.</p>
                 </div>
                 <a href="{{ route('memberpanel.profile.edit') }}"
                     data-tour="profile-edit"
@@ -250,8 +250,8 @@
                                 @endif
                             </div>
                             <div>
-                                <dt class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 mb-1">Igreja Afiliada</dt>
-                                <dd class="text-base font-bold text-gray-900 dark:text-slate-100">{{ $user->affiliated_church ?: 'Igreja Batista Vertex' }}</dd>
+                                <dt class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 mb-1">Pólo / Igreja Afiliada</dt>
+                                <dd class="text-base font-bold text-gray-900 dark:text-slate-100">{{ $user->affiliated_church ?: 'VEPL Escola' }}</dd>
                             </div>
                             <div>
                                 <dt class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 mb-1">Convenção / Cooperação</dt>
@@ -300,7 +300,7 @@
                                             <dd class="text-sm font-semibold opacity-80 text-white">{{ $user->education_level ? (\Illuminate\Support\Str::replace('_', ' ', ucfirst($user->education_level))) : 'Não informada' }}</dd>
                             </div>
                             <div class="pt-4 border-t border-white/5 text-[10px] leading-relaxed text-white/40 italic">
-                                 "Seus dados profissionais ajudam a congregação a conhecer seus talentos para ações sociais."
+                                 "Seus dados profissionais ajudam a nossa academia / escola a conhecer seus talentos para ações sociais."
                             </div>
                         </div>
                     </div>

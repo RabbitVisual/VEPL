@@ -64,7 +64,7 @@
                             Olá, {{ $user->first_name ?? explode(' ', $user->name)[0] }}!
                         </h1>
                         <p class="text-gray-500 dark:text-slate-300 font-medium max-w-xl text-lg leading-relaxed">
-                            É uma alegria ter você aqui. Acompanhe sua jornada e novidades da nossa comunidade.
+                            É uma alegria ter você aqui. Acompanhe sua jornada e novidades da nossa escola.
                         </p>
                     </div>
 
@@ -198,7 +198,7 @@
 
                             @if($stats['profile_completion'] < 100)
                                 <p class="text-indigo-100 text-sm font-medium leading-relaxed mb-6 opacity-90">
-                                    Complete seu perfil para desbloquear novas conquistas e ser reconhecido pela liderança.
+                                    Complete seu perfil para ser melhor acompanhado e reconhecido pela liderança.
                                 </p>
                                 <a href="{{ route('memberpanel.profile.edit') }}" class="inline-flex items-center justify-center w-full py-3.5 bg-white text-indigo-600 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-indigo-50 transition-colors shadow-lg active:scale-95">
                                     Completar Perfil Agora

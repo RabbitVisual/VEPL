@@ -110,14 +110,6 @@
                     <p class="text-sm text-gray-500 dark:text-gray-400">Insights para planejamento e conselho</p>
                 </div>
             </div>
-            <button type="button"
-                    @click="runEliasAnalysis()"
-                    :disabled="eliasLoading"
-                    class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold transition-colors disabled:opacity-50"
-                    onclick="window.dispatchEvent(new CustomEvent('loading-overlay:show', { detail: { message: 'Elias analisando dados...' } }))">
-                <x-icon name="robot" class="w-5 h-5" />
-                <span x-text="eliasLoading ? 'Analisando...' : 'Análise Pastoral do Elias'"></span>
-            </button>
         </div>
         <div class="p-6">
             <ul class="space-y-3">
@@ -128,10 +120,6 @@
                     </li>
                 @endforeach
             </ul>
-            <div x-show="eliasReply" x-cloak class="mt-6 p-6 rounded-2xl bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800">
-                <h3 class="text-sm font-bold text-indigo-900 dark:text-indigo-300 uppercase tracking-wider mb-3">Sugestões do Elias</h3>
-                <div class="prose prose-sm dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 whitespace-pre-line" x-html="eliasReply"></div>
-            </div>
         </div>
     </div>
 </div>
@@ -215,37 +203,6 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('alpine:init', function() {
     Alpine.data('familyDemographicsDashboard', function() {
         return {
-            eliasLoading: false,
-            eliasReply: '',
-            runEliasAnalysis() {
-            this.eliasLoading = true;
-            this.eliasReply = '';
-            window.dispatchEvent(new CustomEvent('loading-overlay:show', { detail: { message: 'Elias analisando dados demográficos...' } }));
-            fetch('{{ route("admin.reports.family-demographics.elias") }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({})
-            })
-            .then(r => r.json())
-            .then(data => {
-                this.eliasLoading = false;
-                window.dispatchEvent(new CustomEvent('loading-overlay:hide'));
-                if (data.success && data.reply) {
-                    this.eliasReply = data.reply.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
-                } else {
-                    this.eliasReply = data.reply || 'Não foi possível obter a análise.';
-                }
-            })
-            .catch(() => {
-                this.eliasLoading = false;
-                window.dispatchEvent(new CustomEvent('loading-overlay:hide'));
-                this.eliasReply = 'Erro ao conectar com o Elias. Tente novamente.';
-            });
-        }
         };
     });
 });

@@ -8,7 +8,6 @@ use Illuminate\Support\ServiceProvider;
 use Modules\Ministries\App\Console\RemindMinistryReportCommand;
 use Modules\Ministries\App\Models\Ministry;
 use Modules\Ministries\App\Models\MinistryReport;
-use Modules\Ministries\App\Observers\MinistryReportObserver;
 use Modules\Ministries\App\Policies\MinistryPolicy;
 use Nwidart\Modules\Traits\PathNamespace;
 use RecursiveDirectoryIterator;
@@ -28,7 +27,6 @@ class MinistriesServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::policy(Ministry::class, MinistryPolicy::class);
-        MinistryReport::observe(MinistryReportObserver::class);
         $this->commands([RemindMinistryReportCommand::class]);
         $this->registerCommands();
         $this->registerCommandSchedules();

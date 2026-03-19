@@ -323,19 +323,4 @@ class FamilyAnalysisService
         return $highlights;
     }
 
-    /**
-     * Resumo em texto/array para o Elias (contexto da análise pastoral).
-     */
-    public function getSummaryForElias(): array
-    {
-        $report = $this->getDemographicsReport();
-
-        return [
-            'composition' => $report['composition'],
-            'by_neighborhood' => $report['by_neighborhood'],
-            'pastoral_highlights' => $report['pastoral_highlights'],
-            'total_nuclei' => $report['composition']['total_nuclei'],
-            'total_relationships' => $report['total_relationships'],
-        ];
-    }
 }

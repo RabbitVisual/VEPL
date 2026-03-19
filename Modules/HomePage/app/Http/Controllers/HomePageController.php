@@ -82,6 +82,19 @@ class HomePageController extends Controller
             ->limit(3)
             ->get();
 
+        // Cursos em destaque (Academy)
+        $featuredCourses = collect();
+        try {
+            if (class_exists('Modules\Academy\App\Models\Course')) {
+                $featuredCourses = \Modules\Academy\App\Models\Course::with('modules')
+                    ->latest()
+                    ->take(3)
+                    ->get();
+            }
+        } catch (\Throwable $e) {
+            \Log::debug('HomePage featured courses: '.$e->getMessage());
+        }
+
         // Galeria de fotos
         $galleryImages = GalleryImage::where('is_active', true)
             ->orderBy('order')
@@ -130,6 +143,7 @@ class HomePageController extends Controller
             'dailyVerse',
             'upcomingEvents',
             'activeTestimonials',
+            'featuredCourses',
             'galleryImages',
             'importantNotifications',
             'statistics',
@@ -258,6 +272,7 @@ class HomePageController extends Controller
         $ministriesCount = 0;
         $campaignsCount = 0;
         $sermonsCount = 0;
+        $eventsCount = 0;
         $bibleResourcesCount = 0;
         $yearsCount = Settings::get('homepage_stats_years', 50);
 
@@ -290,6 +305,15 @@ class HomePageController extends Controller
             $sermonsCount = Settings::get('homepage_sermons_count', 12);
         }
 
+        // Eventos
+        try {
+            if (class_exists('Modules\Events\App\Models\Event')) {
+                $eventsCount = \Modules\Events\App\Models\Event::query()->count();
+            }
+        } catch (\Exception $e) {
+            $eventsCount = Settings::get('homepage_events_count', 0);
+        }
+
         // Recursos biblicos locais
         try {
             $versionsCount = BibleVersion::query()->count();
@@ -303,6 +327,7 @@ class HomePageController extends Controller
             'ministries' => $ministriesCount,
             'campaigns' => $campaignsCount,
             'sermons' => $sermonsCount,
+            'events' => $eventsCount,
             'bible_resources' => $bibleResourcesCount,
             'years' => $yearsCount,
         ];

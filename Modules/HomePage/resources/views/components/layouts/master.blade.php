@@ -13,11 +13,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>{{ $title ?? 'Igreja Batista Avenida - Coração de Maria - BA' }} | {{ config('app.name', 'Laravel') }}</title>
+    <title>{{ $title ?? 'VEPL - Escola de Pastores e Líderes' }} | {{ config('app.name', 'Laravel') }}</title>
 
-    <meta name="description" content="{{ $description ?? 'Igreja Batista Avenida - Coração de Maria - BA. Uma comunidade de fé comprometida com o Evangelho e o serviço ao próximo.' }}">
-    <meta name="keywords" content="{{ $keywords ?? 'igreja batista, coração de maria, bahia, cristianismo, evangelho' }}">
-    <meta name="author" content="{{ $author ?? 'Igreja Batista Avenida' }}">
+    <meta name="description" content="{{ $description ?? 'VEPL - Vertex Escola de Pastores e Líderes. Formação pastoral, liderança bíblica e desenvolvimento ministerial.' }}">
+    <meta name="keywords" content="{{ $keywords ?? 'vepl, escola pastoral, liderança bíblica, formação ministerial, teologia batista' }}">
+    <meta name="author" content="{{ $author ?? 'VEPL' }}">
 
     @stack('meta')
 

@@ -47,7 +47,7 @@
                     {{ $greeting }}, {{ auth()->user()->first_name ?? auth()->user()->name ?? 'Admin' }}!
                 </h1>
                 <p class="text-gray-300 text-lg max-w-xl">
-                    Bem-vindo ao centro de controle da sua igreja. Resumo das atividades e atalhos para as principais áreas.
+                    Bem-vindo ao centro de controle da VEPL Escola. Resumo das atividades e atalhos para as principais áreas.
                 </p>
 
                 <!-- Quick Actions -->

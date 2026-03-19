@@ -11,7 +11,7 @@
                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <div class="flex flex-col" style="display: none;">
                         <span class="text-lg font-bold text-gray-900 dark:text-white leading-tight">Igreja Batista</span>
-                        <span class="text-xs text-blue-600 dark:text-blue-400 font-medium uppercase tracking-wider">Avenida</span>
+                        <span class="text-xs text-amber-600 dark:text-amber-400 font-medium uppercase tracking-wider">VEPL</span>
                     </div>
                 </a>
             </div>
@@ -19,23 +19,23 @@
             <!-- Desktop Menu -->
             <div class="hidden md:flex md:items-center md:space-x-1">
                 <a href="{{ route('homepage.index') }}"
-                    class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200">Início</a>
+                    class="text-gray-600 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-gray-50 dark:hover:bg-gray-800 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200">Início</a>
                 <a href="#sobre"
-                    class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200">Sobre</a>
+                    class="text-gray-600 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-gray-50 dark:hover:bg-gray-800 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200">Sobre</a>
                 <a href="#ministerios"
-                    class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200">Ministérios</a>
+                    class="text-gray-600 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-gray-50 dark:hover:bg-gray-800 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200">Ministérios</a>
                 <a href="{{ route('events.public.index') }}"
-                    class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200">Eventos</a>
+                    class="text-gray-600 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-gray-50 dark:hover:bg-gray-800 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200">Eventos</a>
                 @if($marketplace_store_available ?? false)
                     <a href="{{ route('marketplace.storefront.index') }}"
-                        class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200">Loja</a>
+                        class="text-gray-600 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-gray-50 dark:hover:bg-gray-800 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200">Loja</a>
                 @endif
                 <a href="{{ route('bible.public.index') }}"
-                    class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200">Bíblia Online</a>
+                    class="text-gray-600 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-gray-50 dark:hover:bg-gray-800 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200">Bíblia Online</a>
                 <a href="{{ route('homepage.radio') }}"
-                    class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200">Rádio</a>
+                    class="text-gray-600 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-gray-50 dark:hover:bg-gray-800 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200">Rádio</a>
                 <a href="#contato"
-                    class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200">Contato</a>
+                    class="text-gray-600 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-gray-50 dark:hover:bg-gray-800 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200">Contato</a>
 
                 @php
                     $hasActiveGateways = \Modules\PaymentGateway\App\Models\PaymentGateway::active()
@@ -47,16 +47,16 @@
                 @endphp
                 @if($hasActiveGateways)
                     <a href="{{ route('donation.create') }}"
-                        class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200">Doação</a>
+                        class="text-gray-600 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-gray-50 dark:hover:bg-gray-800 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200">Doação</a>
                 @endif
 
                 <div class="h-6 w-px bg-gray-200 dark:bg-gray-700 mx-2"></div>
 
                 @if($marketplace_store_available ?? false)
-                <a href="{{ route('marketplace.storefront.cart') }}" class="relative p-2.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mr-2" aria-label="Ver carrinho">
+                <a href="{{ route('marketplace.storefront.cart') }}" class="relative p-2.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 hover:text-amber-600 dark:hover:text-amber-400 transition-colors mr-2" aria-label="Ver carrinho">
                     <x-icon name="cart-shopping" style="duotone" class="w-6 h-6" />
                     @if(($marketplace_cart_count ?? 0) > 0)
-                        <span class="absolute -top-0.5 -right-0.5 min-w-5 h-5 px-1 flex items-center justify-center text-[10px] font-bold text-white bg-blue-600 rounded-full">{{ ($marketplace_cart_count ?? 0) > 99 ? '99+' : $marketplace_cart_count }}</span>
+                        <span class="absolute -top-0.5 -right-0.5 min-w-5 h-5 px-1 flex items-center justify-center text-[10px] font-bold text-white bg-blue-700 rounded-full">{{ ($marketplace_cart_count ?? 0) > 99 ? '99+' : $marketplace_cart_count }}</span>
                     @endif
                 </a>
                 @endif
@@ -90,13 +90,13 @@
                             <span class="text-[10px] text-gray-500 dark:text-gray-400 font-medium">{{ $user->role->name ?? 'Membro' }}</span>
                         </div>
                         <a href="{{ $dashboardRoute }}"
-                            class="bg-blue-600 dark:bg-blue-600 text-white px-4 py-1.5 rounded-full text-xs font-bold shadow-md hover:bg-blue-700 transition-all duration-300 transform hover:-translate-y-0.5">
+                            class="bg-blue-700 dark:bg-blue-700 text-white px-4 py-1.5 rounded-full text-xs font-bold shadow-md hover:bg-blue-600 transition-all duration-300 transform hover:-translate-y-0.5">
                             Painel
                         </a>
                     </div>
                 @else
                     <a href="{{ route('login') }}"
-                        class="bg-blue-600 dark:bg-blue-600 text-white px-5 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:bg-blue-700 dark:hover:bg-blue-500 transition-all duration-300 transform hover:-translate-y-0.5">
+                        class="bg-blue-700 dark:bg-blue-700 text-white px-5 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-blue-700/30 hover:shadow-blue-700/50 hover:bg-blue-600 dark:hover:bg-blue-600 transition-all duration-300 transform hover:-translate-y-0.5">
                         Login
                     </a>
                 @endauth
@@ -116,7 +116,7 @@
                 </button>
 
                 <button type="button" id="mobile-menu-button"
-                    class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none p-2 transition-colors">
+                    class="text-gray-700 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-400 focus:outline-none p-2 transition-colors">
                     <x-icon name="bars" class="h-7 w-7" />
                 </button>
             </div>
@@ -145,38 +145,38 @@
             @endauth
 
             <a href="{{ route('homepage.index') }}"
-                class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 rounded-xl text-base font-medium transition-colors">Início</a>
+                class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:text-amber-600 dark:hover:text-amber-400 rounded-xl text-base font-medium transition-colors">Início</a>
             <a href="#sobre"
-                class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 rounded-xl text-base font-medium transition-colors">Sobre</a>
+                class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:text-amber-600 dark:hover:text-amber-400 rounded-xl text-base font-medium transition-colors">Sobre</a>
             <a href="#ministerios"
-                class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 rounded-xl text-base font-medium transition-colors">Ministérios</a>
+                class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:text-amber-600 dark:hover:text-amber-400 rounded-xl text-base font-medium transition-colors">Ministérios</a>
             <a href="{{ route('events.public.index') }}"
-                class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 rounded-xl text-base font-medium transition-colors">Eventos</a>
+                class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:text-amber-600 dark:hover:text-amber-400 rounded-xl text-base font-medium transition-colors">Eventos</a>
             @if($marketplace_store_available ?? false)
                 <a href="{{ route('marketplace.storefront.index') }}"
-                    class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 rounded-xl text-base font-medium transition-colors">Loja</a>
+                    class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:text-amber-600 dark:hover:text-amber-400 rounded-xl text-base font-medium transition-colors">Loja</a>
             @endif
             <a href="{{ route('bible.public.index') }}"
-                class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 rounded-xl text-base font-medium transition-colors">Bíblia Online</a>
+                class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:text-amber-600 dark:hover:text-amber-400 rounded-xl text-base font-medium transition-colors">Bíblia Online</a>
             <a href="{{ route('homepage.radio') }}"
-                class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 rounded-xl text-base font-medium transition-colors">Rádio</a>
+                class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:text-amber-600 dark:hover:text-amber-400 rounded-xl text-base font-medium transition-colors">Rádio</a>
             <a href="#contato"
-                class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 rounded-xl text-base font-medium transition-colors">Contato</a>
+                class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:text-amber-600 dark:hover:text-amber-400 rounded-xl text-base font-medium transition-colors">Contato</a>
 
             @if($hasActiveGateways)
                 <a href="{{ route('donation.create') }}"
-                    class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 rounded-xl text-base font-medium transition-colors">Doação</a>
+                    class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:text-amber-600 dark:hover:text-amber-400 rounded-xl text-base font-medium transition-colors">Doação</a>
             @endif
 
             <div class="pt-4 mt-4 border-t border-gray-100 dark:border-gray-800">
                 @auth
                     <a href="{{ $dashboardRoute }}"
-                        class="block w-full text-center px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-base font-bold shadow-md transition-colors">
+                        class="block w-full text-center px-4 py-3 bg-blue-700 hover:bg-blue-600 text-white rounded-xl text-base font-bold shadow-md transition-colors">
                         Ir para o Painel
                     </a>
                 @else
                     <a href="{{ route('login') }}"
-                        class="block w-full text-center px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-base font-bold shadow-md transition-colors">
+                        class="block w-full text-center px-4 py-3 bg-blue-700 hover:bg-blue-600 text-white rounded-xl text-base font-bold shadow-md transition-colors">
                         Área do Membro
                     </a>
                 @endauth

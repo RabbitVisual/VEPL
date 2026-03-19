@@ -52,10 +52,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/ministerios/{ministry}/relatorios/{report}/editar', [\Modules\Ministries\App\Http\Controllers\Member\MinistryController::class, 'editReport'])->name('ministries.reports.edit');
         Route::put('/ministerios/{ministry}/relatorios/{report}', [\Modules\Ministries\App\Http\Controllers\Member\MinistryController::class, 'updateReport'])->name('ministries.reports.update');
 
-        // CBAV Bot (Gamification) — Elias: chat para dúvidas (EBD player usa com lesson_id)
-        Route::get('/cbav-bot/analise', [\Modules\Gamification\App\Http\Controllers\CbavBotController::class, 'analysis'])->name('cbav-bot.analysis');
-        Route::post('/cbav-bot/chat', [\Modules\Gamification\App\Http\Controllers\CbavBotController::class, 'chat'])->name('cbav-bot.chat');
-        Route::post('/cbav-bot/dismiss', [\Modules\Gamification\App\Http\Controllers\CbavBotController::class, 'dismiss'])->name('cbav-bot.dismiss');
 
         // Notificações
         Route::get('/notificacoes', [\Modules\MemberPanel\App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');

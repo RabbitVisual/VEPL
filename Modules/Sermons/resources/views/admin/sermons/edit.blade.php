@@ -291,20 +291,10 @@
                         <i class="fa-pro fa-solid fa-pen-nib text-blue-600"></i>
                         Manuscrito / Esboço
                     </h3>
-                    <div class="flex items-center gap-2 px-3 py-1 bg-blue-50 dark:bg-blue-900/20 rounded-full">
-                        <i class="fa-pro fa-solid fa-sparkles text-blue-500 text-[10px]"></i>
-                        <span class="text-[10px] font-bold text-blue-700 dark:text-blue-400 uppercase tracking-widest">Elias Studio Ativo</span>
-                    </div>
                 </div>
 
                 <div class="space-y-6">
                     <x-rich-editor name="full_content" value="{!! old('full_content', $sermon->full_content) !!}" />
-                </div>
-                <div class="mt-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-950/50 border border-slate-100 dark:border-slate-800 flex items-start gap-3">
-                    <i class="fa-pro fa-solid fa-circle-info text-blue-500 mt-0.5"></i>
-                    <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                        <strong>Dica Teológica:</strong> Use <kbd class="px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono">@</kbd> seguido do livro para linkar referências bíblicas automaticamente.
-                    </p>
                 </div>
 
                 <!-- Legacy Fields Collapsed -->
@@ -390,7 +380,6 @@
 
         <aside class="space-y-4 order-first lg:order-last">
             @include('sermons::admin.sermons.partials.contexto-biblico', ['bibleBooks' => $bibleBooks])
-            @include('sermons::admin.sermons.partials.elias-sermon-studio')
         </aside>
     </div>
 

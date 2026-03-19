@@ -40,7 +40,6 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
             Route::get('demografico-familiar', [\Modules\Admin\App\Http\Controllers\FamilyDemographicsController::class, 'index'])->name('family-demographics.index');
             Route::get('demografico-familiar/exportar/pdf', [\Modules\Admin\App\Http\Controllers\FamilyDemographicsController::class, 'exportPdf'])->name('family-demographics.export.pdf');
             Route::get('demografico-familiar/exportar/excel', [\Modules\Admin\App\Http\Controllers\FamilyDemographicsController::class, 'exportExcel'])->name('family-demographics.export.excel');
-            Route::post('demografico-familiar/elias', [\Modules\Admin\App\Http\Controllers\FamilyDemographicsController::class, 'eliasAnalysis'])->name('family-demographics.elias');
         });
 
         Route::middleware([\Modules\Admin\App\Http\Middleware\EnsureUserIsTechnicalAdmin::class])->group(function () {
@@ -150,15 +149,6 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
         Route::post('/bible/{bible}/chapter-audio', [\Modules\Bible\App\Http\Controllers\Admin\BibleController::class, 'chapterAudioStore'])->name('bible.chapter-audio.store');
         Route::delete('/bible/{bible}/chapter-audio/{chapter_audio}', [\Modules\Bible\App\Http\Controllers\Admin\BibleController::class, 'chapterAudioDestroy'])->name('bible.chapter-audio.destroy');
 
-        Route::resource('badges', \Modules\Admin\App\Http\Controllers\BadgeController::class);
-        Route::post('/badges/{badge}/award', [\Modules\Admin\App\Http\Controllers\BadgeController::class, 'awardToUser'])->name('badges.award');
-        Route::delete('/badges/{badge}/users/{user}', [\Modules\Admin\App\Http\Controllers\BadgeController::class, 'removeFromUser'])->name('badges.remove-user');
-        Route::resource('gamification-levels', \Modules\Admin\App\Http\Controllers\GamificationLevelController::class);
-
-        Route::prefix('cbav-bot')->name('cbav-bot.settings.')->group(function () {
-            Route::get('/settings', [\Modules\Admin\App\Http\Controllers\CbavBotSettingsController::class, 'index'])->name('index');
-            Route::put('/settings', [\Modules\Admin\App\Http\Controllers\CbavBotSettingsController::class, 'update'])->name('update');
-        });
     });
 
     // =====================================================================
@@ -175,7 +165,6 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
         $evaluationCtrl = \Modules\EBD\App\Http\Controllers\Admin\EvaluationController::class;
         $questionCtrl = \Modules\EBD\App\Http\Controllers\Admin\QuestionController::class;
         $settingsCtrl = \Modules\EBD\App\Http\Controllers\Admin\SettingsController::class;
-        $gamificationCtrl = \Modules\EBD\App\Http\Controllers\Admin\GamificationController::class;
         $lmsCtrl = \Modules\EBD\App\Http\Controllers\Admin\LmsContentController::class;
         $materialCtrl = \Modules\EBD\App\Http\Controllers\Admin\MaterialController::class;
         $gameAdminCtrl = \Modules\EBD\App\Http\Controllers\Admin\GameAdminController::class;
@@ -213,14 +202,6 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
             Route::put('/{material}', [$materialCtrl, 'update'])->name('update');
             Route::delete('/{material}', [$materialCtrl, 'destroy'])->name('destroy');
             Route::post('/reorder', [$materialCtrl, 'reorder'])->name('reorder');
-        });
-        Route::prefix('gamification')->name('gamification.')->group(function () use ($gamificationCtrl) {
-            Route::get('levels', [$gamificationCtrl, 'indexLevels'])->name('levels.index');
-            Route::post('levels', [$gamificationCtrl, 'storeLevel'])->name('levels.store');
-            Route::delete('levels/{id}', [$gamificationCtrl, 'destroyLevel'])->name('levels.destroy');
-            Route::get('badges', [$gamificationCtrl, 'indexBadges'])->name('badges.index');
-            Route::post('badges', [$gamificationCtrl, 'storeBadge'])->name('badges.store');
-            Route::delete('badges/{id}', [$gamificationCtrl, 'destroyBadge'])->name('badges.destroy');
         });
         Route::post('lessons/{lesson}/media', [$lmsCtrl, 'storeMedia'])->name('lms.media.store');
         Route::delete('lms/media/{id}', [$lmsCtrl, 'destroyMedia'])->name('lms.media.destroy');
@@ -290,7 +271,6 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
         Route::get('orders/{order}', [\Modules\Marketplace\Http\Controllers\Admin\OrderController::class, 'show'])->name('orders.show');
         Route::post('orders/{order}/status', [\Modules\Marketplace\Http\Controllers\Admin\OrderController::class, 'updateStatus'])->name('orders.status');
         Route::get('orders/{order}/label', [\Modules\Marketplace\Http\Controllers\Admin\OrderController::class, 'label'])->name('orders.label');
-        Route::post('elias/notify-low-stock', [\Modules\Marketplace\Http\Controllers\Admin\EliasController::class, 'notifyLowStock'])->name('elias.notify-low-stock');
         Route::resource('pickup-locations', \Modules\Marketplace\Http\Controllers\Admin\PickupLocationController::class)->except(['show']);
         Route::resource('coupons', \Modules\Marketplace\Http\Controllers\Admin\CouponController::class)->except(['show']);
     });

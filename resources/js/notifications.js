@@ -36,7 +36,7 @@ function setMode(mode) {
     document.body?.setAttribute("data-notification-mode", mode);
     try {
         document.dispatchEvent(new CustomEvent("notification:mode-changed", { detail: { mode } }));
-    } catch (_) {}
+    } catch (_) { }
 }
 
 function isTabVisible() {
@@ -77,7 +77,6 @@ function getTypeConfig(type, priority, notificationType) {
         treasury_approval: { icon: "coins", bg: "bg-amber-100 dark:bg-amber-900/30", iconColor: "text-amber-600 dark:text-amber-400" },
         payment_completed: { icon: "coins", bg: "bg-amber-100 dark:bg-amber-900/30", iconColor: "text-amber-600 dark:text-amber-400" },
         academy_lesson: { icon: "graduation-cap", bg: "bg-emerald-100 dark:bg-emerald-900/30", iconColor: "text-emerald-600 dark:text-emerald-400" },
-        academy_level_up: { icon: "trophy", bg: "bg-yellow-100 dark:bg-yellow-900/30", iconColor: "text-yellow-600 dark:text-yellow-400" },
         worship_roster: { icon: "music", bg: "bg-sky-100 dark:bg-sky-900/30", iconColor: "text-sky-600 dark:text-sky-400" },
         event_registration: { icon: "calendar-check", bg: "bg-blue-100 dark:bg-blue-900/30", iconColor: "text-blue-600 dark:text-blue-400" },
         sermon_collaboration: { icon: "book-bible", bg: "bg-indigo-100 dark:bg-indigo-900/30", iconColor: "text-indigo-600 dark:text-indigo-400" },
@@ -163,7 +162,7 @@ async function fetchUnreadCount() {
         lastUpdatedAt = updatedAt;
         updateNotificationBadge(count);
         if (changed) await fetchAndRenderList();
-    } catch (_) {}
+    } catch (_) { }
 }
 
 async function fetchAndRenderList() {
@@ -175,7 +174,7 @@ async function fetchAndRenderList() {
         const items = json?.data ?? [];
         const allUrl = document.querySelector('[data-notifications-all-url]')?.getAttribute("data-notifications-all-url") || "#";
         renderListContainer(items, "Você está em dia com as notificações!", allUrl);
-    } catch (_) {}
+    } catch (_) { }
 }
 
 function tick() {

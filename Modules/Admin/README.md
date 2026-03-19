@@ -1,6 +1,6 @@
 # Módulo Admin – Visão Geral e Configurações do Sistema
 
-O módulo **Admin** é o **núcleo de administração** do VertexCBAV. Ele concentra dashboard, usuários, permissões, configurações globais do sistema, perfil do administrador (incluindo 2FA), HomePage, Bíblia, Gamificação, CEP, notificações e integração com os demais módulos.
+O módulo **Admin** é o **núcleo de administração** do VEPL Escola. Ele concentra dashboard, usuários, permissões, configurações globais do sistema, perfil do administrador (incluindo 2FA), HomePage, Bíblia, Gamificação, CEP, notificações e integração com os demais módulos.
 
 Este documento descreve **como o módulo funciona**, em especial as **Configurações do Sistema**, o ciclo de vida global, cache, 2FA e as melhorias de engenharia e segurança aplicadas.
 
@@ -73,16 +73,16 @@ Assim, o controller fica focado em **orquestração** e o Request concentra as *
 
 ### 2.5. Abas Resumidas
 
-| Aba | Conteúdo principal |
-|-----|---------------------|
-| **Geral** | Nome do site, descrição, e-mail, telefone, endereço; timezone, locale, primeiro dia da semana, formatos de data/hora. |
-| **Aparência** | Logo, ícone/favicon. |
-| **Segurança** | reCAPTCHA (habilitar, v2/v3, score mínimo v3, chaves); **2FA** (habilitar para admins, provedor Google/Microsoft). |
-| **Pagamentos** | Link/atalho para gateways (módulo PaymentGateway). |
-| **E-mail** | Mailer (SMTP, SES, Mailgun, etc.), host, porta, remetente, chaves SES/Mailgun; teste de envio. |
-| **Notificações** | Configurações de broadcasting/notificações. |
-| **Sistema** | Cache, sessão, fila; botões de manutenção (ativar/desativar). |
-| **Bíblia** | Versão padrão (sigla); fallback: sigla → default → primeiro ativo (integrado ao cache). |
+| Aba              | Conteúdo principal                                                                                                    |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------- |
+| **Geral**        | Nome do site, descrição, e-mail, telefone, endereço; timezone, locale, primeiro dia da semana, formatos de data/hora. |
+| **Aparência**    | Logo, ícone/favicon.                                                                                                  |
+| **Segurança**    | reCAPTCHA (habilitar, v2/v3, score mínimo v3, chaves); **2FA** (habilitar para admins, provedor Google/Microsoft).    |
+| **Pagamentos**   | Link/atalho para gateways (módulo PaymentGateway).                                                                    |
+| **E-mail**       | Mailer (SMTP, SES, Mailgun, etc.), host, porta, remetente, chaves SES/Mailgun; teste de envio.                        |
+| **Notificações** | Configurações de broadcasting/notificações.                                                                           |
+| **Sistema**      | Cache, sessão, fila; botões de manutenção (ativar/desativar).                                                         |
+| **Bíblia**       | Versão padrão (sigla); fallback: sigla → default → primeiro ativo (integrado ao cache).                               |
 
 ### 2.6. UI/UX nas Configurações
 
@@ -128,16 +128,16 @@ Assim, o controller fica focado em **orquestração** e o Request concentra as *
 
 ## 4. Melhorias Implementadas (Resumo)
 
-| Melhoria | Descrição |
-|----------|-----------|
-| **Cache 24h** | `Settings::get()` usa TTL de 24 horas; constante `Settings::CACHE_TTL_SECONDS`. |
-| **Cache Buster** | Em `Settings::set()`/`setMany()` e em `clearCache()`; chamado após salvar configurações no Admin. |
-| **Ciclo de vida global** | `AppServiceProvider::boot()` chama `SettingsHelper::applyGlobalSettings()` para timezone, locale, formatos, mail, recaptcha, 2FA, etc. |
-| **2FA TOTP real** | Remoção do "em breve"; fluxo completo com QR, confirmação e desafio no login. |
-| **UpdateSettingsRequest** | Toda validação do formulário de configurações concentrada no Form Request; controller só orquestra. |
-| **Toast pós-salvar** | Mensagem "Configurações Globais Aplicadas e Cache Atualizado." em toast (e alert no topo). |
-| **Toggle score reCAPTCHA v3** | Campo de score mínimo visível apenas quando a versão reCAPTCHA é v3. |
-| **Loading overlay** | Formulário de configurações e fluxos 2FA disparam o overlay no submit. |
+| Melhoria                      | Descrição                                                                                                                              |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| **Cache 24h**                 | `Settings::get()` usa TTL de 24 horas; constante `Settings::CACHE_TTL_SECONDS`.                                                        |
+| **Cache Buster**              | Em `Settings::set()`/`setMany()` e em `clearCache()`; chamado após salvar configurações no Admin.                                      |
+| **Ciclo de vida global**      | `AppServiceProvider::boot()` chama `SettingsHelper::applyGlobalSettings()` para timezone, locale, formatos, mail, recaptcha, 2FA, etc. |
+| **2FA TOTP real**             | Remoção do "em breve"; fluxo completo com QR, confirmação e desafio no login.                                                          |
+| **UpdateSettingsRequest**     | Toda validação do formulário de configurações concentrada no Form Request; controller só orquestra.                                    |
+| **Toast pós-salvar**          | Mensagem "Configurações Globais Aplicadas e Cache Atualizado." em toast (e alert no topo).                                             |
+| **Toggle score reCAPTCHA v3** | Campo de score mínimo visível apenas quando a versão reCAPTCHA é v3.                                                                   |
+| **Loading overlay**           | Formulário de configurações e fluxos 2FA disparam o overlay no submit.                                                                 |
 
 ---
 
@@ -148,4 +148,4 @@ Assim, o controller fica focado em **orquestração** e o Request concentra as *
 - **Global:** `App\Models\Settings`, `App\Helpers\SettingsHelper`, `App\Providers\AppServiceProvider`.
 - **Login 2FA (view):** `Modules/HomePage/resources/views/auth/login-2fa.blade.php`.
 
-Documentação alinhada ao padrão do projeto e ao refinamento de engenharia e segurança máxima (VertexCBAV).
+Documentação alinhada ao padrão do projeto e ao refinamento de engenharia e segurança máxima (VEPL Escola).

@@ -26,7 +26,7 @@
         </div>
         <div class="content">
             <p>Olá, <strong>{{ $user->first_name }}</strong>!</p>
-            <p>Recebemos uma solicitação para redefinir a senha da sua conta no sistema <strong>{{ \App\Models\Settings::get('site_name', 'Vertex CBAV') }}</strong>.</p>
+            <p>Recebemos uma solicitação para redefinir a senha da sua conta no sistema <strong>{{ \App\Models\Settings::get('site_name', 'VEPL Escola') }}</strong>.</p>
             <p>Para prosseguir com a alteração, clique no botão abaixo:</p>
 
             <div style="text-align: center;">
@@ -41,7 +41,7 @@
             <p style="font-size: 11px; color: #94a3b8; word-break: break-all;">{{ $url }}</p>
         </div>
         <div class="footer">
-            <p>&copy; {{ date('Y') }} {{ \App\Models\Settings::get('site_name', 'Igreja Batista Avenida') }}. Todos os direitos reservados.</p>
+            <p>&copy; {{ date('Y') }} {{ \App\Models\Settings::get('site_name', 'VEPL Escola') }}. Todos os direitos reservados.</p>
             <p>{{ \App\Models\Settings::get('recovery_email_footer', 'Powered by Vertex Solutions LTDA') }}</p>
         </div>
     </div>

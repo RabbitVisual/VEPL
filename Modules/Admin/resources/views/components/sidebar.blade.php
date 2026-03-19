@@ -1,3 +1,4 @@
+@php
     $routes = [
         'bible' => request()->routeIs('admin.bible*'),
         'homepage' => request()->routeIs('admin.homepage*'),
@@ -28,7 +29,7 @@
                      <img src="{{ asset('storage/image/logo_icon.png') }}" alt="Logo" class="w-7 h-7 object-contain" >
                 </div>
                 <div class="flex flex-col">
-                    <span class="text-base font-bold text-gray-900 dark:text-gray-100 tracking-tight leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Vertex CBAV</span>
+                    <span class="text-base font-bold text-gray-900 dark:text-gray-100 tracking-tight leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">VEPL Escola</span>
                     <span class="text-[10px] font-medium text-gray-400 uppercase tracking-widest">Admin Panel</span>
                 </div>
             </a>
@@ -184,7 +185,7 @@
                         </a>
                         <a href="{{ route('admin.bible.reports.church-plan') }}" class="flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-lg transition-colors {{ request()->routeIs('admin.bible.reports.*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/10' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300' }}">
                             <x-icon name="chart-line" style="duotone" class="w-3.5 h-3.5 shrink-0" />
-                            Relatório Plano da Igreja
+                            Relatório Plano de Leitura
                         </a>
                     </div>
                 </div>
@@ -380,28 +381,6 @@
             @endcan
 
 
-            <!-- Gamification Section -->
-             <div class="pt-4 pb-2">
-                <p class="px-4 text-[11px] font-bold text-gray-400 dark:text-gray-600 uppercase tracking-wider">Gamificação</p>
-            </div>
-
-            <a href="{{ route('admin.badges.index') }}"
-                class="flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group {{ request()->routeIs('admin.badges*') ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-gray-900 dark:hover:text-gray-200' }}">
-                <x-icon name="badge-check" class="w-5 h-5 mr-3 {{ request()->routeIs('admin.badges*') ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400 dark:text-gray-500 group-hover:text-blue-500' }} transition-colors" />
-                Badges
-            </a>
-
-            <a href="{{ route('admin.gamification-levels.index') }}"
-                class="flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group {{ request()->routeIs('admin.gamification-levels*') ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-gray-900 dark:hover:text-gray-200' }}">
-                <x-icon name="layer-group" class="w-5 h-5 mr-3 {{ request()->routeIs('admin.gamification-levels*') ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400 dark:text-gray-500 group-hover:text-blue-500' }} transition-colors" />
-                Níveis
-            </a>
-
-            <a href="{{ route('admin.cbav-bot.settings.index') }}"
-                class="flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group {{ request()->routeIs('admin.cbav-bot*') ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-gray-900 dark:hover:text-gray-200' }}">
-                <x-icon name="robot" class="w-5 h-5 mr-3 {{ request()->routeIs('admin.cbav-bot*') ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400 dark:text-gray-500 group-hover:text-blue-500' }} transition-colors" />
-                Bot Elias
-            </a>
 
             <!-- Financial Section -->
              <div class="pt-4 pb-2">

@@ -83,15 +83,6 @@ export default () => ({
             this.editor.clipboard.dangerouslyPasteHTML(range.index, html);
             this.editor.setSelection(range.index + 1, 0);
         });
-
-        // Elias: aplicar formatação para o púlpito (substitui conteúdo do editor)
-        window.addEventListener('elias-apply-format', (event) => {
-            const html = event.detail?.html;
-            if (this.editor && html != null) {
-                this.editor.root.innerHTML = html;
-                this.content = html;
-            }
-        });
     },
 
     getSafeRange() {

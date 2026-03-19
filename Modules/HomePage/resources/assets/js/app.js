@@ -73,9 +73,7 @@ function initScrollNavigation() {
 
     // Controle de visibilidade baseado no scroll
     let lastScrollTop = 0;
-    const heroSection = document.querySelector(
-        "section.relative.bg-gradient-to-br"
-    );
+    const heroSection = document.querySelector(".hero-section");
 
     function toggleScrollButtons() {
         const scrollTop =
@@ -121,8 +119,9 @@ function initScrollNavigation() {
         scrollToBottomBtn.addEventListener("click", () => {
             // Rolar para a próxima seção após a hero (about section)
             const aboutSection =
+                document.querySelector("#pilares") ||
                 document.querySelector("#sobre") ||
-                document.querySelector("section.py-20.bg-white");
+                document.querySelector("section.py-20");
             if (aboutSection) {
                 const offset = aboutSection.offsetTop - 80; // Offset para margem superior
                 scrollToPosition(offset, animationType);
