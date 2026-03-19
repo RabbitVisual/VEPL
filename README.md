@@ -45,22 +45,22 @@ O desenvolvimento da VEPL segue rigorosos padrões de qualidade para garantir um
 
 ## 🏗️ Ecossistema de Módulos
 
-A VEPL é composta por **18 módulos especializados**, cada um focado em uma área crítica do ministério:
+A VEPL é composta por **12 módulos especializados**, focados na excelência ministerial:
 
-| Módulo            | Descrição                                                                                       |
-| ----------------- | ----------------------------------------------------------------------------------------------- |
-| **Admin**         | Núcleo do sistema: gestão de usuários, permissões (RBAC) e auditoria global.                    |
-| **Academy (EBD)** | LMS avançado com gamificação, XP, níveis e trilhas de aprendizado ministerial.                  |
-| **Worship**       | Gestão de louvor: repertório, escalas, ChordPro e a Academia de Levitas (Masterclasses).        |
-| **Bible**         | O núcleo espiritual: múltiplas versões offline, estudos interlineares e suporte Hebraico/Grego. |
-| **Sermons**       | Acervo de mensagens em vídeo e áudio com catalogação teológica.                                 |
-| **Events**        | Ciclo completo de eventos: inscrições públicas, lotes, QR check-in e certificados.              |
-| **Treasury**      | Gestão financeira total: fluxo de caixa, campanhas, metas e relatórios fiscais.                 |
-| **Ministries**    | Estruturação de departamentos (Jovens, Mulheres, Casais, etc.).                                 |
-| **SocialAction**  | Gestão de benevolência e logística de cestas (Smart Pantry).                                    |
-| **Intercessor**   | Rede de oração moderada com rastreamento de compromissos em tempo real.                         |
-| **Projection**    | Sistema de projeção ao vivo (letras, bíblia e slides) operado via navegador.                    |
-| **MemberPanel**   | Painel exclusivo do membro para interação, dízimos e cursos.                                    |
+| Módulo             | Descrição                                                                    |
+| ------------------ | ---------------------------------------------------------------------------- |
+| **Admin**          | Núcleo do sistema: gestão de usuários, permissões (RBAC) e auditoria global. |
+| **Bible**          | O núcleo espiritual: múltiplas versões offline e suporte a estudos bíblicos. |
+| **Events**         | Ciclo completo de eventos: inscrições, lotes, QR check-in e certificados.    |
+| **HomePage**       | CMS público: gestão da landing page, testemunhos e informações da igreja.    |
+| **Intercessor**    | Rede de oração moderada com rastreamento de compromissos.                    |
+| **MemberPanel**    | Painel exclusivo do membro para interação e gestão de perfil.                |
+| **Ministries**     | Estruturação de departamentos (Jovens, Mulheres, Casais, etc.).              |
+| **Notifications**  | Central de alertas in-app para comunicação entre os módulos.                 |
+| **PaymentGateway** | Gestão de doações e pagamentos (Mercado Pago, Stripe, PIX).                  |
+| **Sermons**        | Acervo de mensagens em vídeo e áudio com catalogação teológica.              |
+| **Treasury**       | Gestão financeira: fluxo de caixa, campanhas e relatórios.                   |
+| **Worship**        | Gestão de louvor: repertório, escalas e a Academia de Levitas.               |
 
 ---
 

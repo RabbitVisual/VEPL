@@ -15,17 +15,17 @@ Your goal is to maintain the **"Vertex Standard"**: a premium, consistent, and h
 
 ## 📂 Comprehensive Module Map
 - **Admin**: System brain. Users, RBAC (Spatie), and global settings.
-- **Academy (EBD)**: The Vertex Academy. Gamified LMS for theological formation.
-- **Worship**: **Core Liturgy.** Manage setlists, musicians, and the Levite Academy (Masterclasses).
 - **Bible**: Spiritual engine. Multi-version offline scriptures.
-- **Sermons**: Educational media repository and homiletics database.
 - **Events**: Public engagement and registration lifecycle.
-- **Treasury**: Auditable financial governance and church bookkeeping.
-- **Ministries**: Departmental organization (Youth, Women, etc.).
-- **SocialAction**: Outreach and logistics for community support.
+- **HomePage**: Public Presence. CMS for landing page and church info.
 - **Intercessor**: Moderated prayer network and commitment tracking.
-- **Projection**: Real-time service media (Lyrics, Bible, Media) via JS-Screen.
 - **MemberPanel**: Personalized member portal and profile management.
+- **Ministries**: Departmental organization (Youth, Women, etc.).
+- **Notifications**: Centralized alert engine and in-app communications.
+- **PaymentGateway**: Unified Payments. Mercado Pago, Stripe, and PIX.
+- **Sermons**: Educational media repository and homiletics database.
+- **Treasury**: Auditable financial governance and church bookkeeping.
+- **Worship**: **Core Liturgy.** Manage setlists, musicians, and the Levite Academy.
 
 ## 🎨 UI Standards (FontAwesome 7.1 Pro)
 - **Icons**: Use ONLY **Font Awesome 7.1 Pro Duotone** via `<x-icon name="..." />`.

@@ -28,17 +28,17 @@ O sistema opera em modo **Offline-Ready**.
 
 ## 6. Module Map
 1. **Admin**: Governance & Users.
-2. **Academy**: Theological Education.
-3. **Worship**: Music & Musician Training.
-4. **Bible**: Sacred Text Engine.
-5. **Sermons**: Media & Content.
-6. **Events**: Logistics & Community.
-7. **Treasury**: Financial Accountability.
-8. **Ministries**: Org Sections.
-9. **SocialAction**: Charity.
-10. **Projection**: Live Media.
-11. **Intercessor**: Prayer Network.
-12. **MemberPanel**: Citizen Portal.
+2. **Bible**: Sacred Text Engine.
+3. **Events**: Logistics & Ticketing.
+4. **HomePage**: Public Presence.
+5. **Intercessor**: Prayer Network.
+6. **MemberPanel**: Citizen Portal.
+7. **Ministries**: Org Sections.
+8. **Notifications**: Alert System.
+9. **PaymentGateway**: Unified Payments.
+10. **Sermons**: Media & Content.
+11. **Treasury**: Financial Accountability.
+12. **Worship**: Music & Musician Training.
 
 ## 7. Development Workflow
 - **Vite**: Keep the dev server running for Tailwind 4 compilation.
