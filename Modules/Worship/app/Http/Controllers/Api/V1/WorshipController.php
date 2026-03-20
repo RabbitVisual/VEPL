@@ -10,7 +10,7 @@ use Modules\Worship\App\Services\WorshipApiService;
 
 /**
  * API v1 central de Worship. Respostas no padrão { data }.
- * Alimenta Projection (setlists, slides), Sermons (songs), Academy (cursos, classroom).
+ * Alimenta setlists, songs e Academy (cursos, classroom).
  */
 class WorshipController extends Controller
 {

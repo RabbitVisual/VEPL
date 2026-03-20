@@ -597,22 +597,6 @@
                         </div>
                     </div>
 
-                    @if($isLeader && class_exists(\Modules\Assets\App\Models\AssetReservation::class))
-                        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-gray-100 dark:border-slate-800 shadow-sm">
-                            <div class="flex items-center gap-3 mb-4">
-                                <div class="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center text-amber-600 dark:text-amber-400">
-                                    <x-icon name="box-open" class="w-6 h-6" />
-                                </div>
-                                <div>
-                                    <h3 class="text-xs font-black text-gray-900 dark:text-white uppercase tracking-widest">Equipamentos</h3>
-                                    <p class="text-sm text-gray-500 dark:text-slate-400">Solicite reserva de patrimônio para atividades do ministério.</p>
-                                </div>
-                            </div>
-                            <a href="{{ route('memberpanel.ministries.reservations.create', $ministry) }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl text-xs font-black text-amber-700 dark:text-amber-300 uppercase tracking-widest hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-all">
-                                <x-icon name="plus" class="w-4 h-4" /> Solicitar equipamentos
-                            </a>
-                        </div>
-                    @endif
                 </div>
 
                 <!-- Tab Content: Relatórios -->

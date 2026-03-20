@@ -43,41 +43,6 @@
             <!-- Right Side: Integrations -->
             <div class="flex items-center gap-3 sm:gap-5">
 
-                @if($marketplace_store_available ?? false)
-                <div class="relative" x-data="{ cartOpen: false }">
-                    <button type="button" @click="cartOpen = true" class="relative flex items-center justify-center w-10 h-10 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white focus:outline-none" aria-label="Carrinho">
-                        <x-icon name="cart-shopping" style="duotone" class="w-5 h-5" />
-                        @if(($marketplace_cart_count ?? 0) > 0)
-                            <span class="absolute -top-0.5 -right-0.5 min-w-4.5 h-4.5 px-1 flex items-center justify-center text-[10px] font-bold text-white bg-red-500 rounded-full ring-2 ring-white dark:ring-gray-900">{{ ($marketplace_cart_count ?? 0) > 99 ? '99+' : $marketplace_cart_count }}</span>
-                        @endif
-                    </button>
-                    <div x-show="cartOpen" x-cloak x-transition class="fixed inset-0 z-99 bg-black/30" style="display: none;" @click="cartOpen = false"></div>
-                    <div x-show="cartOpen" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-x-full" x-transition:enter-end="opacity-100 translate-x-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-x-0" x-transition:leave-end="opacity-0 translate-x-full" class="fixed inset-y-0 right-0 z-100 w-full max-w-sm bg-white dark:bg-gray-800 shadow-xl border-l border-gray-200 dark:border-gray-700 flex flex-col" style="display: none;">
-                        <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-                            <h2 class="text-lg font-bold text-gray-900 dark:text-white">Carrinho</h2>
-                            <button type="button" @click="cartOpen = false" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500"><x-icon name="xmark" class="w-5 h-5" /></button>
-                        </div>
-                        <div class="flex-1 overflow-y-auto p-4">
-                            @forelse($marketplace_cart_summary ?? [] as $item)
-                                <div class="py-3 border-b border-gray-100 dark:border-gray-700 last:border-0">
-                                    <p class="font-medium text-gray-900 dark:text-white text-sm">{{ $item['title'] }}</p>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400">{{ $item['quantity'] }} &times; R$ {{ number_format($item['price'], 2, ',', '.') }} = R$ {{ number_format($item['subtotal'], 2, ',', '.') }}</p>
-                                </div>
-                            @empty
-                                <p class="text-gray-500 dark:text-gray-400 text-sm">Nenhum item no carrinho.</p>
-                            @endforelse
-                        </div>
-                        @if(($marketplace_cart_count ?? 0) > 0)
-                        <div class="p-4 border-t border-gray-200 dark:border-gray-700">
-                            <a href="{{ route('marketplace.storefront.checkout') }}" class="block w-full text-center py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold">
-                                Finalizar compra
-                            </a>
-                        </div>
-                        @endif
-                    </div>
-                </div>
-                @endif
-
                 <!-- Custom Theme Toggle -->
                 <button id="theme-toggle" type="button"
                     class="focus:outline-none rounded-full text-sm p-2.5 transition-all duration-200 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 active:scale-95">

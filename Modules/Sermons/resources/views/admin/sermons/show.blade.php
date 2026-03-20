@@ -141,6 +141,10 @@
         </div>
 
         <!-- Bible References -->
+        @php
+            $bibleRefs = app(\Modules\Bible\App\Services\BibleReferenceParserService::class);
+        @endphp
+
         @if ($sermon->bibleReferences->count() > 0)
             <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-8">
                 <h3 class="text-sm font-extrabold text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-3">
@@ -171,7 +175,7 @@
             @if ($sermon->description)
                 <div class="mb-10 p-6 rounded-2xl bg-amber-50/50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-900/30">
                     <h3 class="text-[10px] font-extrabold text-amber-600 uppercase tracking-widest mb-2">Resumo Homilético</h3>
-                    <p class="text-slate-700 dark:text-slate-300 font-medium italic leading-relaxed">{{ $sermon->description }}</p>
+                    <p class="text-slate-700 dark:text-slate-300 font-medium italic leading-relaxed">{!! $bibleRefs->parseText($sermon->description) !!}</p>
                 </div>
             @endif
 
@@ -182,7 +186,7 @@
                         Corpo do Manuscrito
                     </h3>
                     <div class="prose prose-slate dark:prose-invert max-w-none text-slate-800 dark:text-slate-200 prose-headings:font-black prose-headings:tracking-tight prose-p:leading-relaxed prose-p:font-serif">
-                        {!! $sermon->full_content !!}
+                        {!! $bibleRefs->parseText($sermon->full_content) !!}
                     </div>
                 </div>
             @endif
@@ -194,30 +198,30 @@
                              <span class="w-6 h-px bg-slate-200"></span> Introdução
                         </h3>
                         <div class="text-slate-700 dark:text-slate-300 leading-relaxed font-serif italic text-lg">
-                            {!! nl2br(e($sermon->introduction)) !!}
+                            {!! $bibleRefs->parseText($sermon->introduction) !!}
                         </div>
                     </div>
                 @endif
 
-                @if ($sermon->application)
+                @if ($sermon->practical_application)
                     <div>
                         <h3 class="text-[11px] font-extrabold text-slate-400 uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
                              <span class="w-6 h-px bg-slate-200"></span> Aplicação Prática
                         </h3>
                         <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-950/30 border border-slate-100 dark:border-slate-800 text-slate-700 dark:text-slate-300 leading-relaxed">
-                            {!! nl2br(e($sermon->application)) !!}
+                            {!! $bibleRefs->parseText($sermon->practical_application) !!}
                         </div>
                     </div>
                 @endif
             </div>
 
-            @if ($sermon->development)
+            @if ($sermon->body_outline)
                 <div class="mt-10 pt-10 border-t border-slate-100 dark:border-slate-800">
                     <h3 class="text-[11px] font-extrabold text-slate-400 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
-                         <span class="w-6 h-px bg-slate-200"></span> Desenvolvimento Teológico
+                         <span class="w-6 h-px bg-slate-200"></span> Esboço / Desenvolvimento
                     </h3>
                     <div class="prose prose-slate dark:prose-invert max-w-none text-lg font-serif">
-                        {!! nl2br(e($sermon->development)) !!}
+                        {!! $bibleRefs->parseText($sermon->body_outline) !!}
                     </div>
                 </div>
             @endif
@@ -228,8 +232,48 @@
                          <span class="w-6 h-px bg-blue-200"></span> Conclusão & Chamado
                     </h3>
                     <div class="text-slate-700 dark:text-slate-300 leading-relaxed font-bold italic text-xl text-center px-10">
-                        {!! nl2br(e($sermon->conclusion)) !!}
+                        {!! $bibleRefs->parseText($sermon->conclusion) !!}
                     </div>
+                </div>
+            @endif
+        </div>
+
+        <!-- Comments / Feedbacks Section -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-8">
+            <h3 class="text-sm font-extrabold text-slate-900 dark:text-white mb-6 flex items-center gap-3">
+                <x-icon name="comments" style="solid" class="text-blue-500" />
+                Interações e Feedbacks ({{ $sermon->comments->count() }})
+            </h3>
+
+            @if($sermon->comments->isEmpty())
+                <div class="py-10 text-center">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-50 dark:bg-slate-950/20 text-slate-300 dark:text-slate-700 mb-4">
+                        <x-icon name="comment-slash" style="solid" class="text-2xl" />
+                    </div>
+                    <p class="text-slate-500 dark:text-slate-400 font-medium italic">Nenhum feedback registrado ainda para este sermão.</p>
+                </div>
+            @else
+                <div class="space-y-6">
+                    @foreach($sermon->comments as $comment)
+                        <div class="flex gap-4 p-4 rounded-2xl bg-slate-50/50 dark:bg-slate-950/10 border border-slate-100 dark:border-slate-800">
+                            <img src="{{ $comment->user->avatar_url }}" alt="{{ $comment->user->name }}" class="h-10 w-10 rounded-full object-cover">
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between mb-1">
+                                    <h4 class="text-sm font-bold text-slate-900 dark:text-white">{{ $comment->user->name }}</h4>
+                                    <span class="text-[10px] text-slate-400">{{ $comment->created_at->diffForHumans() }}</span>
+                                </div>
+                                <div class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                                    {{ $comment->comment }}
+                                </div>
+                                @if($comment->likes > 0)
+                                    <div class="mt-2 flex items-center gap-1 text-[10px] font-bold text-pink-500">
+                                        <x-icon name="heart" style="solid" />
+                                        {{ $comment->likes }}
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             @endif
         </div>

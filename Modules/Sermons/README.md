@@ -58,7 +58,6 @@ Este documento descreve **como o módulo funciona**, o que foi implementado no u
 ### 1.6. Integrações externas
 
 - **Bible (API v1):** `GET /api/v1/bible/verses`, `find`, `panorama` – picker de citações, trigger `@` e painel “Contexto Bíblico”.
-- **Gamification:** XP logic removed as the module was deleted.
 - **Notifications:** `InAppNotificationService` para convite de co-autor (link para aceitar/recusar no MemberPanel).
 
 ---
@@ -94,7 +93,6 @@ flowchart TB
         B1[verses / find / panorama]
     end
 
-    subgraph Gamification["Gamification"]
         G1[CbavBot - Sermon Studio]
     end
 

@@ -297,7 +297,7 @@ Compara o mesmo trecho em duas versões.
 
 ## Uso interno (backend)
 
-Para leitura no backend (ex.: HomePage, EBD, Sermons), use o **`BibleApiService`**:
+Para leitura no backend (ex.: HomePage, Academy, Sermons), use o **`BibleApiService`**:
 
 ```php
 use Modules\Bible\App\Services\BibleApiService;

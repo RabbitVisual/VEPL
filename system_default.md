@@ -44,4 +44,6 @@ O sistema opera em modo **Offline-Ready**.
 - **Vite**: Keep the dev server running for Tailwind 4 compilation.
 - **Modules**: Respect the separation of concerns. Do not cross-link modules unnecessarily; use Service classes for communication.
 
-© 2026 Vertex Solutions LTDA.
+VEPL Vertex Escola de Pastores e Lideres da Vertex Solutions LTDA.
+Autor Reinan Rodrigues.
+© 2026 VEPL - Vertex Solutions dev Reinan Rodrigues.

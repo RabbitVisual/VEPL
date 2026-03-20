@@ -45,8 +45,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/ministerios/{ministry}/leave', [\Modules\Ministries\App\Http\Controllers\Member\MinistryController::class, 'leave'])->name('ministries.leave');
         Route::post('/ministerios/{ministry}/solicitacoes/{user}/aceitar', [\Modules\Ministries\App\Http\Controllers\Member\MinistryController::class, 'acceptRequest'])->name('ministries.requests.accept');
         Route::post('/ministerios/{ministry}/solicitacoes/{user}/recusar', [\Modules\Ministries\App\Http\Controllers\Member\MinistryController::class, 'rejectRequest'])->name('ministries.requests.reject');
-        Route::get('/ministerios/{ministry}/reservas/criar', [\Modules\Ministries\App\Http\Controllers\Member\MinistryController::class, 'createReservation'])->name('ministries.reservations.create');
-        Route::post('/ministerios/{ministry}/reservas', [\Modules\Ministries\App\Http\Controllers\Member\MinistryController::class, 'storeReservation'])->name('ministries.reservations.store');
         Route::get('/ministerios/{ministry}/relatorios/criar', [\Modules\Ministries\App\Http\Controllers\Member\MinistryController::class, 'createReport'])->name('ministries.reports.create');
         Route::post('/ministerios/{ministry}/relatorios', [\Modules\Ministries\App\Http\Controllers\Member\MinistryController::class, 'storeReport'])->name('ministries.reports.store');
         Route::get('/ministerios/{ministry}/relatorios/{report}/editar', [\Modules\Ministries\App\Http\Controllers\Member\MinistryController::class, 'editReport'])->name('ministries.reports.edit');
@@ -129,13 +127,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/doacoes/{transactionId}/status', [\Modules\PaymentGateway\App\Http\Controllers\MemberPanel\DonationController::class, 'checkStatus'])->name('donations.check-status');
     });
 
-    // =====================================================================
-    // Marketplace - Minhas Compras (painel/loja/pedidos)
-    // =====================================================================
-    Route::prefix('painel')->name('memberpanel.')->group(function () {
-        Route::get('/loja/pedidos', [\Modules\Marketplace\Http\Controllers\MemberPanel\OrderController::class, 'index'])->name('marketplace.orders.index');
-        Route::get('/loja/pedidos/{uuid}', [\Modules\Marketplace\Http\Controllers\MemberPanel\OrderController::class, 'show'])->name('marketplace.orders.show');
-    });
 
     // =====================================================================
     // Events - Inscrições e eventos (painel/eventos)
@@ -164,65 +155,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         })->name('registration.confirmed');
     });
 
-    // =====================================================================
-    // EBD - Plataforma EAD Cristã (painel/ebd)
-    // =====================================================================
-    Route::prefix('painel/ebd')->name('memberpanel.ebd.')->group(function () {
-        // Portal do Aluno
-        Route::prefix('aluno')->name('student.')->group(function () {
-            Route::get('/', [\Modules\EBD\App\Http\Controllers\MemberPanel\StudentPanelController::class, 'index'])->name('index');
-            Route::get('/turmas', [\Modules\EBD\App\Http\Controllers\MemberPanel\StudentPanelController::class, 'myClasses'])->name('my-classes');
-            Route::get('/progresso', [\Modules\EBD\App\Http\Controllers\MemberPanel\StudentPanelController::class, 'myProgress'])->name('my-progress');
-            Route::get('/licoes', [\Modules\EBD\App\Http\Controllers\MemberPanel\StudentPanelController::class, 'lessons'])->name('lessons');
-            Route::get('/licoes/{lesson}', [\Modules\EBD\App\Http\Controllers\MemberPanel\StudentPanelController::class, 'showLesson'])->name('lessons.show');
-
-            // LMS Player unificado sob o aluno
-            Route::get('/aula/{lesson}', [\Modules\EBD\App\Http\Controllers\MemberPanel\ClassroomController::class, 'show'])->name('classroom.player');
-            Route::post('/aula/{lesson}/concluir', [\Modules\EBD\App\Http\Controllers\MemberPanel\ClassroomController::class, 'markAsViewed'])->name('classroom.complete');
-            Route::post('/aula/{lesson}/anotacoes', [\Modules\EBD\App\Http\Controllers\MemberPanel\ClassroomController::class, 'updateNotes'])->name('classroom.notes');
-            Route::post('/avaliacoes/{evaluation}/enviar', [\Modules\EBD\App\Http\Controllers\MemberPanel\StudentPanelController::class, 'completeEvaluation'])->name('evaluations.complete');
-        });
-
-        // Portal do Professor
-        Route::prefix('professor')->name('teacher.')->group(function () {
-            Route::get('/', [\Modules\EBD\App\Http\Controllers\MemberPanel\TeacherPanelController::class, 'index'])->name('index');
-            Route::get('/turmas', [\Modules\EBD\App\Http\Controllers\MemberPanel\TeacherPanelController::class, 'myClasses'])->name('my-classes');
-            Route::get('/turmas/{class}', [\Modules\EBD\App\Http\Controllers\MemberPanel\TeacherPanelController::class, 'classStudents'])->name('classes.show');
-            Route::get('/licoes', [\Modules\EBD\App\Http\Controllers\MemberPanel\TeacherPanelController::class, 'lessons'])->name('lessons');
-            Route::get('/licoes/{lesson}', [\Modules\EBD\App\Http\Controllers\MemberPanel\TeacherPanelController::class, 'showLesson'])->name('lessons.show');
-            Route::get('/licoes/{lesson}/presenca', [\Modules\EBD\App\Http\Controllers\MemberPanel\TeacherPanelController::class, 'manageAttendance'])->name('attendance.manage');
-            Route::post('/licoes/{lesson}/presenca', [\Modules\EBD\App\Http\Controllers\MemberPanel\TeacherPanelController::class, 'storeAttendance'])->name('attendance.store');
-            Route::get('/avaliacoes', [\Modules\EBD\App\Http\Controllers\MemberPanel\TeacherPanelController::class, 'evaluations'])->name('evaluations');
-            Route::get('/avaliacoes/{evaluation}/corrigir', [\Modules\EBD\App\Http\Controllers\MemberPanel\TeacherPanelController::class, 'gradeEvaluation'])->name('evaluations.grade');
-            Route::post('/avaliacoes/{evaluation}/corrigir', [\Modules\EBD\App\Http\Controllers\MemberPanel\TeacherPanelController::class, 'storeGrade'])->name('evaluations.grade.store');
-        });
-
-        // Arcade & Quiz
-        Route::prefix('arcade')->name('arcade.')->group(function () {
-            Route::get('/', [\Modules\EBD\App\Http\Controllers\MemberPanel\ArcadeController::class, 'index'])->name('index');
-            Route::get('/leaderboard', [\Modules\EBD\App\Http\Controllers\MemberPanel\ArcadeController::class, 'leaderboard'])->name('leaderboard');
-            Route::get('/versemaster', [\Modules\EBD\App\Http\Controllers\MemberPanel\ArcadeController::class, 'versemaster'])->name('versemaster');
-            Route::get('/get-verse', [\Modules\EBD\App\Http\Controllers\MemberPanel\ArcadeController::class, 'getVerse'])->name('get-verse');
-            Route::get('/quiz', [\Modules\EBD\App\Http\Controllers\MemberPanel\ArcadeController::class, 'quiz'])->name('quiz');
-            Route::get('/quiz-data', [\Modules\EBD\App\Http\Controllers\MemberPanel\ArcadeController::class, 'getQuizData'])->name('quiz.data');
-            Route::get('/memory', [\Modules\EBD\App\Http\Controllers\MemberPanel\ArcadeController::class, 'memory'])->name('memory');
-            Route::get('/who-said-it', [\Modules\EBD\App\Http\Controllers\MemberPanel\ArcadeController::class, 'whoSaidIt'])->name('whosaidit');
-            Route::get('/timeline', [\Modules\EBD\App\Http\Controllers\MemberPanel\ArcadeController::class, 'timeline'])->name('timeline');
-            Route::get('/sword', [\Modules\EBD\App\Http\Controllers\MemberPanel\ArcadeController::class, 'sword'])->name('sword');
-            Route::get('/hangman', [\Modules\EBD\App\Http\Controllers\MemberPanel\ArcadeController::class, 'hangman'])->name('hangman');
-            Route::get('/wordsearch', [\Modules\EBD\App\Http\Controllers\MemberPanel\ArcadeController::class, 'wordsearch'])->name('wordsearch');
-            Route::get('/hero', [\Modules\EBD\App\Http\Controllers\MemberPanel\ArcadeController::class, 'hero'])->name('hero');
-            Route::get('/fillblank', [\Modules\EBD\App\Http\Controllers\MemberPanel\ArcadeController::class, 'fillblank'])->name('fillblank');
-            Route::get('/bookchallenge', [\Modules\EBD\App\Http\Controllers\MemberPanel\ArcadeController::class, 'bookchallenge'])->name('bookchallenge');
-            Route::get('/trio', [\Modules\EBD\App\Http\Controllers\MemberPanel\ArcadeController::class, 'trio'])->name('trio');
-            Route::get('/crossword', [\Modules\EBD\App\Http\Controllers\MemberPanel\ArcadeController::class, 'crossword'])->name('crossword');
-            Route::get('/parables', [\Modules\EBD\App\Http\Controllers\MemberPanel\ArcadeController::class, 'parables'])->name('parables');
-            Route::get('/navigator', [\Modules\EBD\App\Http\Controllers\MemberPanel\ArcadeController::class, 'navigator'])->name('navigator');
-            Route::post('/submit/{game}', [\Modules\EBD\App\Http\Controllers\MemberPanel\ArcadeController::class, 'submitScore'])->name('submit');
-        });
-
-        Route::get('/quiz/sessao/{session}', [\Modules\EBD\App\Http\Controllers\MemberPanel\QuizController::class, 'showClient'])->name('quiz.client');
-    });
 
     // =====================================================================
     // Academy - LMS (painel/academia)
@@ -275,40 +207,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{commentary}', [\Modules\Sermons\App\Http\Controllers\MemberPanel\SermonExegesisController::class, 'show'])->name('show');
     });
 
-    // =====================================================================
-    // ChurchCouncil - Conselho (painel/conselho)
-    // =====================================================================
-    Route::prefix('painel/conselho')->name('memberpanel.churchcouncil.')->middleware(['auth'])->group(function () {
-        Route::get('/', [\Modules\ChurchCouncil\App\Http\Controllers\MemberPanel\CouncilController::class, 'index'])->name('index');
-        Route::prefix('reunioes')->name('meetings.')->group(function () {
-            Route::get('/', [\Modules\ChurchCouncil\App\Http\Controllers\MemberPanel\CouncilController::class, 'meetings'])->name('index');
-            Route::get('/{meeting}', [\Modules\ChurchCouncil\App\Http\Controllers\MemberPanel\CouncilController::class, 'showMeeting'])->name('show');
-            Route::post('/pautas/{agenda}/votar', [\Modules\ChurchCouncil\App\Http\Controllers\MemberPanel\CouncilController::class, 'castVote'])->name('vote');
-        });
-        Route::prefix('pautas')->name('agendas.')->group(function () {
-            Route::get('/', [\Modules\ChurchCouncil\App\Http\Controllers\MemberPanel\CouncilController::class, 'agendas'])->name('index');
-            Route::get('/criar', [\Modules\ChurchCouncil\App\Http\Controllers\MemberPanel\CouncilController::class, 'createAgenda'])->name('create');
-            Route::post('/', [\Modules\ChurchCouncil\App\Http\Controllers\MemberPanel\CouncilController::class, 'storeAgenda'])->name('store');
-        });
-        Route::prefix('aprovacoes')->name('approvals.')->group(function () {
-            Route::get('/', [\Modules\ChurchCouncil\App\Http\Controllers\MemberPanel\CouncilController::class, 'approvals'])->name('index');
-            Route::get('/pendentes', [\Modules\ChurchCouncil\App\Http\Controllers\MemberPanel\CouncilController::class, 'pendingApprovals'])->name('pending');
-            Route::get('/{approval}', [\Modules\ChurchCouncil\App\Http\Controllers\MemberPanel\CouncilController::class, 'showApproval'])->name('show');
-        });
-        Route::prefix('perfil')->name('profile.')->group(function () {
-            Route::get('/', [\Modules\ChurchCouncil\App\Http\Controllers\MemberPanel\CouncilController::class, 'profile'])->name('index');
-            Route::post('/', [\Modules\ChurchCouncil\App\Http\Controllers\MemberPanel\CouncilController::class, 'updateProfile'])->name('update');
-        });
-        Route::post('/solicitar-aprovacao', [\Modules\ChurchCouncil\App\Http\Controllers\MemberPanel\CouncilController::class, 'submitApprovalRequest'])->name('submit-approval');
-        Route::get('/documentos', [\Modules\ChurchCouncil\App\Http\Controllers\MemberPanel\CouncilController::class, 'documents'])->name('documents.index');
-        Route::get('/documentos/{document}/baixar', [\Modules\ChurchCouncil\App\Http\Controllers\MemberPanel\CouncilController::class, 'downloadDocument'])->name('documents.download');
-        Route::prefix('projetos')->name('projects.')->group(function () {
-            Route::get('/', [\Modules\ChurchCouncil\App\Http\Controllers\MemberPanel\CouncilController::class, 'projects'])->name('index');
-            Route::get('/criar', [\Modules\ChurchCouncil\App\Http\Controllers\MemberPanel\CouncilController::class, 'createProject'])->name('create');
-            Route::post('/', [\Modules\ChurchCouncil\App\Http\Controllers\MemberPanel\CouncilController::class, 'storeProject'])->name('store');
-            Route::get('/{project}', [\Modules\ChurchCouncil\App\Http\Controllers\MemberPanel\CouncilController::class, 'showProject'])->name('show');
-        });
-    });
 
     // =====================================================================
     // Intercessor (painel/intercessor) - nome: member.intercessor.*
@@ -342,22 +240,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
         })->name('academy.course');
     });
 
-    // =====================================================================
-    // Projection - Projeção (painel/projection) - nome: memberpanel.projection.*
-    // =====================================================================
-    Route::prefix('painel')->name('memberpanel.')->group(function () {
-        Route::get('projection', [\Modules\Projection\App\Http\Controllers\ProjectionController::class, 'memberIndex'])->name('projection.index');
-        Route::get('projection/console/{setlist?}', [\Modules\Projection\App\Http\Controllers\ProjectionController::class, 'memberConsole'])->name('projection.console');
-        Route::get('projection/screen', [\Modules\Projection\App\Http\Controllers\ProjectionController::class, 'memberScreen'])->name('projection.screen');
-        Route::get('projection/remote', [\Modules\Projection\App\Http\Controllers\ProjectionController::class, 'memberRemote'])->name('projection.remote');
-    });
-
-    // =====================================================================
-    // Transfer Letters (painel/transferencias) - memberpanel.transfers.*
-    // =====================================================================
-    Route::prefix('painel/transferencias')->name('memberpanel.transfers.')->middleware(['auth'])->group(function () {
-        Route::get('/', [\Modules\MemberPanel\App\Http\Controllers\TransferController::class, 'index'])->name('index');
-        Route::get('/solicitar', [\Modules\MemberPanel\App\Http\Controllers\TransferController::class, 'create'])->name('create');
-        Route::post('/', [\Modules\MemberPanel\App\Http\Controllers\TransferController::class, 'store'])->name('store');
-    });
 });

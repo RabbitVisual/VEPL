@@ -130,6 +130,12 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
             Route::get('import', [\Modules\Bible\App\Http\Controllers\BibleController::class, 'import'])->name('import');
             Route::post('import', [\Modules\Bible\App\Http\Controllers\BibleController::class, 'storeImport'])->name('import.store');
             Route::resource('plans', \Modules\Bible\App\Http\Controllers\Admin\BiblePlanController::class);
+            Route::resource('metadata', \Modules\Bible\App\Http\Controllers\Admin\BibleMetadataController::class)
+                ->parameters(['metadata' => 'metadatum'])
+                ->only(['index', 'create', 'store', 'edit', 'update']);
+            Route::get('metadata/options/books', [\Modules\Bible\App\Http\Controllers\Admin\BibleMetadataController::class, 'booksByVersion'])->name('metadata.options.books');
+            Route::get('metadata/options/chapters', [\Modules\Bible\App\Http\Controllers\Admin\BibleMetadataController::class, 'chaptersByBook'])->name('metadata.options.chapters');
+            Route::get('metadata/options/verses', [\Modules\Bible\App\Http\Controllers\Admin\BibleMetadataController::class, 'versesByChapter'])->name('metadata.options.verses');
             Route::get('plans/{id}/generate', [\Modules\Bible\App\Http\Controllers\Admin\BiblePlanController::class, 'generator'])->name('plans.generate');
             Route::post('plans/{id}/generate', [\Modules\Bible\App\Http\Controllers\Admin\BiblePlanController::class, 'processGeneration'])->name('plans.process-generation');
             Route::get('plans/{planId}/days/{dayId}/edit', [\Modules\Bible\App\Http\Controllers\Admin\BiblePlanController::class, 'editDay'])->name('plans.days.edit');
@@ -178,72 +184,6 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
 
     });
 
-    // =====================================================================
-    // EBD - Admin (admin.ebd.*)
-    // =====================================================================
-    Route::prefix('ebd')->name('admin.ebd.')->group(function () {
-        $dashboard = \Modules\EBD\App\Http\Controllers\Admin\DashboardController::class;
-        $courseCtrl = \Modules\EBD\App\Http\Controllers\Admin\CourseController::class;
-        $classCtrl = \Modules\EBD\App\Http\Controllers\Admin\ClassController::class;
-        $lessonCtrl = \Modules\EBD\App\Http\Controllers\Admin\LessonController::class;
-        $teacherCtrl = \Modules\EBD\App\Http\Controllers\Admin\TeacherController::class;
-        $studentCtrl = \Modules\EBD\App\Http\Controllers\Admin\StudentController::class;
-        $attendanceCtrl = \Modules\EBD\App\Http\Controllers\Admin\AttendanceController::class;
-        $evaluationCtrl = \Modules\EBD\App\Http\Controllers\Admin\EvaluationController::class;
-        $questionCtrl = \Modules\EBD\App\Http\Controllers\Admin\QuestionController::class;
-        $settingsCtrl = \Modules\EBD\App\Http\Controllers\Admin\SettingsController::class;
-        $lmsCtrl = \Modules\EBD\App\Http\Controllers\Admin\LmsContentController::class;
-        $materialCtrl = \Modules\EBD\App\Http\Controllers\Admin\MaterialController::class;
-        $gameAdminCtrl = \Modules\EBD\App\Http\Controllers\Admin\GameAdminController::class;
-        $gameQuestionCtrl = \Modules\EBD\App\Http\Controllers\Admin\GameQuestionController::class;
-
-        Route::get('/', [$dashboard, 'index'])->name('dashboard');
-        Route::get('/dashboard', [$dashboard, 'index'])->name('dashboard.index');
-        Route::resource('courses', $courseCtrl);
-        Route::post('courses/{course}/submit-homologation', [$courseCtrl, 'submitForHomologation'])->name('courses.submit-homologation');
-        Route::resource('classes', $classCtrl);
-        Route::resource('lessons', $lessonCtrl);
-        Route::resource('teachers', $teacherCtrl);
-        Route::resource('students', $studentCtrl);
-        Route::get('/attendance', [$attendanceCtrl, 'index'])->name('attendance.index');
-        Route::get('/attendance/create', [$attendanceCtrl, 'create'])->name('attendance.create');
-        Route::post('/attendance', [$attendanceCtrl, 'store'])->name('attendance.store');
-        Route::get('/attendance/lesson/{lesson}', [$attendanceCtrl, 'show'])->name('attendance.show');
-        Route::put('/attendance/{attendance}', [$attendanceCtrl, 'update'])->name('attendance.update');
-        Route::delete('/attendance/{attendance}', [$attendanceCtrl, 'destroy'])->name('attendance.destroy');
-        Route::get('/evaluations', [$evaluationCtrl, 'index'])->name('evaluations.index');
-        Route::get('/evaluations/{evaluation}', [$evaluationCtrl, 'show'])->name('evaluations.show');
-        Route::post('/evaluations/{evaluation}/grade', [$evaluationCtrl, 'grade'])->name('evaluations.grade');
-        Route::post('/evaluations/create-from-lesson', [$evaluationCtrl, 'createFromLesson'])->name('evaluations.create-from-lesson');
-        Route::delete('/evaluations/{evaluation}', [$evaluationCtrl, 'destroy'])->name('evaluations.destroy');
-        Route::get('/lessons/{lesson}/questions/create', [$questionCtrl, 'create'])->name('lessons.questions.create');
-        Route::post('/lessons/{lesson}/questions', [$questionCtrl, 'store'])->name('lessons.questions.store');
-        Route::get('/lessons/{lesson}/questions/{question}/edit', [$questionCtrl, 'edit'])->name('lessons.questions.edit');
-        Route::match(['put', 'patch'], '/lessons/{lesson}/questions/{question}', [$questionCtrl, 'update'])->name('lessons.questions.update');
-        Route::delete('/lessons/{lesson}/questions/{question}', [$questionCtrl, 'destroy'])->name('lessons.questions.destroy');
-        Route::prefix('lessons/{lesson}/materials')->name('lessons.materials.')->group(function () use ($materialCtrl) {
-            Route::get('/', [$materialCtrl, 'index'])->name('index');
-            Route::get('/create', [$materialCtrl, 'create'])->name('create');
-            Route::post('/', [$materialCtrl, 'store'])->name('store');
-            Route::get('/{material}/edit', [$materialCtrl, 'edit'])->name('edit');
-            Route::put('/{material}', [$materialCtrl, 'update'])->name('update');
-            Route::delete('/{material}', [$materialCtrl, 'destroy'])->name('destroy');
-            Route::post('/reorder', [$materialCtrl, 'reorder'])->name('reorder');
-        });
-        Route::post('lessons/{lesson}/media', [$lmsCtrl, 'storeMedia'])->name('lms.media.store');
-        Route::delete('lms/media/{id}', [$lmsCtrl, 'destroyMedia'])->name('lms.media.destroy');
-        Route::get('/settings', [$settingsCtrl, 'index'])->name('settings.index');
-        Route::put('/settings', [$settingsCtrl, 'update'])->name('settings.update');
-        Route::prefix('games')->name('games.')->group(function () use ($gameAdminCtrl, $gameQuestionCtrl) {
-            Route::get('/', [$gameAdminCtrl, 'index'])->name('index');
-            Route::get('/{game}/edit', [$gameAdminCtrl, 'edit'])->name('edit');
-            Route::put('/{game}', [$gameAdminCtrl, 'update'])->name('update');
-            Route::post('/reset-leaderboard', [$gameAdminCtrl, 'resetLeaderboard'])->name('reset-leaderboard');
-            Route::post('/{game}/questions', [$gameQuestionCtrl, 'store'])->name('questions.store');
-            Route::put('/questions/{question}', [$gameQuestionCtrl, 'update'])->name('questions.update');
-            Route::delete('/questions/{question}', [$gameQuestionCtrl, 'destroy'])->name('questions.destroy');
-        });
-    });
 
     // =====================================================================
     // Sermons - Admin (admin.sermons.*)
@@ -281,117 +221,6 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
         });
     });
 
-    // =====================================================================
-    // Marketplace - Loja Missionária (admin.marketplace.*)
-    // =====================================================================
-    Route::prefix('marketplace')->name('admin.marketplace.')->group(function () {
-        Route::get('/', [\Modules\Marketplace\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
-        Route::resource('products', \Modules\Marketplace\Http\Controllers\Admin\ProductController::class)->except(['show']);
-        Route::put('products/{product}/images/reorder', [\Modules\Marketplace\Http\Controllers\Admin\ProductController::class, 'reorderImages'])->name('products.images.reorder');
-        Route::delete('products/{product}/images/{image}', [\Modules\Marketplace\Http\Controllers\Admin\ProductController::class, 'destroyImage'])->name('products.images.destroy');
-        Route::post('products/{product}/options', [\Modules\Marketplace\Http\Controllers\Admin\ProductController::class, 'storeOption'])->name('products.options.store');
-        Route::delete('products/{product}/options/{option}', [\Modules\Marketplace\Http\Controllers\Admin\ProductController::class, 'destroyOption'])->name('products.options.destroy');
-        Route::post('products/{product}/skus/generate', [\Modules\Marketplace\Http\Controllers\Admin\ProductController::class, 'generateSkus'])->name('products.skus.generate');
-        Route::put('products/{product}/skus/{sku}', [\Modules\Marketplace\Http\Controllers\Admin\ProductController::class, 'updateSku'])->name('products.skus.update');
-        Route::delete('products/{product}/skus/{sku}', [\Modules\Marketplace\Http\Controllers\Admin\ProductController::class, 'destroySku'])->name('products.skus.destroy');
-        Route::get('orders', [\Modules\Marketplace\Http\Controllers\Admin\OrderController::class, 'index'])->name('orders.index');
-        Route::get('orders/{order}', [\Modules\Marketplace\Http\Controllers\Admin\OrderController::class, 'show'])->name('orders.show');
-        Route::post('orders/{order}/status', [\Modules\Marketplace\Http\Controllers\Admin\OrderController::class, 'updateStatus'])->name('orders.status');
-        Route::get('orders/{order}/label', [\Modules\Marketplace\Http\Controllers\Admin\OrderController::class, 'label'])->name('orders.label');
-        Route::resource('pickup-locations', \Modules\Marketplace\Http\Controllers\Admin\PickupLocationController::class)->except(['show']);
-        Route::resource('coupons', \Modules\Marketplace\Http\Controllers\Admin\CouponController::class)->except(['show']);
-    });
-
-    // =====================================================================
-    // ChurchCouncil - Admin (admin.churchcouncil.*)
-    // =====================================================================
-    Route::prefix('conselho')->name('admin.churchcouncil.')->group(function () {
-        $adminCouncil = \Modules\ChurchCouncil\App\Http\Controllers\Admin\CouncilController::class;
-        $adminDocs = \Modules\ChurchCouncil\App\Http\Controllers\Admin\CouncilDocumentController::class;
-        $adminProjects = \Modules\ChurchCouncil\App\Http\Controllers\Admin\CouncilProjectController::class;
-        Route::get('/', [$adminCouncil, 'index'])->name('index');
-        Route::prefix('membros')->name('members.')->group(function () use ($adminCouncil) {
-            Route::get('/', [$adminCouncil, 'members'])->name('index');
-            Route::get('/criar', [$adminCouncil, 'createMember'])->name('create');
-            Route::post('/', [$adminCouncil, 'storeMember'])->name('store');
-            Route::get('/{member}/editar', [$adminCouncil, 'editMember'])->name('edit');
-            Route::put('/{member}', [$adminCouncil, 'updateMember'])->name('update');
-            Route::delete('/{member}', [$adminCouncil, 'destroyMember'])->name('destroy');
-        });
-        Route::prefix('reunioes')->name('meetings.')->group(function () use ($adminCouncil) {
-            Route::get('/', [$adminCouncil, 'meetings'])->name('index');
-            Route::get('/criar', [$adminCouncil, 'createMeeting'])->name('create');
-            Route::post('/', [$adminCouncil, 'storeMeeting'])->name('store');
-            Route::get('/{meeting}', [$adminCouncil, 'showMeeting'])->name('show');
-            Route::post('/{meeting}/iniciar', [$adminCouncil, 'startMeeting'])->name('start');
-            Route::post('/{meeting}/encerrar', [$adminCouncil, 'endMeeting'])->name('end');
-            Route::post('/{meeting}/atas/{minutesVersion}/visto', [$adminCouncil, 'signMinutes'])->name('minutes-signatures.store');
-        });
-        Route::prefix('reunioes/{meeting}/pautas')->name('agendas.')->group(function () use ($adminCouncil) {
-            Route::get('/', [$adminCouncil, 'agendas'])->name('index');
-            Route::get('/criar', [$adminCouncil, 'createAgenda'])->name('create');
-            Route::post('/', [$adminCouncil, 'storeAgenda'])->name('store');
-            Route::put('/{agenda}/decisao', [$adminCouncil, 'updateAgendaDecision'])->name('decision');
-            Route::get('/{agenda}/editar', [$adminCouncil, 'editAgenda'])->name('edit');
-            Route::put('/{agenda}', [$adminCouncil, 'updateAgenda'])->name('update');
-        });
-        Route::prefix('aprovacoes')->name('approvals.')->group(function () use ($adminCouncil) {
-            Route::get('/', [$adminCouncil, 'approvals'])->name('index');
-            Route::get('/{approval}', [$adminCouncil, 'showApproval'])->name('show');
-            Route::post('/{approval}/aprovar', [$adminCouncil, 'approveRequest'])->name('approve');
-            Route::post('/{approval}/rejeitar', [$adminCouncil, 'rejectRequest'])->name('reject');
-        });
-        Route::get('planejamento/homologacao', [$adminCouncil, 'planningApprovals'])->name('planning.index');
-        Route::get('ministrios', [\Modules\ChurchCouncil\App\Http\Controllers\Admin\CouncilMinistriesDashboardController::class, 'index'])->name('ministries.dashboard');
-        Route::prefix('recomendacoes-assembleia')->name('assembly.')->group(function () use ($adminCouncil) {
-            Route::get('/', [$adminCouncil, 'assemblyRecommendations'])->name('index');
-            Route::get('/{agenda}', [$adminCouncil, 'editAssemblyAgenda'])->name('edit');
-            Route::post('/{agenda}', [$adminCouncil, 'storeAssemblyDecision'])->name('store-decision');
-        });
-        Route::prefix('disciplina')->name('discipline.')->group(function () {
-            $discipline = \Modules\ChurchCouncil\App\Http\Controllers\Admin\DisciplineController::class;
-            Route::get('/', [$discipline, 'index'])->name('index');
-            Route::get('/novo', [$discipline, 'create'])->name('create');
-            Route::post('/', [$discipline, 'store'])->name('store');
-            Route::get('/{case}', [$discipline, 'show'])->name('show');
-            Route::post('/{case}/acoes', [$discipline, 'storeAction'])->name('store-action');
-            Route::post('/{case}/arquivos', [$discipline, 'uploadFile'])->name('files.store');
-            Route::get('/{case}/arquivos/{file}', [$discipline, 'downloadFile'])->name('files.download');
-        });
-        Route::prefix('transferencias')->name('transfers.')->group(function () {
-            $transfers = \Modules\ChurchCouncil\App\Http\Controllers\Admin\TransferLetterController::class;
-            Route::get('/', [$transfers, 'index'])->name('index');
-            Route::get('/novo', [$transfers, 'create'])->name('create');
-            Route::post('/', [$transfers, 'store'])->name('store');
-            Route::get('/{letter}', [$transfers, 'show'])->name('show');
-            Route::post('/{letter}/upload', [$transfers, 'uploadDocument'])->name('upload');
-            Route::get('/{letter}/download', [$transfers, 'downloadDocument'])->name('download');
-        });
-        Route::prefix('configuracoes')->name('settings.')->group(function () use ($adminCouncil) {
-            Route::get('/', [$adminCouncil, 'settings'])->name('index');
-            Route::match(['post', 'put'], '/', [$adminCouncil, 'updateSettings'])->name('update');
-        });
-        Route::prefix('documentos')->name('documents.')->group(function () use ($adminDocs) {
-            Route::get('/', [$adminDocs, 'index'])->name('index');
-            Route::get('/novo', [$adminDocs, 'create'])->name('create');
-            Route::post('/', [$adminDocs, 'store'])->name('store');
-            Route::get('/{document}/baixar', [$adminDocs, 'show'])->name('download');
-            Route::get('/{document}/editar', [$adminDocs, 'edit'])->name('edit');
-            Route::put('/{document}', [$adminDocs, 'update'])->name('update');
-            Route::delete('/{document}', [$adminDocs, 'destroy'])->name('destroy');
-        });
-        Route::get('/reunioes/{meeting}/ata/pdf', [$adminDocs, 'exportMinutesPdf'])->name('meetings.minutes-pdf');
-        Route::get('/reunioes/{meeting}/convocacao/pdf', [$adminDocs, 'exportConvocationPdf'])->name('meetings.convocation-pdf');
-        Route::prefix('projetos')->name('projects.')->group(function () use ($adminProjects) {
-            Route::get('/', [$adminProjects, 'index'])->name('index');
-            Route::get('/novo', [$adminProjects, 'create'])->name('create');
-            Route::post('/', [$adminProjects, 'store'])->name('store');
-            Route::get('/{project}', [$adminProjects, 'show'])->name('show');
-            Route::put('/{project}', [$adminProjects, 'update'])->name('update');
-            Route::post('/{project}/revisar', [$adminProjects, 'review'])->name('review');
-            Route::delete('/{project}', [$adminProjects, 'destroy'])->name('destroy');
-        });
-    });
 
     // =====================================================================
     // Intercessor - Admin (admin.intercessor.*)
@@ -418,33 +247,6 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
             Route::post('/', [\Modules\Intercessor\App\Http\Controllers\Admin\IntercessorTeamController::class, 'store'])->name('store');
             Route::delete('/{user}', [\Modules\Intercessor\App\Http\Controllers\Admin\IntercessorTeamController::class, 'destroy'])->name('destroy');
         });
-    });
-
-    // =====================================================================
-    // Projection - Admin (admin.projection.*)
-    // =====================================================================
-    Route::name('admin.')->group(function () {
-        Route::get('projection', [\Modules\Projection\App\Http\Controllers\ProjectionController::class, 'index'])->name('projection.index');
-        Route::get('projection/settings', [\Modules\Projection\App\Http\Controllers\Admin\ProjectionSettingsController::class, 'index'])->name('projection.settings.index');
-        Route::put('projection/settings', [\Modules\Projection\App\Http\Controllers\Admin\ProjectionSettingsController::class, 'update'])->name('projection.settings.update');
-        Route::get('projection/console/{setlist?}', [\Modules\Projection\App\Http\Controllers\ProjectionController::class, 'console'])->name('projection.console');
-        Route::get('projection/screen', [\Modules\Projection\App\Http\Controllers\ProjectionController::class, 'screen'])->name('projection.screen');
-        Route::get('projection/remote', [\Modules\Projection\App\Http\Controllers\ProjectionController::class, 'remote'])->name('projection.remote');
-        Route::get('projection/team', [\Modules\Projection\App\Http\Controllers\ProjectionTeamController::class, 'index'])->name('projection.team.index');
-        Route::post('projection/team/{user}/toggle', [\Modules\Projection\App\Http\Controllers\ProjectionTeamController::class, 'togglePermission'])->name('projection.team.toggle');
-        Route::get('projection/themes', [\Modules\Projection\App\Http\Controllers\Admin\ProjectionThemeController::class, 'index'])->name('projection.themes.index');
-        Route::get('projection/themes/create', [\Modules\Projection\App\Http\Controllers\Admin\ProjectionThemeController::class, 'create'])->name('projection.themes.create');
-        Route::post('projection/themes', [\Modules\Projection\App\Http\Controllers\Admin\ProjectionThemeController::class, 'store'])->name('projection.themes.store');
-        Route::get('projection/themes/{id}/edit', [\Modules\Projection\App\Http\Controllers\Admin\ProjectionThemeController::class, 'edit'])->name('projection.themes.edit');
-        Route::put('projection/themes/{id}', [\Modules\Projection\App\Http\Controllers\Admin\ProjectionThemeController::class, 'update'])->name('projection.themes.update');
-        Route::delete('projection/themes/{id}', [\Modules\Projection\App\Http\Controllers\Admin\ProjectionThemeController::class, 'destroy'])->name('projection.themes.destroy');
-        Route::post('projection/themes/{id}/default', [\Modules\Projection\App\Http\Controllers\Admin\ProjectionThemeController::class, 'setDefault'])->name('projection.themes.default');
-        Route::get('projection/card-templates', [\Modules\Projection\App\Http\Controllers\Admin\ProjectionCardTemplateController::class, 'index'])->name('projection.card-templates.index');
-        Route::get('projection/card-templates/create', [\Modules\Projection\App\Http\Controllers\Admin\ProjectionCardTemplateController::class, 'create'])->name('projection.card-templates.create');
-        Route::post('projection/card-templates', [\Modules\Projection\App\Http\Controllers\Admin\ProjectionCardTemplateController::class, 'store'])->name('projection.card-templates.store');
-        Route::get('projection/card-templates/{id}/edit', [\Modules\Projection\App\Http\Controllers\Admin\ProjectionCardTemplateController::class, 'edit'])->name('projection.card-templates.edit');
-        Route::put('projection/card-templates/{id}', [\Modules\Projection\App\Http\Controllers\Admin\ProjectionCardTemplateController::class, 'update'])->name('projection.card-templates.update');
-        Route::delete('projection/card-templates/{id}', [\Modules\Projection\App\Http\Controllers\Admin\ProjectionCardTemplateController::class, 'destroy'])->name('projection.card-templates.destroy');
     });
 
     // =====================================================================
@@ -499,62 +301,6 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
         });
         Route::get('setlists/{setlist}/print', [\Modules\Worship\App\Http\Controllers\Admin\SetlistManagerController::class, 'print'])->name('setlists.print');
         Route::get('setlists/{setlist}/print-roster', [\Modules\Worship\App\Http\Controllers\Admin\RosterController::class, 'print'])->name('rosters.print');
-    });
-
-    // =====================================================================
-    // SocialAction - Admin (socialaction.admin.*)
-    // =====================================================================
-    Route::prefix('social-action')->name('socialaction.admin.')->group(function () {
-        // Dashboard
-        Route::get('/', [\Modules\SocialAction\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
-
-        // Beneficiários
-        Route::resource('beneficiaries', \Modules\SocialAction\App\Http\Controllers\Admin\BeneficiaryController::class);
-
-        // Estoque (despensa)
-        Route::resource('stock', \Modules\SocialAction\App\Http\Controllers\Admin\PantryStockController::class);
-
-        // Kits (cestas básicas)
-        Route::resource('kits', \Modules\SocialAction\App\Http\Controllers\Admin\KitManagerController::class);
-
-        // Campanhas
-        Route::resource('campaigns', \Modules\SocialAction\App\Http\Controllers\Admin\CampaignManagerController::class);
-
-        // Histórico de assistências
-        Route::resource('assistance', \Modules\SocialAction\App\Http\Controllers\Admin\AssistanceHistoryController::class);
-
-        // Voluntários
-        Route::resource('volunteers', \Modules\SocialAction\App\Http\Controllers\Admin\VolunteerController::class)->except(['show']);
-
-        // Pedidos de Oração
-        Route::prefix('prayer')->name('prayer.')->group(function () {
-            Route::get('/', [\Modules\SocialAction\App\Http\Controllers\Admin\PrayerRequestController::class, 'index'])->name('index');
-            Route::post('/{id}/prayed', [\Modules\SocialAction\App\Http\Controllers\Admin\PrayerRequestController::class, 'markPrayed'])->name('prayed');
-            Route::post('/{id}/archive', [\Modules\SocialAction\App\Http\Controllers\Admin\PrayerRequestController::class, 'archive'])->name('archive');
-            Route::delete('/{id}', [\Modules\SocialAction\App\Http\Controllers\Admin\PrayerRequestController::class, 'destroy'])->name('destroy');
-        });
-    });
-
-    // =====================================================================
-    // Assets - Admin (assets.admin.*)
-    // =====================================================================
-    Route::prefix('assets')->name('assets.admin.')->group(function () {
-        Route::get('/', [\Modules\Assets\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
-        Route::resource('assets', \Modules\Assets\App\Http\Controllers\Admin\AssetController::class);
-        Route::resource('categories', \Modules\Assets\App\Http\Controllers\Admin\CategoryController::class);
-        Route::resource('locations', \Modules\Assets\App\Http\Controllers\Admin\LocationController::class);
-        Route::get('movements', [\Modules\Assets\App\Http\Controllers\Admin\MovementController::class, 'history'])->name('movements.history');
-        Route::get('movements/create', [\Modules\Assets\App\Http\Controllers\Admin\MovementController::class, 'create'])->name('movements.create');
-        Route::post('movements', [\Modules\Assets\App\Http\Controllers\Admin\MovementController::class, 'store'])->name('movements.store');
-        Route::resource('maintenances', \Modules\Assets\App\Http\Controllers\Admin\MaintenanceController::class);
-        Route::get('terms', [\Modules\Assets\App\Http\Controllers\Admin\ResponsibilityTermController::class, 'index'])->name('terms.index');
-        Route::get('terms/create', [\Modules\Assets\App\Http\Controllers\Admin\ResponsibilityTermController::class, 'create'])->name('terms.create');
-        Route::post('terms', [\Modules\Assets\App\Http\Controllers\Admin\ResponsibilityTermController::class, 'store'])->name('terms.store');
-        Route::get('labels/select', [\Modules\Assets\App\Http\Controllers\Admin\LabelController::class, 'select'])->name('labels.select');
-        Route::post('labels/print', [\Modules\Assets\App\Http\Controllers\Admin\LabelController::class, 'print'])->name('labels.print');
-        Route::get('reservations', [\Modules\Assets\App\Http\Controllers\Admin\AssetReservationController::class, 'index'])->name('reservations.index');
-        Route::post('reservations/{reservation}/approve', [\Modules\Assets\App\Http\Controllers\Admin\AssetReservationController::class, 'approve'])->name('reservations.approve');
-        Route::post('reservations/{reservation}/deny', [\Modules\Assets\App\Http\Controllers\Admin\AssetReservationController::class, 'deny'])->name('reservations.deny');
     });
 
 }); // fim middleware admin

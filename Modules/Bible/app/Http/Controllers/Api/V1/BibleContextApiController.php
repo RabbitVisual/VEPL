@@ -7,6 +7,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Modules\Bible\App\Models\BibleBookPanorama;
+use Modules\Bible\App\Models\BibleOfficialCommentary;
+use Modules\Bible\App\Models\Chapter;
 use Modules\Bible\App\Models\StrongsCorrection;
 use Modules\Bible\App\Models\StrongsLexicon;
 use Modules\Bible\App\Services\BibleApiService;
@@ -47,6 +49,26 @@ class BibleContextApiController extends Controller
         $originalLanguage = $this->buildOriginalLanguagePayload($verseIds);
 
         $bookNumber = (int) ($result['book_number'] ?? 0);
+        $firstVerse = $verses->first();
+        $officialCommentary = null;
+
+        if ($firstVerse !== null) {
+            $chapterBookId = (int) Chapter::query()
+                ->where('id', (int) $firstVerse->chapter_id)
+                ->value('book_id');
+
+            $commentary = BibleOfficialCommentary::query()
+                ->where('book_id', $chapterBookId)
+                ->where('chapter_id', (int) $firstVerse->chapter_id)
+                ->where('verse_id', (int) $firstVerse->id)
+                ->where('is_published', true)
+                ->first();
+
+            if ($commentary !== null) {
+                $officialCommentary = $this->sanitizeOfficialCommentary((string) $commentary->official_commentary);
+            }
+        }
+
         $panorama = null;
         if ($bookNumber >= 1 && $bookNumber <= 66) {
             $p = BibleBookPanorama::query()
@@ -73,7 +95,7 @@ class BibleContextApiController extends Controller
                 'text' => $text,
                 'original_language' => $originalLanguage,
                 'panorama' => $panorama,
-                'official_commentary' => null,
+                'official_commentary' => $officialCommentary,
                 'full_chapter_url' => $result['full_chapter_url'] ?? null,
             ],
         ]);
@@ -203,5 +225,10 @@ class BibleContextApiController extends Controller
         }
 
         return null;
+    }
+
+    private function sanitizeOfficialCommentary(string $html): string
+    {
+        return trim(strip_tags($html, '<p><br><strong><b><em><i><u><ul><ol><li><blockquote><h2><h3><h4><a>'));
     }
 }

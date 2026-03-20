@@ -43,7 +43,7 @@ O módulo Events foi completamente reestruturado e elevado ao padrão VEPL, torn
 ### Sistema de Aprovação Administrativa
 
 - **Dependências removidas:**
-  - Módulo `ChurchCouncil` eliminado
+  - Modulos legados eliminados
 - **Novo fluxo de aprovação:**
   - Status: `awaiting_approval` → `approved` → `published`
 - **Campos específicos:**
@@ -109,8 +109,7 @@ O módulo Events foi completamente reestruturado e elevado ao padrão VEPL, torn
 
 ### Dependências Obsoletas Removidas
 
-- `ChurchCouncil` (funcionalidade absorvida internamente)
-- `Projection`, `Assets`, `SocialAction`, `EBD` (descontinuados)
+- Modulos legados removidos do projeto
 
 ---
 

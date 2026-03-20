@@ -1,12 +1,12 @@
 @extends('admin::components.layouts.master')
 
-@section('title', 'Criar Strong Lexicon')
+@section('title', 'Criar Entrada do Dicionário Original')
 
 @section('content')
     <div class="p-6 space-y-6">
         <div class="flex items-center justify-between gap-4">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">Nova entrada no Strong Lexicon</h1>
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">Nova entrada no Dicionário Original (Strong)</h1>
                 <p class="text-gray-600 dark:text-gray-400 mt-2">Cadastre/defina metadados do termo original e sua descrição.</p>
             </div>
             <a href="{{ route('admin.bible.strongs-lexicon.index') }}"
@@ -31,14 +31,14 @@
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Número Strong <span class="text-red-500">*</span></label>
                         <input type="text" name="number" required maxlength="10"
-                               class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors"
+                               class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-amber-600 dark:bg-gray-700 dark:text-white transition-colors"
                                placeholder="Ex: G2316">
                         @error('number') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Idioma <span class="text-red-500">*</span></label>
                         <select name="lang" required
-                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
+                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-amber-600 dark:bg-gray-700 dark:text-white transition-colors">
                             <option value="he">hebraico</option>
                             <option value="gr">grego</option>
                         </select>
@@ -50,13 +50,13 @@
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Lemma</label>
                         <input type="text" name="lemma"
-                               class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
+                               class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-amber-600 dark:bg-gray-700 dark:text-white transition-colors">
                         @error('lemma') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Pronúncia</label>
                         <input type="text" name="pronounce"
-                               class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
+                               class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-amber-600 dark:bg-gray-700 dark:text-white transition-colors">
                         @error('pronounce') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">XLit</label>
                         <input type="text" name="xlit"
-                               class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
+                               class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-amber-600 dark:bg-gray-700 dark:text-white transition-colors">
                         @error('xlit') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
                     </div>
                     <div class="flex items-end">
@@ -73,7 +73,7 @@
                             <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Revisado?</label>
                             <div class="flex items-center space-x-3">
                                 <input type="checkbox" name="is_reviewed" value="1"
-                                       class="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2">
+                                       class="w-5 h-5 text-amber-600 bg-gray-100 border-gray-300 rounded focus:ring-amber-600 dark:focus:ring-amber-600 dark:ring-offset-gray-800 focus:ring-2">
                                 <span class="text-sm text-gray-700 dark:text-gray-300">Marcar como revisado</span>
                             </div>
                             @error('is_reviewed') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
@@ -84,7 +84,7 @@
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Descrição PT</label>
                     <textarea name="description_pt" rows="6"
-                              class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors resize-none"
+                              class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-amber-600 dark:bg-gray-700 dark:text-white transition-colors resize-none"
                               placeholder="Definição completa PT-BR (descrição ampliada)"></textarea>
                     @error('description_pt') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
                 </div>
@@ -92,7 +92,7 @@
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Equivalente Semântico (PT)</label>
                     <textarea name="lemma_br" rows="4"
-                              class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors resize-none"
+                              class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-amber-600 dark:bg-gray-700 dark:text-white transition-colors resize-none"
                               placeholder="Semântica PT (curta/média)"></textarea>
                     @error('lemma_br') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
                 </div>
@@ -103,7 +103,7 @@
                         Cancelar
                     </a>
                     <button type="submit"
-                            class="px-6 py-2.5 text-sm font-medium text-white bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
+                            class="px-6 py-2.5 text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
                         Criar
                     </button>
                 </div>

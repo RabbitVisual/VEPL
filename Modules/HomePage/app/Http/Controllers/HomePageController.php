@@ -107,29 +107,6 @@ class HomePageController extends Controller
         // Estatísticas dinâmicas
         $statistics = $this->getDynamicStatistics();
 
-        // Produtos em destaque (Loja Missionária)
-        $featuredProducts = collect();
-        if (class_exists(\Modules\Marketplace\Models\Product::class)) {
-            try {
-                $featuredProducts = \Illuminate\Support\Facades\Cache::remember(
-                    'marketplace_featured_products',
-                    now()->addMinutes(30),
-                    static function () {
-                        return \Modules\Marketplace\Models\Product::active()
-                            ->inStock()
-                            ->whereHas('campaign')
-                            ->with(['images' => fn ($q) => $q->orderBy('sort_order')->limit(1), 'campaign'])
-                            ->orderBy('sort_order')
-                            ->orderBy('title')
-                            ->limit(6)
-                            ->get();
-                    }
-                );
-            } catch (\Throwable $e) {
-                \Log::debug('HomePage featured products: ' . $e->getMessage());
-            }
-        }
-
         // Configurações da homepage
         $homepageSettings = $this->getHomepageSettings();
 
@@ -146,8 +123,7 @@ class HomePageController extends Controller
             'featuredCourses',
             'galleryImages',
             'importantNotifications',
-            'statistics',
-            'featuredProducts'
+            'statistics'
         ))->with([
             'title' => $homepageSettings['meta_title'],
             'description' => $homepageSettings['meta_description'],
@@ -198,7 +174,7 @@ class HomePageController extends Controller
 
     /**
      * Notificações para a barra da homepage: visitantes só veem globais;
-     * usuários logados veem globais + as direcionadas a eles (ex.: nível EBD).
+     * usuários logados veem globais + as direcionadas a eles.
      */
     private function getImportantNotificationsForHomepage()
     {
@@ -362,7 +338,7 @@ class HomePageController extends Controller
             'show_statistics' => Settings::get('homepage_show_statistics', true),
             'show_newsletter' => Settings::get('homepage_show_newsletter', true),
             'show_radio' => Settings::get('homepage_show_radio', true),
-            'show_marketplace' => Settings::get('homepage_show_marketplace', false),
+            'show_marketplace' => false,
 
             // Section Titles
             'ministries_title' => Settings::get('homepage_ministries_title', 'Ministerios e Trilhas de Lideranca'),

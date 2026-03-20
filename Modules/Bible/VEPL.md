@@ -297,7 +297,7 @@ Compara o mesmo trecho em duas versões.
 
 ## Uso interno (backend)
 
-Para leitura no backend (ex.: HomePage, EBD, Sermons), use o **`BibleApiService`**:
+Para leitura no backend (ex.: HomePage, Academy, Sermons), use o **`BibleApiService`**:
 
 ```php
 use Modules\Bible\App\Services\BibleApiService;
@@ -482,3 +482,166 @@ Route::middleware(['throttle:60,1'])->prefix('v1/bible')->name('bible.api.')->gr
     // ...
 });
 ```
+---------- Proximos passos ---------------
+# Fase Final: Conclusão do Ecossistema BIBLE (VEPL) - Admin, Comentários e NepeSearch
+
+Você é um Arquiteto de Software Sênior e Especialista em Laravel 12, Tailwind CSS v4.1 e Arquitetura Modular (`nwidart/laravel-modules`).
+
+Sua missão agora é concluir o módulo `Bible` de ponta a ponta. Atualmente, a API de contexto (`BibleContextApiController`) e o Parser global já funcionam, mas o painel Admin não tem as telas para gerenciar os dados avançados (Panoramas, Strongs, Tags) e o campo `official_commentary` está retornando `null`.
+
+Execute os passos abaixo para entregar um sistema 100% completo, profissional e integrado.
+
+## PASSO 1: O Comentário Oficial (Preenchendo o `null` da API)
+O Comentário Oficial da VEPL é gerenciado pela tabela `bible_metadata` (ou equivalente que guarde metadados por versículo/capítulo).
+1. **Backend (Admin):** Crie o `BibleMetadataController` no diretório `Modules/Bible/app/Http/Controllers/Admin/`. Implemente o CRUD completo permitindo que a equipe editorial da VEPL selecione um Livro, Capítulo e Versículo, e escreva o `official_commentary` (usando o componente de rich-editor já existente no sistema).
+2. **Views (Admin):** Crie as views em `Modules/Bible/resources/views/admin/metadata/` (`index.blade.php`, `create.blade.php`, `edit.blade.php`). Design limpo, focado em edição de texto longo (Tailwind v4.1, `slate-900` e `amber-600`).
+3. **API Update:** Abra o `Modules/Bible/app/Http/Controllers/Api/V1/BibleContextApiController.php`. Modifique a lógica que retorna `"official_commentary" => null`. Faça a query buscar na tabela de metadados o comentário oficial correspondente à passagem solicitada (cruzando `book_id`, `chapter_id`, `verse_id`) e retorne o HTML seguro.
+
+## PASSO 2: O Estúdio Teológico no Admin (Panoramas, Strongs e Tags)
+O admin precisa gerenciar a inteligência da Bíblia.
+1. **Controllers (Admin):**
+   - Crie `BibleBookPanoramaController` (para gerenciar autor, data, tema, contexto dos 66 livros).
+   - Crie `StrongsLexiconController` (para visualização do dicionário grego/hebraico).
+   - Crie `StrongsCorrectionsController` (para a liderança adicionar correções ou sobreposições de tradução oficiais).
+   - Crie `BibleWordTagsController` (para gerenciar categorias de palavras, ex: "Graça", "Salvação").
+2. **Views (Admin):** Gere as views essenciais (`index` e `edit/form`) para cada um desses controllers dentro de `Modules/Bible/resources/views/admin/`.
+3. **Rotas:** Registre todas essas rotas no arquivo `Modules/Bible/routes/web.php` sob o prefixo `admin/bible` e o middleware de autenticação admin.
+
+## PASSO 3: Sidebar e Navegação Completa (Integração Total)
+O administrador não pode ficar caçando links.
+1. Abra o arquivo da Sidebar do Admin (geralmente em `Modules/Admin/resources/views/components/sidebar.blade.php` ou `Modules/Bible/resources/views/admin/partials/nav.blade.php`).
+2. Crie ou atualize um grupo de menu chamado **"Estúdio Teológico (Bíblia)"** com ícones coerentes (ex: `fa-book-bible`, `fa-language`, `fa-tags`).
+3. Adicione links diretos para:
+   - Visão Geral (Livros e Versões)
+   - Comentários Oficiais (`bible_metadata`)
+   - Panoramas dos Livros (`bible_book_panoramas`)
+   - Dicionário Original / Strongs (`bible_strongs_lexicon` / `corrections`)
+   - Categorias e Tags (`bible_word_tags`)
+
+## PASSO 4: Integração com o NepeSearch (Busca Global Teológica)
+O NepeSearch precisa ficar hiper-inteligente, buscando também na Bíblia Original.
+1. Abra o `SearchEngineService.php` em `Modules/NepeSearch/app/Services/`.
+2. Adicione lógicas de busca simultânea para as novas bases de inteligência:
+   - **Busca no Léxico:** Se o termo pesquisado bater com a transliteração grega/hebraica ou com o significado (`bible_strongs_lexicon`), retorne no grupo "Dicionário Original".
+   - **Busca em Panoramas:** Pesquisar no campo de tema ou contexto histórico de `bible_book_panoramas`.
+3. Certifique-se de que os resultados dessas buscas no NepeSearch chamem o Componente Popover ou redirecionem para a leitura com a aba correspondente aberta.
+
+## Restrições e Padrões (CRÍTICO)
+- **Tradução Intocável:** Nas views de Admin geradas, certifique-se de que **não há botões de "Editar Texto do Versículo"**. A tabela `verses` continua Read-Only. O Admin edita apenas o material de apoio (Comentários, Panoramas, Tags e Correções de Strong).
+- **UX/UI:** Use tabelas de dados modernas no Admin. Campos de comentário longo devem usar o `<x-rich-editor>`. Padrão de cores VEPL (fundo `slate-50`, cards `white`, botões primários em tons amadeirados/dourados `amber-600` a `amber-700`).
+- **Nomes em Português na UI:** Todo o texto exibido para o usuário e administrador deve estar em Português do Brasil de forma extremamente profissional.
+
+Comece a implementação fornecendo as alterações completas da API, a atualização da Sidebar e os Controllers/Views do Admin (especialmente o de Comentários Oficiais).
+
+
+------------- Aplicação dos passos ---------------
+# Conclusão Bible Admin+Search
+overview: Finalizar o ecossistema Bible com CRUD editorial de comentário oficial, estúdio teológico no Admin, sidebar integrada e ampliação do NepeSearch para léxico/panoramas com destino navegável.
+todos:
+  - id: schema-official-commentary
+    content: Criar migration/model para comentário oficial por versículo com índices e regras de integridade.
+    status: pending
+  - id: admin-metadata-crud
+    content: Implementar BibleMetadataController + views index/create/edit com x-rich-editor e filtros editoriais.
+    status: pending
+  - id: api-context-commentary
+    content: Atualizar BibleContextApiController para preencher official_commentary de forma segura.
+    status: pending
+  - id: admin-theological-studio-polish
+    content: Padronizar controllers/views existentes de Panoramas, Strongs e Tags para UX PT-BR consistente.
+    status: pending
+  - id: routes-sidebar-integration
+    content: Ajustar rotas admin.bible e atualizar sidebar com grupo Estúdio Teológico (Bíblia).
+    status: pending
+  - id: nepesearch-bible-intelligence
+    content: Expandir SearchEngineService e command-palette para léxico/panoramas com resultados clicáveis.
+    status: pending
+  - id: final-validation
+    content: Rodar validações rápidas (rotas, lints e consistência de navegação/API) e consolidar entrega.
+    status: pending
+
+# Conclusão do Ecossistema Bible (VEPL)
+
+## Decisões arquiteturais adotadas
+
+- Reutilizar e evoluir os controllers já existentes em `Bible` (menor risco de regressão e maior consistência com rotas atuais `admin.bible.*`).
+- Criar storage dedicado para comentário oficial por versículo (tabela nova), preservando a função original de `bible_metadata` (metadados de capítulo/contagem).
+
+## Escopo de implementação
+
+### 1) Comentário Oficial (API + Admin)
+
+- Criar migration de comentários oficiais por versículo (com `book_id`, `chapter_id`, `verse_id`, `official_commentary`, `is_published`, auditoria e índices únicos para evitar duplicidade por versículo).
+- Criar model e controller administrativo para CRUD editorial com `x-rich-editor`.
+- Adicionar views em layout admin Bible focadas em texto longo e usabilidade editorial:
+  - `index` com filtros (Livro/Capítulo/Versículo/status) e ações.
+  - `create` e `edit` com formulário rico.
+- Atualizar `BibleContextApiController` para buscar o comentário oficial do versículo alvo da referência e retornar conteúdo sanitizado em `official_commentary`.
+
+Arquivos alvo principais:
+
+- [c:/laragon/www/VEPL/Modules/Bible/app/Http/Controllers/Api/V1/BibleContextApiController.php](../../../../../Users/Administrator/.cursor/plans/c:/laragon/www/VEPL/Modules/Bible/app/Http/Controllers/Api/V1/BibleContextApiController.php)
+- [c:/laragon/www/VEPL/Modules/Bible/app/Http/Controllers/Admin/BibleMetadataController.php](../../../../../Users/Administrator/.cursor/plans/c:/laragon/www/VEPL/Modules/Bible/app/Http/Controllers/Admin/BibleMetadataController.php)
+- [c:/laragon/www/VEPL/Modules/Bible/resources/views/admin/metadata/index.blade.php](../../../../../Users/Administrator/.cursor/plans/c:/laragon/www/VEPL/Modules/Bible/resources/views/admin/metadata/index.blade.php)
+- [c:/laragon/www/VEPL/Modules/Bible/resources/views/admin/metadata/create.blade.php](../../../../../Users/Administrator/.cursor/plans/c:/laragon/www/VEPL/Modules/Bible/resources/views/admin/metadata/create.blade.php)
+- [c:/laragon/www/VEPL/Modules/Bible/resources/views/admin/metadata/edit.blade.php](../../../../../Users/Administrator/.cursor/plans/c:/laragon/www/VEPL/Modules/Bible/resources/views/admin/metadata/edit.blade.php)
+- [c:/laragon/www/VEPL/Modules/Bible/database/migrations](../../../../../Users/Administrator/.cursor/plans/c:/laragon/www/VEPL/Modules/Bible/database/migrations)
+- [c:/laragon/www/VEPL/Modules/Bible/app/Models](../../../../../Users/Administrator/.cursor/plans/c:/laragon/www/VEPL/Modules/Bible/app/Models)
+
+### 2) Estúdio Teológico no Admin (Panoramas, Strongs e Tags)
+
+- Manter controllers atuais e completar lacunas de UX e telas essenciais:
+  - Panoramas: manter `BibleBookPanoramaAdminController`, padronizar rótulos PT-BR e formulário.
+  - Léxico: manter `StrongsLexiconController` e consolidar view de índice/edição para curadoria.
+  - Correções: manter `StrongsCorrectionsController` com fluxo claro de aprovação/rejeição.
+  - Tags: manter `BibleWordTagsController` com foco em categorias/etiquetas e filtros de gestão.
+- Uniformizar design (cards/tabelas, `slate-50` + `white`, botões `amber-600/700`) e remover qualquer affordance de edição de tradução bíblica.
+
+Arquivos alvo principais:
+
+- [c:/laragon/www/VEPL/Modules/Bible/app/Http/Controllers/Admin/BibleBookPanoramaAdminController.php](../../../../../Users/Administrator/.cursor/plans/c:/laragon/www/VEPL/Modules/Bible/app/Http/Controllers/Admin/BibleBookPanoramaAdminController.php)
+- [c:/laragon/www/VEPL/Modules/Bible/app/Http/Controllers/Admin/StrongsLexiconController.php](../../../../../Users/Administrator/.cursor/plans/c:/laragon/www/VEPL/Modules/Bible/app/Http/Controllers/Admin/StrongsLexiconController.php)
+- [c:/laragon/www/VEPL/Modules/Bible/app/Http/Controllers/Admin/StrongsCorrectionsController.php](../../../../../Users/Administrator/.cursor/plans/c:/laragon/www/VEPL/Modules/Bible/app/Http/Controllers/Admin/StrongsCorrectionsController.php)
+- [c:/laragon/www/VEPL/Modules/Bible/app/Http/Controllers/Admin/BibleWordTagsController.php](../../../../../Users/Administrator/.cursor/plans/c:/laragon/www/VEPL/Modules/Bible/app/Http/Controllers/Admin/BibleWordTagsController.php)
+- [c:/laragon/www/VEPL/Modules/Bible/resources/views/admin](../../../../../Users/Administrator/.cursor/plans/c:/laragon/www/VEPL/Modules/Bible/resources/views/admin)
+
+### 3) Rotas e Sidebar (integração total)
+
+- Registrar/ajustar rotas no grupo `admin.bible.*` em `routes/admin.php` para comentários oficiais e refinamentos do estúdio teológico.
+- Atualizar sidebar admin com grupo explícito “Estúdio Teológico (Bíblia)” e links diretos para:
+  - Visão Geral
+  - Comentários Oficiais
+  - Panoramas
+  - Dicionário Original / Correções
+  - Categorias e Tags
+- Padronizar ícones com `<x-icon ...>` e nomenclatura PT-BR profissional.
+
+Arquivos alvo principais:
+
+- [c:/laragon/www/VEPL/routes/admin.php](../../../../../Users/Administrator/.cursor/plans/c:/laragon/www/VEPL/routes/admin.php)
+- [c:/laragon/www/VEPL/Modules/Admin/resources/views/components/sidebar.blade.php](../../../../../Users/Administrator/.cursor/plans/c:/laragon/www/VEPL/Modules/Admin/resources/views/components/sidebar.blade.php)
+
+### 4) NepeSearch teológico (léxico + panorama)
+
+- Expandir `SearchEngineService` para incluir dois grupos novos:
+  - `bible_lexicon` (transliteração/lemma/significado PT do Strong).
+  - `bible_panoramas` (tema central/contexto histórico).
+- Normalizar payload de resultado com `title`, `description`, `url` e `meta` para permitir clique/navegação.
+- Atualizar `command-palette` para tornar itens clicáveis e rotear para destino apropriado (página Bible/Admin correspondente), com base em `url` retornada.
+
+Arquivos alvo principais:
+
+- [c:/laragon/www/VEPL/Modules/NepeSearch/app/Services/SearchEngineService.php](../../../../../Users/Administrator/.cursor/plans/c:/laragon/www/VEPL/Modules/NepeSearch/app/Services/SearchEngineService.php)
+- [c:/laragon/www/VEPL/Modules/NepeSearch/resources/views/components/command-palette.blade.php](../../../../../Users/Administrator/.cursor/plans/c:/laragon/www/VEPL/Modules/NepeSearch/resources/views/components/command-palette.blade.php)
+
+## Restrições que serão garantidas
+
+- `verses` permanecerá somente leitura (sem botões ou fluxo de edição de texto bíblico).
+- UI/labels integralmente em Português (tom profissional).
+- Uso do `x-rich-editor` nos campos longos de comentário.
+
+## Validação e fechamento
+
+- Verificar rotas nomeadas e navegação da sidebar.
+- Validar retorno real de `official_commentary` na API de contexto.
+- Executar checagem de lint/erros nos arquivos alterados e corrigir eventuais regressões simples.

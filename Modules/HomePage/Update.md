@@ -57,7 +57,7 @@ Atue como Engenheiro de Software Sênior. Quero um upgrade no sistema de manuten
 - No arquivo `bootstrap/app.php` (ou no middleware correspondente), configure o `PreventRequestsDuringMaintenance` para permitir as seguintes rotas mesmo em modo 'down':
     - Rotas do módulo `Bible` (Leitura pública).
     - Rota exclusiva de login admin (ex: `/admin/acesso-mestre`).
-    - Assets necessários (CSS/JS/Imagens).
+    - Recursos necessarios (CSS/JS/Imagens).
 
 ## 3. Painel de Gestão do Status (Admin)
 - No `Modules\Admin`, crie um componente de "Status do Site".

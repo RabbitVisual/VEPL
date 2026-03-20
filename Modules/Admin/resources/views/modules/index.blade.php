@@ -6,23 +6,20 @@
     $coreCount = collect($modulesData)->where('is_core', true)->count();
     $moduleIcons = [
         'admin' => 'cubes',
-        'assets' => 'box-archive',
         'bible' => 'book-bible',
-        'churchcouncil' => 'people-roof',
-        'ebd' => 'school',
         'events' => 'calendar-days',
-        'gamification' => 'trophy',
         'homepage' => 'house',
         'intercessor' => 'hands-praying',
         'memberpanel' => 'users',
         'ministries' => 'church',
+        'nepesearch' => 'magnifying-glass',
         'notifications' => 'bell',
         'paymentgateway' => 'credit-card',
-        'projection' => 'tv',
         'sermons' => 'book-open-reader',
-        'socialaction' => 'hand-holding-heart',
         'treasury' => 'landmark',
         'worship' => 'music',
+        'academy' => 'graduation-cap',
+        'community' => 'comments',
     ];
 @endphp
 

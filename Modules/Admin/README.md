@@ -1,6 +1,6 @@
 # Módulo Admin – Visão Geral e Configurações do Sistema
 
-O módulo **Admin** é o **núcleo de administração** do VEPL Escola. Ele concentra dashboard, usuários, permissões, configurações globais do sistema, perfil do administrador (incluindo 2FA), HomePage, Bíblia, Gamificação, CEP, notificações e integração com os demais módulos.
+O modulo **Admin** e o **nucleo de administracao** do VEPL Vertex Escola de Pastores e Lideres. Ele concentra dashboard, usuarios, permissoes, configuracoes globais do sistema, perfil do administrador (incluindo 2FA), HomePage, Biblia, CEP, notificacoes e integracao com os demais modulos.
 
 Este documento descreve **como o módulo funciona**, em especial as **Configurações do Sistema**, o ciclo de vida global, cache, 2FA e as melhorias de engenharia e segurança aplicadas.
 
@@ -14,7 +14,6 @@ Este documento descreve **como o módulo funciona**, em especial as **Configura�
 - **Módulos** – Ativar/desativar módulos (acesso técnico).
 - **HomePage** – Carrossel, contatos, newsletter, configurações da vitrine.
 - **Bíblia** – Planos de leitura e importação de versões.
-- **Gamificação** – Níveis e badges (EBD, Ministérios, etc.).
 - **CEP** – Faixas de CEP para lógica regional.
 - **Recuperação de senha** – Configurações e histórico de resets.
 - **Notificações** – Inbox e controle (engine em `Modules/Notifications`).

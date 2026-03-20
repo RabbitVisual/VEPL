@@ -90,14 +90,6 @@ class FinancialEntry extends Model
         return $this->belongsTo(Ministry::class);
     }
 
-    /**
-     * Aprovação do conselho (quando despesa acima do limite).
-     */
-    public function councilApproval(): BelongsTo
-    {
-        return $this->belongsTo(\Modules\ChurchCouncil\App\Models\CouncilApproval::class, 'council_approval_id');
-    }
-
     public function financialCategory(): BelongsTo
     {
         return $this->belongsTo(FinancialCategory::class, 'category_id');

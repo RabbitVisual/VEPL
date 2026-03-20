@@ -101,11 +101,6 @@
                     <x-icon name="pencil" class="w-5 h-5" />
                 </button>
 
-                <a href="{{ route('admin.projection.console', $setlist->id) }}" target="_blank" rel="noopener"
-                    class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-900 dark:bg-gray-950 text-white font-bold text-sm hover:bg-black dark:hover:bg-black transition-colors border border-gray-700 dark:border-gray-600">
-                    <x-icon name="presentation-screen" class="w-5 h-5 text-blue-400" />
-                    Console de Projeção
-                </a>
                 <a href="{{ route('worship.member.stage.view', $setlist->id) }}" target="_blank" rel="noopener"
                     class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-lg shadow-blue-500/20 transition-colors">
                     <x-icon name="play" class="w-5 h-5" />
@@ -255,7 +250,7 @@
                                     <x-icon name="music-note" class="w-8 h-8 text-purple-600 dark:text-purple-400" />
                                 </div>
                                 <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">Nenhuma música no repertório</h3>
-                                <p class="text-sm text-gray-500 dark:text-gray-400 text-center max-w-xs mb-4">Adicione músicas acima para montar o setlist e usar no console de projeção.</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 text-center max-w-xs mb-4">Adicione musicas acima para montar o setlist do culto.</p>
                             </div>
                             @endforelse
                         </div>

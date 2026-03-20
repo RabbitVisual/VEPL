@@ -1,7 +1,7 @@
 <div x-data="nepeCommandPalette()" x-on:keydown.window.prevent.ctrl.k="openPalette()" x-on:keydown.window.prevent.meta.k="openPalette()">
-    <div x-show="open" x-transition.opacity class="fixed inset-0 z-[90] bg-slate-950/60 backdrop-blur-sm" @click="closePalette()"></div>
+    <div x-show="open" x-transition.opacity class="fixed inset-0 z-90 bg-slate-950/60 backdrop-blur-sm" @click="closePalette()"></div>
 
-    <div x-show="open" x-transition class="fixed inset-0 z-[100] flex items-start justify-center px-4 pt-20">
+    <div x-show="open" x-transition class="fixed inset-0 z-100 flex items-start justify-center px-4 pt-20">
         <div class="w-full max-w-3xl rounded-2xl bg-white shadow-2xl ring-1 ring-slate-200">
             <div class="border-b border-slate-200 p-4">
                 <input type="text" x-model="query" @input.debounce.300ms="search()"
@@ -15,10 +15,10 @@
                         <h3 class="mb-2 text-xs font-bold uppercase tracking-wider text-slate-500" x-text="group.label"></h3>
                         <div class="space-y-2">
                             <template x-for="item in results[group.key]" :key="item.id">
-                                <div class="rounded-lg border border-slate-200 px-3 py-2">
+                                <a :href="item.url || '#'" @click="closePalette()" class="block rounded-lg border border-slate-200 px-3 py-2 transition hover:border-amber-300 hover:bg-amber-50/40">
                                     <p class="text-sm font-semibold text-slate-900" x-text="item.title || item.full_reference || 'Resultado'"></p>
                                     <p class="mt-1 text-xs text-slate-600 line-clamp-2" x-text="item.description || item.text || item.body || item.content_text || ''"></p>
-                                </div>
+                                </a>
                             </template>
                         </div>
                     </section>
@@ -40,6 +40,8 @@
                     groups: [
                         { key: 'sermons', label: 'Sermões Encontrados' },
                         { key: 'bible', label: 'Versículos Encontrados' },
+                        { key: 'bible_lexicon', label: 'Dicionário Original' },
+                        { key: 'bible_panoramas', label: 'Panoramas Bíblicos' },
                         { key: 'academy_courses', label: 'Cursos Encontrados' },
                         { key: 'academy_lessons', label: 'Aulas Encontradas' },
                         { key: 'community_topics', label: 'Discussões Encontradas' },

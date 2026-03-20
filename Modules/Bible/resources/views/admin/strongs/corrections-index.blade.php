@@ -6,7 +6,7 @@
     <div class="p-6 space-y-6">
         <div class="flex items-center justify-between gap-4">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">Correções Strong (Aprovação)</h1>
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">Correções Oficiais do Strong</h1>
                 <p class="text-gray-600 dark:text-gray-400 mt-2">Aprove ou rejeite correções teológicas pendentes. Ao aprovar, aplicamos automaticamente no léxico.</p>
             </div>
         </div>

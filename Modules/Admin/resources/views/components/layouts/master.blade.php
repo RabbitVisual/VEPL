@@ -213,30 +213,6 @@
                         }
                     });
 
-                    // ChurchCouncil Accordion
-                    const churchcouncilButtons = document.querySelectorAll(
-                        'button[onclick*="churchcouncilOpen"]');
-                    churchcouncilButtons.forEach(function(button) {
-                        const menu = button.nextElementSibling;
-                        if (menu && menu.classList.contains('mt-1')) {
-                            const isActive =
-                                '{{ request()->routeIs('admin.churchcouncil*') ? 'true' : 'false' }}' ===
-                                'true';
-                            menu.style.display = isActive ? 'block' : 'none';
-                            button.addEventListener('click', function(e) {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                const isHidden = menu.style.display === 'none';
-                                menu.style.display = isHidden ? 'block' : 'none';
-                                const icon = button.querySelector('svg:last-child');
-                                if (icon) {
-                                    icon.style.transform = isHidden ? 'rotate(180deg)' :
-                                        'rotate(0deg)';
-                                }
-                            });
-                        }
-                    });
-
                     // HomePage Accordion
                     const homepageButtons = document.querySelectorAll('button[onclick*="homepageOpen"]');
                     homepageButtons.forEach(function(button) {
@@ -260,28 +236,6 @@
                         }
                     });
 
-                    // EBD Accordion
-                    const ebdButtons = document.querySelectorAll('button[onclick*="ebdOpen"]');
-                    ebdButtons.forEach(function(button) {
-                        const menu = button.nextElementSibling;
-                        if (menu && menu.classList.contains('mt-1')) {
-                            const isActive =
-                                '{{ request()->routeIs('admin.ebd*') ? 'true' : 'false' }}' ===
-                                'true';
-                            menu.style.display = isActive ? 'block' : 'none';
-                            button.addEventListener('click', function(e) {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                const isHidden = menu.style.display === 'none';
-                                menu.style.display = isHidden ? 'block' : 'none';
-                                const icon = button.querySelector('svg:last-child');
-                                if (icon) {
-                                    icon.style.transform = isHidden ? 'rotate(180deg)' :
-                                        'rotate(0deg)';
-                                }
-                            });
-                        }
-                    });
                 }
             }, 100);
         });

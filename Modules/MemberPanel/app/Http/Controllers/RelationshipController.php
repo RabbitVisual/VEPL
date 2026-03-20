@@ -52,13 +52,6 @@ class RelationshipController extends Controller
 
         $user_relationship->update(['status' => UserRelationship::STATUS_ACCEPTED]);
 
-        if (class_exists(\Modules\ChurchCouncil\App\Services\CouncilAuditService::class)) {
-            app(\Modules\ChurchCouncil\App\Services\CouncilAuditService::class)->log('family_relationship_accepted', $user_relationship, [
-                'user_id' => $user_relationship->user_id,
-                'related_user_id' => $user_relationship->related_user_id,
-            ]);
-        }
-
         $inviter = $user_relationship->user;
         if ($inviter && class_exists(\Modules\Notifications\App\Services\InAppNotificationService::class)) {
             app(\Modules\Notifications\App\Services\InAppNotificationService::class)->sendToUser($inviter, 'Vínculo familiar aceito', Auth::user()->name . ' aceitou o vínculo de ' . $user_relationship->relationship_type_label . '.', [

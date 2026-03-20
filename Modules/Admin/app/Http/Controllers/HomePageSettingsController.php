@@ -204,7 +204,6 @@ class HomePageSettingsController extends Controller
         }
 
         Settings::clearCache();
-        \Illuminate\Support\Facades\Cache::forget(\Modules\Marketplace\Services\MarketplacePolicyService::CACHE_KEY);
 
         return redirect()->route('admin.homepage.settings.index', ['tab' => $request->input('active_tab', 'geral')])
             ->with('success', 'Configurações da HomePage atualizadas com sucesso!');

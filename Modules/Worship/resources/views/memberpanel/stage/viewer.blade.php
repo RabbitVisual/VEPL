@@ -400,21 +400,7 @@
                 }
             },
 
-            checkStageAlerts() {
-                axios.get('/api/v1/projection/state').then(res => {
-                    const state = (res.data && res.data.data) ? res.data.data : {};
-                    const alert = state.stage_alert || state.alertMessage || '';
-                    if (alert && alert !== this.activeAlert) {
-                        this.activeAlert = alert;
-                        if (this.alertTimeout) clearTimeout(this.alertTimeout);
-                        this.alertTimeout = setTimeout(() => {
-                            this.activeAlert = '';
-                        }, 8000);
-                    } else if (!alert) {
-                        this.activeAlert = '';
-                    }
-                }).catch(() => {});
-            },
+            checkStageAlerts() {},
 
             render(content, transpose) {
                 if(!content) return '<p class="text-slate-500 italic">Sem conteúdo disponível.</p>';

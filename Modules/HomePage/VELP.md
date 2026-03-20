@@ -43,7 +43,7 @@ todos:
 3. `2026_01_01_200003_create_homepage_gallery_table.php` - Galeria educacional com metadados
 4. `2026_01_01_200004_create_homepage_communications_table.php` - Newsletter e contatos ministeriais
 
-## 2. Transformação de Conteúdo CBAV → VEPL
+## 2. Transformacao de Conteudo VEPL
 
 ### 2.1 Hero Section e Carousel
 
@@ -270,7 +270,7 @@ Modules/HomePage/database/migrations/2026_01_01_200002_create_homepage_testimoni
 Modules/HomePage/database/migrations/2026_01_01_200003_create_homepage_gallery_table.php
 Modules/HomePage/database/migrations/2026_01_01_200004_create_homepage_communications_table.php
 Estrutura nova inclui campos VEPL (segmentação, metadados educacionais, lead scoring, follow-up, analytics, etc.) preservando tabelas-chave usadas no sistema (carousel_slides, testimonials, gallery_images, newsletter_subscribers, contact_messages).
-Transformação de conteúdo CBAV -> VEPL
+Transformacao de conteudo VEPL
 
 Atualizei copy/defaults para contexto de escola pastoral em:
 Modules/HomePage/app/Http/Controllers/HomePageController.php

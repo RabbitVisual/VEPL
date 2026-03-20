@@ -12,13 +12,9 @@
                 <span class="text-gray-400 dark:text-gray-500">Agendamentos</span>
             </nav>
             <h1 class="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Cultos e <span class="text-transparent bg-clip-text bg-linear-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400">Escalas</span></h1>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Agende cultos, monte o repertório e projeta letras na tela.</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Agende cultos, monte o repertorio e organize a equipe de louvor.</p>
         </div>
         <div class="flex flex-wrap gap-3">
-            <a href="{{ route('admin.projection.index') }}" class="inline-flex items-center px-5 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                <x-icon name="presentation-screen" class="w-5 h-5 mr-2" />
-                Projeção
-            </a>
             <a href="{{ route('worship.admin.setlists.create') }}" class="inline-flex items-center px-5 py-3 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold shadow-lg shadow-purple-500/20 transition-all active:scale-95">
                 <x-icon name="plus" class="w-5 h-5 mr-2" />
                 Agendar Culto
@@ -129,9 +125,6 @@
                                         <x-icon name="cog" class="w-4 h-4" />
                                         Gerenciar
                                     </a>
-                                    <a href="{{ route('admin.projection.console', $setlist->id) }}" target="_blank" rel="noopener" class="p-2 rounded-xl border border-gray-200 dark:border-gray-600 text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-300 transition-colors" title="Console de Projeção">
-                                        <x-icon name="presentation-screen" class="w-5 h-5" />
-                                    </a>
                                     <form action="{{ route('worship.admin.setlists.destroy', $setlist->id) }}" method="POST" class="inline" onsubmit="return confirm('Excluir este culto e todo o repertório?');">
                                         @csrf @method('DELETE')
                                         <button type="submit" class="p-2 rounded-xl border border-gray-200 dark:border-gray-600 text-gray-400 hover:text-red-500 hover:border-red-300 transition-colors" title="Excluir">
@@ -154,7 +147,7 @@
                 <x-icon name="calendar" class="w-8 h-8 text-purple-600 dark:text-purple-400" />
             </div>
             <h3 class="text-xl font-black text-gray-900 dark:text-white mb-1">Nenhum culto agendado</h3>
-            <p class="text-sm text-gray-500 dark:text-gray-400 text-center max-w-sm mb-6">Crie um culto para montar o repertório e usar o console de projeção na hora do louvor.</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400 text-center max-w-sm mb-6">Crie um culto para montar o repertorio e organizar a escala do louvor.</p>
             <a href="{{ route('worship.admin.setlists.create') }}" class="inline-flex items-center px-5 py-3 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold shadow-lg shadow-purple-500/20 transition-all">
                 <x-icon name="plus" class="w-5 h-5 mr-2" />
                 Agendar primeiro culto

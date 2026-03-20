@@ -1,16 +1,16 @@
 @extends('admin::components.layouts.master')
 
-@section('title', 'Word Tags (Interlinear)')
+@section('title', 'Categorias e Tags Interlineares')
 
 @section('content')
     <div class="p-6 space-y-6">
         <div class="flex items-center justify-between gap-4">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">Word Tags (Interlinear) — `bible_word_tags`</h1>
-                <p class="text-gray-600 dark:text-gray-400 mt-2">CRUD permitido com paginação e filtros. Use com cuidado: volume de dados pode ser grande.</p>
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">Categorias e Tags Interlineares</h1>
+                <p class="text-gray-600 dark:text-gray-400 mt-2">Gerencie marcações de palavras originais para apoiar estudo teológico.</p>
             </div>
             <a href="{{ route('admin.bible.word-tags.create') }}"
-               class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-white bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
+               class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
                 <x-icon name="plus" style="duotone" class="w-5 h-5 mr-2" />
                 Novo
             </a>
@@ -30,11 +30,11 @@
         <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4">
             <form method="GET" class="flex flex-col lg:flex-row gap-3 lg:items-end">
                 <div class="flex-1">
-                    <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Verse ID</label>
+                    <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">ID do Versículo</label>
                     <input type="number" name="verse_id" value="{{ $verseId }}" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white transition-colors">
                 </div>
                 <div class="flex-1">
-                    <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Strong number</label>
+                    <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Número Strong</label>
                     <input type="text" name="strong_number" value="{{ $strong }}" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white transition-colors" placeholder="Ex: G2316">
                 </div>
                 <div class="w-full lg:w-48">
@@ -46,7 +46,7 @@
                     </select>
                 </div>
                 <button type="submit"
-                        class="px-4 py-2.5 text-sm font-medium text-white bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
+                        class="px-4 py-2.5 text-sm font-medium text-white bg-slate-900 hover:bg-slate-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
                     Filtrar
                 </button>
             </form>
@@ -63,12 +63,12 @@
                     <thead class="bg-gray-50 dark:bg-gray-900/30 text-gray-600 dark:text-gray-300">
                         <tr>
                             <th class="px-4 py-3 text-left">ID</th>
-                            <th class="px-4 py-3 text-left">Verse</th>
-                            <th class="px-4 py-3 text-left">Pos</th>
-                            <th class="px-4 py-3 text-left">Surface</th>
+                            <th class="px-4 py-3 text-left">Versículo</th>
+                            <th class="px-4 py-3 text-left">Posição</th>
+                            <th class="px-4 py-3 text-left">Palavra</th>
                             <th class="px-4 py-3 text-left">Strong</th>
-                            <th class="px-4 py-3 text-left">Morph</th>
-                            <th class="px-4 py-3 text-left">Lang</th>
+                            <th class="px-4 py-3 text-left">Morfologia</th>
+                            <th class="px-4 py-3 text-left">Idioma</th>
                             <th class="px-4 py-3 text-left">Ações</th>
                         </tr>
                     </thead>

@@ -8,11 +8,11 @@
         <div class="flex items-center justify-between gap-4">
             <div>
                 <h1 class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">Panorama do Livro {{ $entry->book_number }}</h1>
-                <p class="text-gray-600 dark:text-gray-400 mt-2">Testament: <span class="font-semibold">{{ $entry->testament }}</span> · Idioma: <span class="font-semibold">{{ $entry->language ?? 'pt' }}</span></p>
+                <p class="text-gray-600 dark:text-gray-400 mt-2">Testamento: <span class="font-semibold">{{ $entry->testament === 'old' ? 'Antigo' : 'Novo' }}</span> · Idioma: <span class="font-semibold">{{ $entry->language ?? 'pt' }}</span></p>
             </div>
             <div class="flex gap-2">
                 <a href="{{ route('admin.bible.panoramas.edit', $entry->id) }}"
-                   class="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-linear-to-r from-blue-600 to-blue-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
+                   class="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-amber-600 rounded-lg shadow-sm hover:bg-amber-700 transition-all duration-200">
                     <x-icon name="pen-to-square" style="duotone" class="w-4 h-4 mr-2" />
                     Editar
                 </a>

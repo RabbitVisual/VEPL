@@ -10,7 +10,7 @@ All notable changes to the **Escola de Pastores e Líderes (VEPL)** project will
 - **Categorização de Instrumentos**: Suporte a categorias (Harmonia, Percussão, Vocal, Técnico) com ícones e cores HSL.
 
 ### Changed
-- **Rebranding Global**: Transição de "VertexCBAV" para "VEPL".
+- **Rebranding Global**: Consolidacao completa da marca VEPL.
 - **Refatoração de Modelos**: Unificação de `AcademyCourse`, `AcademyLesson` e `AcademyProgress` sob o novo padrão de dados.
 - **Estabilização de Seeders**: Idempotência garantida em todos os seeders do módulo Worship.
 - **Documentação Master**: Atualização do `README.md`, `AGENTS.md` e `system_default.md`.

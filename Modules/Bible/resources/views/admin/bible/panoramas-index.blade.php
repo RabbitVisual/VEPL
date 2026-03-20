@@ -6,11 +6,11 @@
     <div class="p-6 space-y-6">
         <div class="flex items-center justify-between gap-4">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">Panoramas dos Livros (bible_book_panoramas)</h1>
-                <p class="text-gray-600 dark:text-gray-400 mt-2">CRUD permitido (metadados): autor, data, tema central e destinatários.</p>
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">Panoramas dos Livros</h1>
+                <p class="text-gray-600 dark:text-gray-400 mt-2">Gerencie autor, data, tema central e destinatários de cada livro.</p>
             </div>
             <a href="{{ route('admin.bible.panoramas.create') }}"
-               class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-white bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
+               class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
                 <x-icon name="plus" style="duotone" class="w-5 h-5 mr-2" />
                 Novo panorama
             </a>
@@ -30,19 +30,19 @@
         <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4">
             <form method="GET" class="flex flex-col sm:flex-row gap-3 sm:items-end">
                 <div class="flex-1">
-                    <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Book number</label>
+                    <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Livro (número)</label>
                     <input type="number" min="1" max="66" name="book_number" value="{{ $qBook }}" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white transition-colors">
                 </div>
                 <div class="w-full sm:w-64">
-                    <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Testament</label>
+                    <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Testamento</label>
                     <select name="testament" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white transition-colors">
                         <option value="">Todos</option>
-                        <option value="old" {{ $testament==='old'?'selected':'' }}>Old</option>
-                        <option value="new" {{ $testament==='new'?'selected':'' }}>New</option>
+                        <option value="old" {{ $testament==='old'?'selected':'' }}>Antigo</option>
+                        <option value="new" {{ $testament==='new'?'selected':'' }}>Novo</option>
                     </select>
                 </div>
                 <button type="submit"
-                        class="px-4 py-2.5 text-sm font-medium text-white bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
+                        class="px-4 py-2.5 text-sm font-medium text-white bg-slate-900 hover:bg-slate-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
                     Filtrar
                 </button>
             </form>
@@ -58,7 +58,7 @@
                     <thead class="bg-gray-50 dark:bg-gray-900/30 text-gray-600 dark:text-gray-300">
                         <tr>
                             <th class="px-4 py-3 text-left">Livro</th>
-                            <th class="px-4 py-3 text-left">Testament</th>
+                            <th class="px-4 py-3 text-left">Testamento</th>
                             <th class="px-4 py-3 text-left">Autor</th>
                             <th class="px-4 py-3 text-left">Tema</th>
                             <th class="px-4 py-3 text-left">Idioma</th>
@@ -69,7 +69,7 @@
                         @forelse($panoramas as $entry)
                             <tr>
                                 <td class="px-4 py-3 font-mono text-blue-700 dark:text-blue-300">{{ $entry->book_number }}</td>
-                                <td class="px-4 py-3">{{ $entry->testament }}</td>
+                                <td class="px-4 py-3">{{ $entry->testament === 'old' ? 'Antigo' : 'Novo' }}</td>
                                 <td class="px-4 py-3">{{ $entry->author ?? '—' }}</td>
                                 <td class="px-4 py-3 text-gray-700 dark:text-gray-200">
                                     {{ \Illuminate\Support\Str::limit((string) ($entry->theme_central ?? ''), 50) }}

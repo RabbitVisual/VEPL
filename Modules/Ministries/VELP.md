@@ -12,7 +12,7 @@
 
 - **Fluxo Administrativo e Aprovação**
   - Novo fluxo com status administrativos (`under_admin_review`) e campos como `submitted_at`, `approval_notes`, etc.
-  - _Backend_ **alinhado ao VEPL**: **sem acoplamento recorrente ao ChurchCouncil**.
+  - _Backend_ **alinhado ao VEPL**: sem acoplamentos com modulos legados.
 
 ## Alterações em Código
 
@@ -24,7 +24,7 @@
   - `MinistryReport.php`
     - Status atualizado para `under_admin_review`
   - `Ministry.php`
-    - Removidos relacionamentos legados (EBD, SocialAction)
+    - Removidos relacionamentos legados
 - **Policies**
   - `MinistryPolicy.php`:
     - Removidas verificações para `councilMember()`
@@ -42,7 +42,7 @@
   - `Member/MinistryController.php`:
     - Aceitação de solicitação agora é **direta via `acceptRequest`** (sem conselho)
     - Mensagens adaptadas para linguagem VEPL
-    - Proteção adicional sem módulo Assets (_sem fatal error_ nas reservas)
+    - Protecao adicional para evitar dependencias legadas
   - `routes/member.php`:
     - Rota de aceite aponta para `acceptRequest`
 - **Rotas Admin**
@@ -74,7 +74,7 @@
 - `php artisan migrate --pretend --path="Modules/Ministries/database/migrations"`: ✅ OK (SQL correto das 4 novas migrations)
 - ReadLints: ✅ OK (sem erros)
 - Observação:
-  - `php artisan route:list` falhou **por dependência ausente** (`ProjectionController`) em outro módulo global
+  - Ajustes para manter `php artisan route:list` estavel sem dependencias legadas
     (_não relacionado às mudanças do Ministries_)
 
 ---

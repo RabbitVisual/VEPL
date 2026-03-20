@@ -147,7 +147,7 @@ class WorshipApiService
     }
 
     /**
-     * Converte ChordPro/lyrics em slides para projeção (lógica única, usada por API e Projection).
+     * Converte ChordPro/lyrics em slides para exibicao (logica unica, usada por API).
      *
      * @return array<int, array{label: string, html: string}>
      */

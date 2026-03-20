@@ -1,16 +1,16 @@
 @extends('admin::components.layouts.master')
 
-@section('title', 'Strong Lexicon')
+@section('title', 'Dicionário Original (Strong)')
 
 @section('content')
     <div class="p-6 space-y-6">
         <div class="flex items-center justify-between gap-4">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">Dicionário Strong's (Lexicon)</h1>
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">Dicionário Original (Strong)</h1>
                 <p class="text-gray-600 dark:text-gray-400 mt-2">Gestão permitida do léxico original e definições (metadados). Texto base permanece imutável.</p>
             </div>
             <a href="{{ route('admin.bible.strongs-lexicon.create') }}"
-               class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-white bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
+               class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
                 <x-icon name="plus" style="duotone" class="w-5 h-5 mr-2" />
                 Nova entrada
             </a>
@@ -34,7 +34,7 @@
                     <input type="text" name="q" value="{{ $q }}" placeholder="Número, lemma, definição..." class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white transition-colors">
                 </div>
                 <button type="submit"
-                        class="px-4 py-2.5 text-sm font-medium text-white bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
+                        class="px-4 py-2.5 text-sm font-medium text-white bg-slate-900 hover:bg-slate-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
                     Buscar
                 </button>
             </form>
@@ -52,7 +52,7 @@
                     <thead class="bg-gray-50 dark:bg-gray-900/30 text-gray-600 dark:text-gray-300">
                         <tr>
                             <th class="px-4 py-3 text-left">Número</th>
-                            <th class="px-4 py-3 text-left">Idioma</th>
+                            <th class="px-4 py-3 text-left">Idioma Base</th>
                             <th class="px-4 py-3 text-left">Lemma</th>
                             <th class="px-4 py-3 text-left">Pronúncia</th>
                             <th class="px-4 py-3 text-left">Descrição (resumo)</th>

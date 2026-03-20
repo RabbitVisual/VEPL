@@ -17,7 +17,6 @@ Este documento resume **como o módulo funciona hoje**, o que foi implementado e
     - `plans()` → planos estratégicos (`MinistryPlan`).
     - `reports()` → relatórios mensais (`MinistryReport`).
     - Integrações por `ministry_id`:
-      - `ebdClasses()` (EBD),
       - `worshipSetlists()` (Worship),
       - `socialCampaigns()` (Ação Social),
       - `prayerRequests()` (Intercessor),
@@ -62,7 +61,7 @@ Este documento resume **como o módulo funciona hoje**, o que foi implementado e
 **Ciclo:**
 1. Admin/Líder define o plano no Admin (objetivos, metas, atividades, orçamento).
 2. Envia para o Conselho (`CouncilApproval` tipo `ministry_plan`).
-3. O Conselho aprova/reprova/solicita ajustes no módulo `ChurchCouncil`.
+3. A lideranca administrativa aprova/reprova/solicita ajustes no fluxo interno.
 4. Ao aprovar, o plano entra em `in_execution` e pode gerar **eventos** (via `MinistryPlanEventService`).
 
 ### 2.2. Geração de Eventos a partir do Plano
@@ -96,12 +95,12 @@ Este documento resume **como o módulo funciona hoje**, o que foi implementado e
   - Resumo financeiro do período atual (saldo, receitas, despesas) por `ministry_id`.
 - Onde aparece:
   - Aba **[Dashboard]** → card “Saldo do mês”.
-  - Aba **[Recursos / Assets]** → card “Caixa Ministério” com valores detalhados.
+  - Aba de recursos financeiros do ministerio com valores detalhados.
 - O campo `treasury_summary` em relatórios mensais pode armazenar snapshots agregados, usados também no **PDF consolidado**.
 
-### 2.5. Reservas de Equipamentos (Assets)
+### 2.5. Reservas de Equipamentos
 
-- Na aba **[Recursos / Assets]** do ministry (MemberPanel):
+- Na aba de recursos do ministry (MemberPanel):
   - Card de “Equipamentos” com botão **“Solicitar equipamentos”**.
 - Fluxo:
   1. Líder/co-líder abre o formulário de reserva (`memberpanel.ministries.reservations.create`).
@@ -168,7 +167,7 @@ Estrutura em **abas (pills)** com Alpine.js:
   - Quadro de voluntários ativos com cards individuais (foto ou inicial, nome, email, função).
   - Empty state com ícone FA e mensagem “Nenhum voluntário ativo listado ainda.”
 
-- **[Recursos / Assets]**
+- **[Recursos]**
   - Card de **Apoio Direto** (atalho para doação direcionada ao ministério).
   - Card **“Caixa Ministério”**:
     - Mostra saldo do mês, receitas e despesas, usando `TreasuryApiService`.
@@ -228,7 +227,7 @@ Estrutura em **abas (pills)** com Alpine.js:
   - Plano estratégico (Admin),
   - Geração de eventos,
   - Relatório mensal (wizard),
-  - Reserva de equipamentos (MemberPanel e Admin/Assets),
+  - Reserva de equipamentos (MemberPanel e Admin),
   - Já se beneficiam do overlay global quando submetidos de forma síncrona.
 
 Mensagens de sucesso/erro são exibidas em alerts premium (bordas suaves, ícones FA de feedback) em todas as telas críticas (Ministry show, wizard de relatório, reservas).
@@ -247,7 +246,7 @@ Mensagens de sucesso/erro são exibidas em alerts premium (bordas suaves, ícone
 
 - **Migrações e Integridade**
   - Todas as tabelas novas (`ministry_plans`, `ministry_reports`, `council_approvals` extendida, `asset_reservations`, etc.) usam FKs com `nullOnDelete` onde necessário.
-  - Campos `ministry_id` adicionados em EBD, Worship, SocialAction e Intercessor permitem relatórios mais ricos e integração futura.
+  - Campos `ministry_id` adicionados nos modulos ativos permitem relatorios mais ricos e integracao futura.
 
 - **Desempenho**
   - Relações são carregadas com `with(...)` nos controllers para evitar N+1 (leader/coLeader, activeMembers, eventos, relatórios recentes).
@@ -263,5 +262,5 @@ Com a fundação atual, as próximas evoluções naturais do módulo são:
 - Exposição de métricas por API (`/api/v1/ministries/*`) para dashboards externos.
 - Regras avançadas de gamificação vinculadas a metas cumpridas do plano.
 
-O estado atual do módulo já está **pronto para produção**: visual coerente com o restante do sistema, navegação completa (Admin + MemberPanel), integrações ativas com Conselho, Tesouraria, Assets e gamificação, e relatórios consolidados em PDF para uso em reuniões e prestação de contas.
+O estado atual do modulo ja esta **pronto para producao**: visual coerente com o restante do sistema, navegacao completa (Admin + MemberPanel), integracoes ativas com Tesouraria e demais modulos ativos, e relatorios consolidados em PDF para uso em reunioes e prestacao de contas.
 

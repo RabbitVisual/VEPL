@@ -30,18 +30,18 @@
 
                 <div class="grid md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Book number <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Livro (número) <span class="text-red-500">*</span></label>
                         <input type="number" name="book_number" min="1" max="66" required
-                               class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors"
+                               class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-amber-600 dark:bg-gray-700 dark:text-white transition-colors"
                                value="{{ old('book_number', $entry->book_number) }}">
                         @error('book_number') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Testament <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Testamento <span class="text-red-500">*</span></label>
                         <select name="testament" required
-                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
-                            <option value="old" {{ old('testament', $entry->testament)==='old'?'selected':'' }}>old</option>
-                            <option value="new" {{ old('testament', $entry->testament)==='new'?'selected':'' }}>new</option>
+                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-amber-600 dark:bg-gray-700 dark:text-white transition-colors">
+                            <option value="old" {{ old('testament', $entry->testament)==='old'?'selected':'' }}>Antigo</option>
+                            <option value="new" {{ old('testament', $entry->testament)==='new'?'selected':'' }}>Novo</option>
                         </select>
                         @error('testament') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
                     </div>
@@ -51,14 +51,14 @@
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Autor</label>
                         <input type="text" name="author"
-                               class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors"
+                               class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-amber-600 dark:bg-gray-700 dark:text-white transition-colors"
                                value="{{ old('author', $entry->author) }}">
                         @error('author') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Data escrita</label>
                         <input type="text" name="date_written"
-                               class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors"
+                               class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-amber-600 dark:bg-gray-700 dark:text-white transition-colors"
                                value="{{ old('date_written', $entry->date_written) }}">
                         @error('date_written') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
                     </div>
@@ -67,21 +67,21 @@
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Tema central</label>
                     <textarea name="theme_central" rows="4"
-                              class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors resize-none">{{ old('theme_central', $entry->theme_central) }}</textarea>
+                              class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-amber-600 dark:bg-gray-700 dark:text-white transition-colors resize-none">{{ old('theme_central', $entry->theme_central) }}</textarea>
                     @error('theme_central') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Destinatários</label>
                     <textarea name="recipients" rows="4"
-                              class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors resize-none">{{ old('recipients', $entry->recipients) }}</textarea>
+                              class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-amber-600 dark:bg-gray-700 dark:text-white transition-colors resize-none">{{ old('recipients', $entry->recipients) }}</textarea>
                     @error('recipients') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Idioma <span class="text-red-500">*</span></label>
                     <input type="text" name="language" required maxlength="10"
-                           class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors"
+                           class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-amber-600 dark:bg-gray-700 dark:text-white transition-colors"
                            value="{{ old('language', $entry->language) }}">
                     @error('language') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
                 </div>
@@ -92,7 +92,7 @@
                         Cancelar
                     </a>
                     <button type="submit"
-                            class="px-6 py-2.5 text-sm font-medium text-white bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
+                            class="px-6 py-2.5 text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
                         Salvar
                     </button>
                 </div>

@@ -40,10 +40,6 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'marketplace' => [
-            'driver' => 'session',
-            'provider' => 'marketplace_customers',
-        ],
     ],
 
     /*
@@ -67,10 +63,6 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
-        ],
-        'marketplace_customers' => [
-            'driver' => 'eloquent',
-            'model' => Modules\Marketplace\Models\MarketplaceCustomer::class,
         ],
 
         // 'users' => [

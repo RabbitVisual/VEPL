@@ -26,10 +26,6 @@
                     class="text-gray-600 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-gray-50 dark:hover:bg-gray-800 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200">Ministérios</a>
                 <a href="{{ route('events.public.index') }}"
                     class="text-gray-600 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-gray-50 dark:hover:bg-gray-800 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200">Eventos</a>
-                @if($marketplace_store_available ?? false)
-                    <a href="{{ route('marketplace.storefront.index') }}"
-                        class="text-gray-600 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-gray-50 dark:hover:bg-gray-800 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200">Loja</a>
-                @endif
                 <a href="{{ route('bible.public.index') }}"
                     class="text-gray-600 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-gray-50 dark:hover:bg-gray-800 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200">Bíblia Online</a>
                 <a href="{{ route('homepage.radio') }}"
@@ -52,14 +48,6 @@
 
                 <div class="h-6 w-px bg-gray-200 dark:bg-gray-700 mx-2"></div>
 
-                @if($marketplace_store_available ?? false)
-                <a href="{{ route('marketplace.storefront.cart') }}" class="relative p-2.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 hover:text-amber-600 dark:hover:text-amber-400 transition-colors mr-2" aria-label="Ver carrinho">
-                    <x-icon name="cart-shopping" style="duotone" class="w-6 h-6" />
-                    @if(($marketplace_cart_count ?? 0) > 0)
-                        <span class="absolute -top-0.5 -right-0.5 min-w-5 h-5 px-1 flex items-center justify-center text-[10px] font-bold text-white bg-blue-700 rounded-full">{{ ($marketplace_cart_count ?? 0) > 99 ? '99+' : $marketplace_cart_count }}</span>
-                    @endif
-                </a>
-                @endif
 
                 <!-- Dark Mode Toggle -->
                 <!-- Dark Mode Toggle -->
@@ -152,10 +140,6 @@
                 class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:text-amber-600 dark:hover:text-amber-400 rounded-xl text-base font-medium transition-colors">Ministérios</a>
             <a href="{{ route('events.public.index') }}"
                 class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:text-amber-600 dark:hover:text-amber-400 rounded-xl text-base font-medium transition-colors">Eventos</a>
-            @if($marketplace_store_available ?? false)
-                <a href="{{ route('marketplace.storefront.index') }}"
-                    class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:text-amber-600 dark:hover:text-amber-400 rounded-xl text-base font-medium transition-colors">Loja</a>
-            @endif
             <a href="{{ route('bible.public.index') }}"
                 class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:text-amber-600 dark:hover:text-amber-400 rounded-xl text-base font-medium transition-colors">Bíblia Online</a>
             <a href="{{ route('homepage.radio') }}"

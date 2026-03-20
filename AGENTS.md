@@ -33,7 +33,7 @@ Your goal is to maintain the **"Vertex Standard"**: a premium, consistent, and h
 - **Loading**: Use `<x-loading-overlay />` for full-page transitions and form submissions.
 
 ## 🛠 Setup & Governance
-- **Rebranding**: The project is now **VEPL**. Remove any legacy references to "VertexCBAV".
+- **Rebranding**: The project is now **VEPL**. Remove any legacy references from previous naming.
 - **Migrations**: Always consolidate related changes into the module's core migration when possible to avoid clutter.
 - **Seeders**: Keep them idempotent. Use `updateOrCreate` to allow safe re-running.
 

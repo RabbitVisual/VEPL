@@ -239,40 +239,6 @@ class TreasuryApiService
         $entry = DB::transaction(function () use ($data, $user) {
             $entry = FinancialEntry::create($data);
 
-            $limit = class_exists(\Modules\ChurchCouncil\App\Services\ChurchCouncilSettings::class)
-                ? \Modules\ChurchCouncil\App\Services\ChurchCouncilSettings::autoApproveBudgetLimit()
-                : (float) \App\Models\Settings::get('church_council_auto_approve_budget_limit', 1000);
-            if ($entry->type === 'expense' && (float) $entry->amount > $limit && class_exists(\Modules\ChurchCouncil\App\Models\CouncilApproval::class)) {
-                $approval = \Modules\ChurchCouncil\App\Models\CouncilApproval::create([
-                    'approvable_type' => FinancialEntry::class,
-                    'approvable_id' => $entry->id,
-                    'approval_type' => \Modules\ChurchCouncil\App\Models\CouncilApproval::TYPE_FINANCIAL_REQUEST,
-                    'status' => \Modules\ChurchCouncil\App\Models\CouncilApproval::STATUS_PENDING,
-                    'request_details' => "Despesa acima do limite (R$ " . number_format($limit, 2, ',', '.') . "): {$entry->title} - R$ " . number_format((float) $entry->amount, 2, ',', '.'),
-                    'requested_by' => $user->id,
-                    'submitted_at' => now(),
-                    'metadata' => ['amount' => (float) $entry->amount, 'entry_date' => $entry->entry_date?->toDateString()],
-                ]);
-                $entry->update(['council_approval_id' => $approval->id]);
-                if (class_exists(\Modules\Notifications\App\Services\InAppNotificationService::class)) {
-                    try {
-                        app(\Modules\Notifications\App\Services\InAppNotificationService::class)->sendToAdmins(
-                            'Despesa aguardando aprovação do conselho',
-                            "Despesa acima do limite: {$entry->title} - R$ " . number_format((float) $entry->amount, 2, ',', '.') . '. Aprovação pendente.',
-                            [
-                                'type' => 'warning',
-                                'priority' => 'high',
-                                'action_url' => route('admin.churchcouncil.approvals.show', $approval),
-                                'action_text' => 'Ver aprovação',
-                                'notification_type' => 'treasury_approval',
-                            ]
-                        );
-                    } catch (\Throwable $e) {
-                        \Log::warning('Treasury: failed to send notification for council approval: ' . $e->getMessage());
-                    }
-                }
-            }
-
             if ($entry->campaign_id && $entry->type === 'income' && $entry->category === 'campaign') {
                 $entry->campaign->updateCurrentAmount();
             }
@@ -309,42 +275,6 @@ class TreasuryApiService
 
         $entry = DB::transaction(function () use ($data, $actorUserId) {
             $entry = FinancialEntry::create($data);
-
-            $limit = class_exists(\Modules\ChurchCouncil\App\Services\ChurchCouncilSettings::class)
-                ? \Modules\ChurchCouncil\App\Services\ChurchCouncilSettings::autoApproveBudgetLimit()
-                : (float) \App\Models\Settings::get('church_council_auto_approve_budget_limit', 1000);
-
-            if ($entry->type === 'expense' && (float) $entry->amount > $limit && class_exists(\Modules\ChurchCouncil\App\Models\CouncilApproval::class)) {
-                $approval = \Modules\ChurchCouncil\App\Models\CouncilApproval::create([
-                    'approvable_type' => FinancialEntry::class,
-                    'approvable_id' => $entry->id,
-                    'approval_type' => \Modules\ChurchCouncil\App\Models\CouncilApproval::TYPE_FINANCIAL_REQUEST,
-                    'status' => \Modules\ChurchCouncil\App\Models\CouncilApproval::STATUS_PENDING,
-                    'request_details' => "Despesa acima do limite (R$ " . number_format($limit, 2, ',', '.') . "): {$entry->title} - R$ " . number_format((float) $entry->amount, 2, ',', '.'),
-                    'requested_by' => $actorUserId,
-                    'submitted_at' => now(),
-                    'metadata' => ['amount' => (float) $entry->amount, 'entry_date' => $entry->entry_date?->toDateString()],
-                ]);
-                $entry->update(['council_approval_id' => $approval->id]);
-
-                if (class_exists(\Modules\Notifications\App\Services\InAppNotificationService::class)) {
-                    try {
-                        app(\Modules\Notifications\App\Services\InAppNotificationService::class)->sendToAdmins(
-                            'Despesa aguardando aprovação do conselho',
-                            "Despesa acima do limite: {$entry->title} - R$ " . number_format((float) $entry->amount, 2, ',', '.') . '. Aprovação pendente.',
-                            [
-                                'type' => 'warning',
-                                'priority' => 'high',
-                                'action_url' => route('admin.churchcouncil.approvals.show', $approval),
-                                'action_text' => 'Ver aprovação',
-                                'notification_type' => 'treasury_approval',
-                            ]
-                        );
-                    } catch (\Throwable $e) {
-                        \Log::warning('Treasury: failed to send notification for council approval: ' . $e->getMessage());
-                    }
-                }
-            }
 
             if ($entry->campaign_id && $entry->type === 'income' && $entry->category === 'campaign') {
                 $entry->campaign->updateCurrentAmount();
@@ -855,21 +785,6 @@ class TreasuryApiService
             abort(403, 'Você não tem permissão para aprovar fechamentos.');
         }
 
-        $isCouncilMember = class_exists(\Modules\ChurchCouncil\App\Models\CouncilMember::class)
-            && \Modules\ChurchCouncil\App\Models\CouncilMember::where('user_id', $user->id)->where('is_active', true)->exists();
-
-        $allowAdminApproval = class_exists(\Modules\ChurchCouncil\App\Services\ChurchCouncilSettings::class)
-            ? \Modules\ChurchCouncil\App\Services\ChurchCouncilSettings::allowAdminApproval()
-            : (bool) \App\Models\Settings::get('church_council_allow_admin_approval', false);
-
-        $isAdminOrPastor = method_exists($user, 'hasRole')
-            ? ($user->hasRole('admin') || $user->hasRole('pastor'))
-            : false;
-
-        if (! $isCouncilMember && ! ($allowAdminApproval && $isAdminOrPastor)) {
-            abort(403, 'Apenas o conselho ou pastor/admin autorizado pode aprovar fechamentos mensais.');
-        }
-
         if (! $closing->ready_for_assembly) {
             $closing->update([
                 'ready_for_assembly' => true,
@@ -877,18 +792,6 @@ class TreasuryApiService
                 'council_approved_by' => $user->id,
                 'notes' => $notes ?? $closing->notes,
             ]);
-
-            if (class_exists(\Modules\ChurchCouncil\App\Services\CouncilAuditService::class)) {
-                try {
-                    app(\Modules\ChurchCouncil\App\Services\CouncilAuditService::class)->log('treasury_closing_ready_for_assembly', $closing, [
-                        'year' => $closing->year,
-                        'month' => $closing->month,
-                        'balance' => $closing->balance,
-                    ]);
-                } catch (\Throwable $e) {
-                    \Log::warning('Council audit for treasury closing failed: '.$e->getMessage());
-                }
-            }
 
             if (class_exists(\Modules\Notifications\App\Services\InAppNotificationService::class)) {
                 try {

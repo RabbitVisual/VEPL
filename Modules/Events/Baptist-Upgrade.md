@@ -1,6 +1,6 @@
 # Events Module – Baptist Upgrade (Documentação)
 
-Documentação do módulo de **Eventos** do VertexCBAV após o upgrade batista: fluxos canônicos, regras de negócio, integrações e configuração.
+Documentacao do modulo de **Eventos** do VEPL: fluxos canonicos, regras de negocio, integracoes e configuracao.
 
 ---
 

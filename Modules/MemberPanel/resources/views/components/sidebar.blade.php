@@ -323,12 +323,6 @@
                                     Convites de parentesco
                                 </a>
                             </li>
-                            <li>
-                                <a href="{{ route('memberpanel.transfers.index') }}"
-                                   class="block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('memberpanel.transfers*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 active' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
-                                    Cartas de Transferência
-                                </a>
-                            </li>
                         </ul>
                     </div>
                 </li>
@@ -645,63 +639,6 @@
                     </div>
                 </li>
 
-                {{-- Conselho (se for membro do conselho) --}}
-                @if(auth()->user()->councilMember)
-                <li x-data="{ open: {{ request()->routeIs('memberpanel.churchcouncil*') ? 'true' : 'false' }} }">
-                    <div class="flex flex-col">
-                        <button @click="open = !open"
-                            class="flex w-full cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('memberpanel.churchcouncil*') ? 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
-                            <span class="flex items-center gap-2">
-                                <span class="shrink-0">
-                                    <x-icon name="users-rectangle" class="size-5" />
-                                </span>
-                                Conselho
-                            </span>
-                            <span class="shrink-0 transition duration-300" :class="{ '-rotate-180': open }">
-                                <x-icon name="chevron-down" class="size-5" />
-                            </span>
-                        </button>
-                        <ul class="mt-2 space-y-1 px-4" x-show="open" x-cloak x-transition>
-                            <li>
-                                <a href="{{ route('memberpanel.churchcouncil.index') }}"
-                                    class="block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('memberpanel.churchcouncil.index') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 active' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
-                                    Dashboard
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('memberpanel.churchcouncil.meetings.index') }}"
-                                    class="block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('memberpanel.churchcouncil.meetings*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 active' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
-                                    Reuniões
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('memberpanel.churchcouncil.agendas.index') }}"
-                                    class="block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('memberpanel.churchcouncil.agendas*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 active' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
-                                    Pautas
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('memberpanel.churchcouncil.approvals.index') }}"
-                                    class="block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('memberpanel.churchcouncil.approvals*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 active' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
-                                    Aprovações
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('memberpanel.churchcouncil.documents.index') }}"
-                                    class="block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('memberpanel.churchcouncil.documents*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 active' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
-                                    Documentos
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('memberpanel.churchcouncil.projects.index') }}"
-                                    class="block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('memberpanel.churchcouncil.projects*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 active' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
-                                    Projetos
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                @endif
 
                 {{-- Financeiro --}}
                 @if ($hasActiveGateways)
@@ -730,12 +667,6 @@
                                     <a href="{{ route('memberpanel.donations.index') }}"
                                         class="block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('memberpanel.donations.index') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 active' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
                                         Minhas Doações
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('memberpanel.marketplace.orders.index') }}"
-                                        class="block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('memberpanel.marketplace.orders*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 active' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
-                                        {{ __('marketplace::messages.my_orders') }}
                                     </a>
                                 </li>
                             </ul>

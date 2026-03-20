@@ -9,7 +9,7 @@ import 'driver.js/dist/driver.css';
 const tourSteps = {
     dashboard: [
         { element: '#main-content', popover: { title: 'Bem-vindo ao seu painel', description: 'Esta é a sua área pessoal. Aqui você acompanha sua jornada, conquistas e atalhos para tudo que a escola oferece.' }, side: 'right', align: 'start' },
-        { element: '[data-tour="sidebar"]', popover: { title: 'Menu de navegação', description: 'Use o menu lateral para acessar Bíblia, Eventos, EBD, Intercessor, Doações, Ministérios e outras áreas. Passe o mouse nos ícones para ver o nome de cada seção.' }, side: 'right', align: 'start' },
+        { element: '[data-tour="sidebar"]', popover: { title: 'Menu de navegação', description: 'Use o menu lateral para acessar Bíblia, Eventos, Intercessor, Doações, Ministérios e outras áreas. Passe o mouse nos ícones para ver o nome de cada seção.' }, side: 'right', align: 'start' },
         { element: '[data-tour="notifications"]', popover: { title: 'Notificações', description: 'Clique aqui para ver avisos e novidades da escola. O número indica quantas notificações novas você tem.' }, side: 'bottom', align: 'end' },
         { element: '[data-tour="daily-reading"]', popover: { title: 'Leitura do dia', description: 'Uma recomendação de leitura bíblica por dia. Clique em "Ler agora" para abrir o capítulo direto na Bíblia digital.' }, side: 'left', align: 'start' },
         { element: '[data-tour="dashboard-quick-actions"]', popover: { title: 'Acesso rápido', description: 'Atalhos para Perfil, Bíblia, Eventos e Doações. Use para navegar com um clique sem precisar abrir o menu.' }, side: 'left', align: 'start' },
@@ -70,29 +70,6 @@ const tourSteps = {
     'events-my-registrations': [
         { element: '#main-content', popover: { title: 'Minhas inscrições', description: 'Aqui estão todos os eventos em que você se inscreveu. Veja data, status (pendente, confirmado) e detalhes.' }, side: 'right', align: 'start' },
         { popover: { title: 'Acompanhe', description: 'Se a inscrição estiver pendente de pagamento, use o link indicado para concluir. Quando confirmada, você receberá as informações do evento.' } },
-    ],
-    'ebd-dashboard': [
-        { element: '#main-content', popover: { title: 'EBD — Escola Bíblica', description: 'Aqui você acompanha lições, turmas e seu progresso na Palavra. É o espaço para crescer no conhecimento bíblico.' }, side: 'right', align: 'start' },
-        { element: '[data-tour="ebd-dashboard"]', popover: { title: 'Turmas e Lições', description: 'Aqui você acessa suas turmas e lições bíblicas. Estude e cresça no conhecimento da Palavra.' }, side: 'left', align: 'start' },
-        { popover: { title: 'Cresça na Palavra', description: 'A EBD é um espaço para estudo e crescimento. Aproveite as lições disponíveis!' } },
-    ],
-    'ebd-arcade': [
-        { element: '#main-content', popover: { title: 'Arcade — Jogos bíblicos', description: 'Aqui você encontra jogos para praticar e memorizar a Bíblia: perguntas, memória, versículos e mais.' }, side: 'right', align: 'start' },
-        { element: '[data-tour="ebd-arcade-list"]', popover: { title: 'Lista de jogos', description: 'Cada jogo tem um objetivo diferente. Clique em um para jogar. Sua pontuação pode aparecer no ranking.' }, side: 'left', align: 'start' },
-        { element: '[data-tour="ebd-arcade-leaderboard"]', popover: { title: 'Ranking', description: 'Veja quem está no topo. Participe dos jogos para subir na tabela e ganhar XP.' }, side: 'left', align: 'start' },
-        { popover: { title: 'Divirta-se e aprenda', description: 'Jogue quantas vezes quiser. Quanto mais você pratica, mais a Palavra fica na memória.' } },
-    ],
-    'ebd-student': [
-        { element: '#main-content', popover: { title: 'Área do aluno', description: 'Aqui você vê suas turmas, lições e seu progresso na Escola Bíblica. Acompanhe o que já estudou e o que falta.' }, side: 'right', align: 'start' },
-        { element: '[data-tour="ebd-student-classes"]', popover: { title: 'Minhas turmas', description: 'As turmas em que você está inscrito. Entre em uma turma para ver as lições disponíveis.' }, side: 'left', align: 'start' },
-        { element: '[data-tour="ebd-student-lessons"]', popover: { title: 'Lições', description: 'Lista de lições. Clique em uma para assistir ou ler. Marque como concluída para acompanhar seu progresso.' }, side: 'left', align: 'start' },
-        { popover: { title: 'Cresça no conhecimento', description: 'Assista às lições com calma e use o Arcade para fixar o conteúdo.' } },
-    ],
-    'ebd-teacher': [
-        { element: '#main-content', popover: { title: 'Área do professor', description: 'Aqui você gerencia suas turmas, lições, presenças e avaliações como professor da EBD.' }, side: 'right', align: 'start' },
-        { element: '[data-tour="ebd-teacher-classes"]', popover: { title: 'Minhas turmas', description: 'Turmas que você leciona. Clique em uma para ver os alunos e as lições.' }, side: 'left', align: 'start' },
-        { element: '[data-tour="ebd-teacher-lessons"]', popover: { title: 'Lições', description: 'Acesse o conteúdo das lições para preparar a aula e aplicar em sala.' }, side: 'left', align: 'start' },
-        { popover: { title: 'Ministério de ensino', description: 'Use as ferramentas de presença e avaliações para acompanhar sua turma.' } },
     ],
     'intercessor-room': [
         { element: '#main-content', popover: { title: 'Mural de intercessão', description: 'Aqui a escola ora junta. Você vê os pedidos de oração e pode se comprometer a orar por alguém. Também pode enviar seu próprio pedido.' }, side: 'right', align: 'start' },
@@ -174,12 +151,6 @@ const tourSteps = {
         { element: '[data-tour="ministries-join"]', popover: { title: 'Inscrever-se', description: 'No ministério que desejar, use o botão de inscrever-se. A liderança do ministério pode entrar em contato.' }, side: 'top', align: 'center' },
         { popover: { title: 'Sirva com propósito', description: 'Cada um com seu dom. Encontre seu lugar no corpo de Cristo.' } },
     ],
-    churchcouncil: [
-        { element: '#main-content', popover: { title: 'Conselho', description: 'Área do conselho da escola: reuniões, pautas, aprovações, documentos e projetos. Se você faz parte do conselho, use este painel.' }, side: 'right', align: 'start' },
-        { element: '[data-tour="churchcouncil-menu"]', popover: { title: 'Menu do conselho', description: 'Reuniões: ver e participar de reuniões. Pautas: ver e criar pautas. Aprovações: acompanhar solicitações. Documentos e Projetos: arquivos e projetos do conselho.' }, side: 'right', align: 'start' },
-        { element: '[data-tour="churchcouncil-area"]', popover: { title: 'Conteúdo', description: 'Aqui aparece o conteúdo da seção escolhida. Use os botões e links para votar, baixar documentos ou ver detalhes.' }, side: 'left', align: 'start' },
-        { popover: { title: 'Governança', description: 'Tudo que o conselho precisa para reunir, decidir e documentar está aqui.' } },
-    ],
     worship: [
         { element: '#main-content', popover: { title: 'Louvor e escalas', description: 'Área de quem serve no louvor: minhas escalas, ensaio e academia. Aqui você vê quando toca e acessa setlists e cursos.' }, side: 'right', align: 'start' },
         { element: '[data-tour="worship-menu"]', popover: { title: 'Navegação', description: 'Minhas escalas: quando você está escalado. Rehearsal: ensaios e setlists. Academy: cursos de música e louvor.' }, side: 'right', align: 'start' },
@@ -198,12 +169,6 @@ const tourSteps = {
         { element: '#main-content', popover: { title: 'Academia de louvor', description: 'Cursos e aulas para você crescer em música e ministério. Acesse os cursos e acompanhe seu progresso.' }, side: 'right', align: 'start' },
         { element: '[data-tour="worship-academy-list"]', popover: { title: 'Cursos', description: 'Lista de cursos disponíveis. Entre em um curso para ver as aulas e materiais. Complete as aulas para avançar.' }, side: 'left', align: 'start' },
         { popover: { title: 'Cresça no ministério', description: 'Aproveite a academia para melhorar técnica e ministério.' } },
-    ],
-    projection: [
-        { element: '#main-content', popover: { title: 'Projeção', description: 'Área de projeção para cultos e reuniões. Aqui você controla o que aparece na tela (letras, versículos, slides).' }, side: 'right', align: 'start' },
-        { element: '[data-tour="projection-console"]', popover: { title: 'Console', description: 'No console você escolhe o setlist e controla o que é exibido na tela. Use durante o culto para projetar letras e versículos.' }, side: 'left', align: 'start' },
-        { element: '[data-tour="projection-screen"]', popover: { title: 'Tela', description: 'A tela é o que a plateia vê. Abra em um navegador ou projetor separado e sincronize com o console.' }, side: 'left', align: 'start' },
-        { popover: { title: 'Uso em aula', description: 'Quem opera a projeção usa o console; a tela fica voltada para a escola.' } },
     ],
 };
 

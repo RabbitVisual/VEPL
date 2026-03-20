@@ -1,12 +1,12 @@
 @extends('admin::components.layouts.master')
 
-@section('title', 'Criar Word Tag')
+@section('title', 'Criar Tag Interlinear')
 
 @section('content')
     <div class="p-6 space-y-6">
         <div class="flex items-center justify-between gap-4">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">Criar Word Tag</h1>
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">Criar Tag Interlinear</h1>
                 <p class="text-gray-600 dark:text-gray-400 mt-2">Cadastre um registro em `bible_word_tags`.</p>
             </div>
             <a href="{{ route('admin.bible.word-tags.index') }}"
@@ -29,52 +29,52 @@
 
                 <div class="grid md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Verse ID <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">ID do Versículo <span class="text-red-500">*</span></label>
                         <input type="number" name="verse_id" required
-                               class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors"
+                               class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-amber-600 dark:bg-gray-700 dark:text-white transition-colors"
                                value="{{ old('verse_id') }}">
                         @error('verse_id') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Position <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Posição <span class="text-red-500">*</span></label>
                         <input type="number" min="0" name="position" required
-                               class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors"
+                               class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-amber-600 dark:bg-gray-700 dark:text-white transition-colors"
                                value="{{ old('position') }}">
                         @error('position') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Word surface <span class="text-red-500">*</span></label>
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Palavra Original <span class="text-red-500">*</span></label>
                     <input type="text" name="word_surface" required
-                           class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors"
+                           class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-amber-600 dark:bg-gray-700 dark:text-white transition-colors"
                            value="{{ old('word_surface') }}">
                     @error('word_surface') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="grid md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Strong number</label>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Número Strong</label>
                         <input type="text" name="strong_number"
-                               class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors"
+                               class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-amber-600 dark:bg-gray-700 dark:text-white transition-colors"
                                value="{{ old('strong_number') }}">
                         @error('strong_number') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Lang <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Idioma <span class="text-red-500">*</span></label>
                         <select name="lang" required
-                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors">
-                            <option value="he" {{ old('lang')==='he'?'selected':'' }}>he</option>
-                            <option value="gr" {{ old('lang')==='gr'?'selected':'' }}>gr</option>
+                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-amber-600 dark:bg-gray-700 dark:text-white transition-colors">
+                            <option value="he" {{ old('lang')==='he'?'selected':'' }}>Hebraico</option>
+                            <option value="gr" {{ old('lang')==='gr'?'selected':'' }}>Grego</option>
                         </select>
                         @error('lang') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Morphology</label>
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Morfologia</label>
                     <input type="text" name="morphology"
-                           class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition-colors"
+                           class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-600 focus:border-amber-600 dark:bg-gray-700 dark:text-white transition-colors"
                            value="{{ old('morphology') }}">
                     @error('morphology') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
                 </div>
@@ -85,7 +85,7 @@
                         Cancelar
                     </a>
                     <button type="submit"
-                            class="px-6 py-2.5 text-sm font-medium text-white bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
+                            class="px-6 py-2.5 text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
                         Criar
                     </button>
                 </div>

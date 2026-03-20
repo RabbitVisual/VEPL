@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 |--------------------------------------------------------------------------
 |
 | Rotas acessíveis sem autenticação (públicas) e rotas de autenticação.
-| Não inclui: /admin (routes/admin.php) nem /painel|ebd/member (routes/member.php).
+| Não inclui: /admin (routes/admin.php) nem /painel/member (routes/member.php).
 | Middleware 'web' aplicado automaticamente pelo bootstrap.
 |
 */
@@ -153,14 +153,3 @@ Route::prefix('biblia-online')->name('bible.public.')->group(function () {
     Route::get('/versao/{versionAbbr}/livro/{bookNumber}/capitulo/{chapterNumber}', [\Modules\Bible\App\Http\Controllers\PublicBibleController::class, 'chapter'])->name('chapter')->where(['versionAbbr' => '[A-Za-z0-9_-]+', 'bookNumber' => '[0-9]+', 'chapterNumber' => '[0-9]+']);
 });
 
-// =====================================================================
-// Projection - Tela pública (sem login, só com viewer_token na query)
-// =====================================================================
-Route::get('/projecao/tela', [\Modules\Projection\App\Http\Controllers\ProjectionController::class, 'publicScreen'])->name('projection.screen.public');
-
-// =====================================================================
-// ChurchCouncil - Rotas públicas (placeholder para futuro)
-// =====================================================================
-Route::prefix('conselho')->name('public.churchcouncil.')->group(function () {
-    // Informações públicas do conselho, se necessário
-});

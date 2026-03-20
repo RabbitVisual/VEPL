@@ -1,7 +1,7 @@
 <div align="center">
   <img src="assets/images/logo_oficial.png" alt="VEPL Logo" width="320">
 
-  ### Escola de Pastores e Líderes (VEPL)
+  ### VEPL - Vertex Escola de Pastores e Lideres
   **The ultimate ecosystem for church leadership and ministry excellence.**
 
   [![Laravel](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel)](https://laravel.com)
@@ -92,16 +92,14 @@ php artisan migrate:fresh --seed
 
 ---
 
-## 📜 Licença
+## 📜 Licenca
 
-Este projeto é de **uso privado** e está sob uma **licença proprietária**. A redistribuição, uso comercial ou modificação não são permitidos sem autorização explícita da **Vertex Solutions LTDA**. Veja o arquivo [LICENSE](LICENSE) para detalhes.
+Este projeto e de **uso privado** e esta sob uma **licenca proprietaria**. A redistribuicao, uso comercial ou modificacao nao sao permitidos sem autorizacao explicita da **Vertex Solutions LTDA**. Veja o arquivo [LICENSE](LICENSE) para detalhes.
 
 ---
 
-<div align="center">
-  <img src="assets/images/VertexLogo/logo.png" alt="Vertex Solutions Logo" width="140">
-  <br>
-  © 2026 Vertex Solutions LTDA. Todos os direitos reservados.
-  <br>
-  <em>VEPL: High Performance for the Higher Calling.</em>
-</div>
+## Identidade Oficial
+
+- VEPL Vertex Escola de Pastores e Lideres da Vertex Solutions LTDA
+- Autor Reinan Rodrigues
+- © 2026 VEPL - Vertex Solutions dev Reinan Rodrigues

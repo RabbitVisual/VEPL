@@ -64,7 +64,7 @@ Route::middleware(['throttle:60,1'])->prefix('v1/bible')->name('bible.api.')->gr
 
 // =====================================================================
 // Worship API v1 – setlists, músicas, slides ChordPro, Academy (formato { data })
-// Alimenta Projection, Sermons, Admin e MemberPanel. Sem rotas legadas worship/api.
+// Alimenta Sermons, Admin e MemberPanel. Sem rotas legadas worship/api.
 // =====================================================================
 $worshipV1 = \Modules\Worship\App\Http\Controllers\Api\V1\WorshipController::class;
 Route::middleware(['throttle:60,1'])->prefix('v1/worship')->name('worship.api.')->group(function () use ($worshipV1) {
@@ -109,46 +109,6 @@ if (config('app.debug')) {
 // =====================================================================
 $authV1 = \App\Http\Controllers\Api\V1\AuthController::class;
 Route::middleware(['throttle:10,1'])->prefix('v1/auth')->name('auth.api.')->group(function () use ($authV1) {
-    Route::post('desktop-login', [$authV1, 'desktopLogin'])->name('desktop-login');
-});
-
-// =====================================================================
-// Projection API v1 – state, assets, slides, timeline, lyrics (formato { data })
-// Única API de projeção; console, screen e remote consomem apenas esta API.
-// Serve de assets é público (throttle only) para a tela de projeção carregar imagens.
-// =====================================================================
-$projectionV1 = \Modules\Projection\App\Http\Controllers\Api\V1\ProjectionController::class;
-Route::middleware(['throttle:120,1', 'optional_sanctum'])->prefix('v1/projection')->name('projection.api.')->group(function () use ($projectionV1) {
-    Route::get('assets/serve/{filename}', [$projectionV1, 'serveAsset'])->name('assets.serve')->where('filename', '[a-zA-Z0-9._-]+');
-    Route::get('viewer/state', [$projectionV1, 'getStateForViewer'])->name('state.viewer')->middleware('throttle:120,1');
-    Route::get('sync/bundle', [$projectionV1, 'getSyncBundle'])->name('sync.bundle')->middleware('throttle:60,1');
-});
-// Throttle mais alto: telas fazem polling (1s) + console; 180/min ≈ 3 req/s para várias telas
-Route::middleware(['throttle:180,1', 'web', 'auth'])->prefix('v1/projection')->name('projection.api.')->group(function () use ($projectionV1) {
-    Route::get('state', [$projectionV1, 'getState'])->name('state');
-    Route::post('state', [$projectionV1, 'updateState'])->name('state.update');
-    Route::get('assets', [$projectionV1, 'getAssets'])->name('assets.index');
-    Route::post('assets', [$projectionV1, 'uploadAsset'])->name('assets.store');
-    Route::delete('assets/{id}', [$projectionV1, 'deleteAsset'])->name('assets.destroy');
-    Route::get('slides', [$projectionV1, 'getSlides'])->name('slides.index');
-    Route::post('slides', [$projectionV1, 'storeSlide'])->name('slides.store');
-    Route::put('slides/{id}', [$projectionV1, 'updateSlide'])->name('slides.update');
-    Route::delete('slides/{id}', [$projectionV1, 'deleteSlide'])->name('slides.destroy');
-    Route::get('lyrics/search', [$projectionV1, 'searchLyrics'])->name('lyrics.search');
-    Route::post('timeline/items', [$projectionV1, 'addTimelineItem'])->name('timeline.items.store');
-    Route::delete('timeline/items/{id}', [$projectionV1, 'deleteTimelineItem'])->name('timeline.items.destroy');
-    Route::post('timeline/reorder', [$projectionV1, 'reorderTimeline'])->name('timeline.reorder');
-    Route::get('events/upcoming', [$projectionV1, 'getUpcomingEvents'])->name('events.upcoming');
-    Route::get('themes', [$projectionV1, 'getThemes'])->name('themes.index');
-    Route::get('themes/{id}', [$projectionV1, 'getTheme'])->name('themes.show');
-    Route::post('themes', [$projectionV1, 'storeTheme'])->name('themes.store');
-    Route::put('themes/{id}', [$projectionV1, 'updateTheme'])->name('themes.update');
-    Route::delete('themes/{id}', [$projectionV1, 'deleteTheme'])->name('themes.destroy');
-    Route::post('themes/{id}/default', [$projectionV1, 'setThemeDefault'])->name('themes.default');
-    Route::post('state/next-slide', [$projectionV1, 'nextSlide'])->name('state.nextSlide');
-    Route::post('state/prev-slide', [$projectionV1, 'prevSlide'])->name('state.prevSlide');
-    Route::get('card-templates', [$projectionV1, 'getCardTemplates'])->name('card-templates.index');
-    Route::get('card-templates/{id}', [$projectionV1, 'getCardTemplate'])->name('card-templates.show');
 });
 
 // =====================================================================
@@ -180,33 +140,6 @@ Route::middleware(['throttle:60,1', 'web', 'auth'])->prefix('v1/treasury')->name
     Route::post('closings/{id}/approve-for-assembly', [$treasuryV1, 'approveClosingForAssembly'])->name('closings.approve-for-assembly');
 });
 
-// =====================================================================
-// Assets API v1 – patrimônio (formato { data })
-// =====================================================================
-$assetsV1 = \Modules\Assets\App\Http\Controllers\Api\V1\AssetController::class;
-Route::middleware(['throttle:60,1', 'web', 'auth'])->prefix('v1/assets')->name('assets.api.')->group(function () use ($assetsV1) {
-    Route::get('/', [$assetsV1, 'index'])->name('index');
-    Route::get('/code/{code}', [$assetsV1, 'getByCode'])->name('by-code');
-    Route::get('/{id}', [$assetsV1, 'show'])->name('show');
-});
-
-// =====================================================================
-// EBD API v1 – central (formato { data })
-// =====================================================================
-$ebdV1 = \Modules\EBD\App\Http\Controllers\Api\V1\EbdController::class;
-Route::middleware(['throttle:60,1', 'web', 'auth', 'verified'])->prefix('v1/ebd')->name('ebd.api.')->group(function () use ($ebdV1) {
-    Route::get('dashboard', [$ebdV1, 'dashboard'])->name('dashboard');
-    Route::get('classes', [$ebdV1, 'classes'])->name('classes');
-    Route::get('classes/{classId}', [$ebdV1, 'classDetail'])->name('classes.show');
-    Route::get('lessons', [$ebdV1, 'lessons'])->name('lessons');
-    Route::get('lessons/{lessonId}', [$ebdV1, 'lessonDetail'])->name('lessons.show');
-    Route::post('lessons/{lessonId}/complete', [$ebdV1, 'markLessonComplete'])->name('lessons.complete');
-    Route::get('student/dashboard', [$ebdV1, 'studentDashboard'])->name('student.dashboard');
-    Route::get('teacher/dashboard', [$ebdV1, 'teacherDashboard'])->name('teacher.dashboard');
-    Route::get('leaderboard', [$ebdV1, 'leaderboard'])->name('leaderboard');
-    Route::get('quiz/status/{session}', [$ebdV1, 'quizStatus'])->name('quiz.status');
-    Route::post('quiz/submit/{session}', [$ebdV1, 'quizSubmit'])->name('quiz.submit');
-});
 
 // =====================================================================
 // Ministries API v1 – ministérios (formato { data })
@@ -220,36 +153,6 @@ Route::middleware(['throttle:60,1', 'web', 'auth'])->prefix('v1/ministries')->na
     Route::delete('/{id}', [$ministriesV1, 'destroy'])->name('destroy');
 });
 
-// =====================================================================
-// ChurchCouncil API v1 – reuniões do conselho (formato { data })
-// =====================================================================
-$churchCouncilV1 = \Modules\ChurchCouncil\App\Http\Controllers\Api\V1\ChurchCouncilController::class;
-Route::middleware(['throttle:60,1', 'web', 'auth'])->prefix('v1/church-council')->name('churchcouncil.api.')->group(function () use ($churchCouncilV1) {
-    Route::get('/', [$churchCouncilV1, 'index'])->name('index');
-    Route::get('/members', [$churchCouncilV1, 'members'])->name('members');
-    Route::get('/agendas', [$churchCouncilV1, 'agendas'])->name('agendas');
-    Route::get('/agendas/{id}', [$churchCouncilV1, 'agendaShow'])->name('agendas.show');
-    Route::post('/agendas/{id}/vote', [$churchCouncilV1, 'agendaVote'])->name('agendas.vote');
-    Route::get('/approvals', [$churchCouncilV1, 'approvals'])->name('approvals');
-    Route::get('/documents', [$churchCouncilV1, 'documents'])->name('documents');
-    Route::get('/projects', [$churchCouncilV1, 'projects'])->name('projects');
-    Route::get('/{id}', [$churchCouncilV1, 'show'])->name('show');
-    Route::post('/', [$churchCouncilV1, 'store'])->name('store');
-    Route::put('/{id}', [$churchCouncilV1, 'update'])->name('update');
-    Route::delete('/{id}', [$churchCouncilV1, 'destroy'])->name('destroy');
-});
-
-// =====================================================================
-// SocialAction API v1 – campanhas (formato { data })
-// =====================================================================
-$socialActionV1 = \Modules\SocialAction\App\Http\Controllers\Api\V1\SocialActionController::class;
-Route::middleware(['throttle:60,1', 'web', 'auth'])->prefix('v1/social-actions')->name('socialaction.api.')->group(function () use ($socialActionV1) {
-    Route::get('/', [$socialActionV1, 'index'])->name('index');
-    Route::get('/{id}', [$socialActionV1, 'show'])->name('show');
-    Route::post('/', [$socialActionV1, 'store'])->name('store');
-    Route::put('/{id}', [$socialActionV1, 'update'])->name('update');
-    Route::delete('/{id}', [$socialActionV1, 'destroy'])->name('destroy');
-});
 
 // =====================================================================
 // Sermons API v1 – listagem/show pública; store/update/destroy autenticado (formato { data })
@@ -285,13 +188,6 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
 // Bible v1 (auth:sanctum) – apiResource bibles; compare está em api/v1/bible/compare
 Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     Route::apiResource('bibles', \Modules\Bible\App\Http\Controllers\BibleController::class)->names('bible');
-});
-
-// =====================================================================
-// Marketplace API v1 – frete (público para checkout, throttle)
-// =====================================================================
-Route::middleware(['throttle:60,1'])->prefix('v1/marketplace')->name('marketplace.api.')->group(function () {
-    Route::post('freight', [\Modules\Marketplace\Http\Controllers\Api\FreightController::class, 'calculate'])->name('freight');
 });
 
 // =====================================================================

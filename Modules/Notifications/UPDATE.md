@@ -54,7 +54,7 @@ Plano de migração e implementação do Notifications Engine v2: hub central mu
 - **Tabelas:** `system_notifications` (id bigint, sem UUID), `user_notifications`; sem audit log e sem preferências.
 - **Admin:** [Admin\NotificationController](../../../../../Users/Administrator/.cursor/plans/Modules/Admin/app/Http/Controllers/NotificationController.php) — index, create, store, show; rotas em [routes/admin.php](../../../../../Users/Administrator/.cursor/plans/routes/admin.php). Views em `notifications::admin.notifications.`.
 - **MemberPanel:** Bell no navbar (dados server-side + [notifications.js](../../../../../Users/Administrator/.cursor/plans/resources/js/notifications.js) com polling quando Echo não está configurado); página de notificações e ações via API v1.
-- **Integrações existentes:** Treasury (envios para tesoureiros/admin), Events, PaymentGateway, Worship (escalas), Sermons (convite co-autor), Intercessor (NotificationService + Jobs), Gamification.
+- **Integracoes existentes:** Treasury (envios para tesoureiros/admin), Events, PaymentGateway, Worship (escalas), Sermons (convite co-autor), Intercessor (NotificationService + Jobs).
 
 ---
 
@@ -190,7 +190,6 @@ flowchart LR
 | Academy (Worship)   | Notificações por aula/nível (types VEPL)            |
 | Sermons             | InAppNotificationService::sendToUser (convite co-autor) |
 | Intercessor         | NotificationService + Jobs (email)                      |
-| Gamification        | SystemNotification model                                |
 | Admin / MemberPanel | UserNotification no navbar e páginas                    |
 
 Nenhum módulo precisa ser alterado na assinatura do InAppNotificationService; a extensão é interna ao Notifications (dispatcher + canais + preferências).
