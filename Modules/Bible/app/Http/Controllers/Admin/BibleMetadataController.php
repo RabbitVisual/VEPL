@@ -36,10 +36,12 @@ class BibleMetadataController extends Controller
             ->orderBy('abbreviation')
             ->get(['id', 'abbreviation', 'name']);
 
-        $books = Book::query()
-            ->when($versionId > 0, fn ($query) => $query->where('bible_version_id', $versionId))
-            ->orderBy('book_number')
-            ->get(['id', 'name', 'book_number', 'bible_version_id']);
+        $books = $versionId > 0
+            ? Book::query()
+                ->where('bible_version_id', $versionId)
+                ->orderBy('book_number')
+                ->get(['id', 'name', 'book_number', 'bible_version_id'])
+            : collect();
 
         $chapters = collect();
         if ($bookId > 0) {
@@ -117,10 +119,12 @@ class BibleMetadataController extends Controller
         $selectedVerseId = (int) old('verse_id', (int) $request->query('verse_id', $item?->verse_id ?? 0));
 
         $versions = BibleVersion::query()->orderBy('abbreviation')->get(['id', 'abbreviation', 'name']);
-        $books = Book::query()
-            ->when($selectedVersionId > 0, fn ($query) => $query->where('bible_version_id', $selectedVersionId))
-            ->orderBy('book_number')
-            ->get(['id', 'name', 'book_number', 'bible_version_id']);
+        $books = $selectedVersionId > 0
+            ? Book::query()
+                ->where('bible_version_id', $selectedVersionId)
+                ->orderBy('book_number')
+                ->get(['id', 'name', 'book_number', 'bible_version_id'])
+            : collect();
         $chapters = $selectedBookId > 0
             ? Chapter::query()->where('book_id', $selectedBookId)->orderBy('chapter_number')->get(['id', 'chapter_number'])
             : collect();

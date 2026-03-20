@@ -20,35 +20,50 @@
                 <div class="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">{{ session('success') }}</div>
             @endif
 
-            <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+            <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm" x-data="metadataIndexFilters()">
                 <form method="GET" class="grid grid-cols-1 gap-3 md:grid-cols-6">
-                    <select name="bible_version_id" class="rounded-xl border-slate-300 text-sm text-slate-900 focus:border-amber-600 focus:ring-amber-600">
+                    <select name="bible_version_id" x-model="versionId" @change="onVersionChange" class="rounded-xl border-slate-300 text-sm text-slate-900 focus:border-amber-600 focus:ring-amber-600">
                         <option value="">Versão</option>
                         @foreach($versions as $version)
                             <option value="{{ $version->id }}" @selected($versionId === $version->id)>{{ $version->abbreviation }}</option>
                         @endforeach
                     </select>
 
-                    <select name="book_id" class="rounded-xl border-slate-300 text-sm text-slate-900 focus:border-amber-600 focus:ring-amber-600">
-                        <option value="">Livro</option>
-                        @foreach($books as $book)
-                            <option value="{{ $book->id }}" @selected($bookId === $book->id)>{{ $book->book_number }} - {{ $book->name }}</option>
-                        @endforeach
-                    </select>
+                    <div class="relative">
+                        <select name="book_id" x-model="bookId" @change="onBookChange" :disabled="loadingBooks || !versionId" class="w-full rounded-xl border-slate-300 text-sm text-slate-900 focus:border-amber-600 focus:ring-amber-600 disabled:cursor-not-allowed disabled:bg-slate-100">
+                            <option value="">Livro</option>
+                            <template x-for="book in books" :key="book.id">
+                                <option :value="book.id" x-text="`${book.book_number} - ${book.name}`"></option>
+                            </template>
+                        </select>
+                        <span x-show="loadingBooks" class="pointer-events-none absolute inset-y-0 right-3 inline-flex items-center text-amber-600">
+                            <x-icon name="spinner" class="h-4 w-4 animate-spin" />
+                        </span>
+                    </div>
 
-                    <select name="chapter_id" class="rounded-xl border-slate-300 text-sm text-slate-900 focus:border-amber-600 focus:ring-amber-600">
-                        <option value="">Capítulo</option>
-                        @foreach($chapters as $chapter)
-                            <option value="{{ $chapter->id }}" @selected($chapterId === $chapter->id)>{{ $chapter->chapter_number }}</option>
-                        @endforeach
-                    </select>
+                    <div class="relative">
+                        <select name="chapter_id" x-model="chapterId" @change="onChapterChange" :disabled="loadingChapters || !bookId" class="w-full rounded-xl border-slate-300 text-sm text-slate-900 focus:border-amber-600 focus:ring-amber-600 disabled:cursor-not-allowed disabled:bg-slate-100">
+                            <option value="">Capítulo</option>
+                            <template x-for="chapter in chapters" :key="chapter.id">
+                                <option :value="chapter.id" x-text="chapter.chapter_number"></option>
+                            </template>
+                        </select>
+                        <span x-show="loadingChapters" class="pointer-events-none absolute inset-y-0 right-3 inline-flex items-center text-amber-600">
+                            <x-icon name="spinner" class="h-4 w-4 animate-spin" />
+                        </span>
+                    </div>
 
-                    <select name="verse_id" class="rounded-xl border-slate-300 text-sm text-slate-900 focus:border-amber-600 focus:ring-amber-600">
-                        <option value="">Versículo</option>
-                        @foreach($verses as $verse)
-                            <option value="{{ $verse->id }}" @selected($verseId === $verse->id)>{{ $verse->verse_number }}</option>
-                        @endforeach
-                    </select>
+                    <div class="relative">
+                        <select name="verse_id" x-model="verseId" :disabled="loadingVerses || !chapterId" class="w-full rounded-xl border-slate-300 text-sm text-slate-900 focus:border-amber-600 focus:ring-amber-600 disabled:cursor-not-allowed disabled:bg-slate-100">
+                            <option value="">Versículo</option>
+                            <template x-for="verse in verses" :key="verse.id">
+                                <option :value="verse.id" x-text="verse.verse_number"></option>
+                            </template>
+                        </select>
+                        <span x-show="loadingVerses" class="pointer-events-none absolute inset-y-0 right-3 inline-flex items-center text-amber-600">
+                            <x-icon name="spinner" class="h-4 w-4 animate-spin" />
+                        </span>
+                    </div>
 
                     <select name="status" class="rounded-xl border-slate-300 text-sm text-slate-900 focus:border-amber-600 focus:ring-amber-600">
                         <option value="">Status</option>
@@ -105,4 +120,65 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+        <script>
+            function metadataIndexFilters() {
+                return {
+                    versionId: @json((string) $versionId),
+                    bookId: @json((string) $bookId),
+                    chapterId: @json((string) $chapterId),
+                    verseId: @json((string) $verseId),
+                    books: @json($books->values()),
+                    chapters: @json($chapters->values()),
+                    verses: @json($verses->values()),
+                    loadingBooks: false,
+                    loadingChapters: false,
+                    loadingVerses: false,
+                    async onVersionChange() {
+                        this.bookId = '';
+                        this.chapterId = '';
+                        this.verseId = '';
+                        this.chapters = [];
+                        this.verses = [];
+                        if (!this.versionId) {
+                            this.books = [];
+                            return;
+                        }
+                        this.loadingBooks = true;
+                        const res = await fetch(`{{ route('admin.bible.metadata.options.books') }}?bible_version_id=${encodeURIComponent(this.versionId)}`);
+                        const payload = await res.json();
+                        this.books = payload.data ?? [];
+                        this.loadingBooks = false;
+                    },
+                    async onBookChange() {
+                        this.chapterId = '';
+                        this.verseId = '';
+                        this.verses = [];
+                        if (!this.bookId) {
+                            this.chapters = [];
+                            return;
+                        }
+                        this.loadingChapters = true;
+                        const res = await fetch(`{{ route('admin.bible.metadata.options.chapters') }}?book_id=${encodeURIComponent(this.bookId)}`);
+                        const payload = await res.json();
+                        this.chapters = payload.data ?? [];
+                        this.loadingChapters = false;
+                    },
+                    async onChapterChange() {
+                        this.verseId = '';
+                        if (!this.chapterId) {
+                            this.verses = [];
+                            return;
+                        }
+                        this.loadingVerses = true;
+                        const res = await fetch(`{{ route('admin.bible.metadata.options.verses') }}?chapter_id=${encodeURIComponent(this.chapterId)}`);
+                        const payload = await res.json();
+                        this.verses = payload.data ?? [];
+                        this.loadingVerses = false;
+                    },
+                };
+            }
+        </script>
+    @endpush
 @endsection

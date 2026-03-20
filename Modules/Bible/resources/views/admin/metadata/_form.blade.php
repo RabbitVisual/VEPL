@@ -27,49 +27,49 @@
 
             <div>
                 <label class="mb-1 block text-sm font-semibold text-slate-700">Livro</label>
-                <select name="book_id" x-model="bookId" @change="onBookChange" class="w-full rounded-xl border-slate-300 text-slate-900 focus:border-amber-600 focus:ring-amber-600">
+                <div class="relative">
+                <select name="book_id" x-model="bookId" @change="onBookChange" :disabled="loadingBooks || !versionId" class="w-full rounded-xl border-slate-300 text-slate-900 focus:border-amber-600 focus:ring-amber-600 disabled:cursor-not-allowed disabled:bg-slate-100">
                     <option value="">Selecione</option>
                     <template x-for="book in books" :key="book.id">
                         <option :value="book.id" x-text="`${book.book_number} - ${book.name}`"></option>
                     </template>
-                    @foreach($books as $book)
-                        <option value="{{ $book->id }}" x-show="false" @selected($selectedBookId === $book->id)>
-                            {{ $book->book_number }} - {{ $book->name }}
-                        </option>
-                    @endforeach
                 </select>
+                <span x-show="loadingBooks" class="pointer-events-none absolute inset-y-0 right-3 inline-flex items-center text-amber-600">
+                    <x-icon name="spinner" class="h-4 w-4 animate-spin" />
+                </span>
+                </div>
                 @error('book_id')<p class="mt-1 text-xs text-rose-600">{{ $message }}</p>@enderror
             </div>
 
             <div>
                 <label class="mb-1 block text-sm font-semibold text-slate-700">Capítulo</label>
-                <select name="chapter_id" x-model="chapterId" @change="onChapterChange" class="w-full rounded-xl border-slate-300 text-slate-900 focus:border-amber-600 focus:ring-amber-600">
+                <div class="relative">
+                <select name="chapter_id" x-model="chapterId" @change="onChapterChange" :disabled="loadingChapters || !bookId" class="w-full rounded-xl border-slate-300 text-slate-900 focus:border-amber-600 focus:ring-amber-600 disabled:cursor-not-allowed disabled:bg-slate-100">
                     <option value="">Selecione</option>
                     <template x-for="chapter in chapters" :key="chapter.id">
                         <option :value="chapter.id" x-text="chapter.chapter_number"></option>
                     </template>
-                    @foreach($chapters as $chapter)
-                        <option value="{{ $chapter->id }}" x-show="false" @selected($selectedChapterId === $chapter->id)>
-                            {{ $chapter->chapter_number }}
-                        </option>
-                    @endforeach
                 </select>
+                <span x-show="loadingChapters" class="pointer-events-none absolute inset-y-0 right-3 inline-flex items-center text-amber-600">
+                    <x-icon name="spinner" class="h-4 w-4 animate-spin" />
+                </span>
+                </div>
                 @error('chapter_id')<p class="mt-1 text-xs text-rose-600">{{ $message }}</p>@enderror
             </div>
 
             <div>
                 <label class="mb-1 block text-sm font-semibold text-slate-700">Versículo</label>
-                <select name="verse_id" x-model="verseId" class="w-full rounded-xl border-slate-300 text-slate-900 focus:border-amber-600 focus:ring-amber-600">
+                <div class="relative">
+                <select name="verse_id" x-model="verseId" :disabled="loadingVerses || !chapterId" class="w-full rounded-xl border-slate-300 text-slate-900 focus:border-amber-600 focus:ring-amber-600 disabled:cursor-not-allowed disabled:bg-slate-100">
                     <option value="">Selecione</option>
                     <template x-for="verse in verses" :key="verse.id">
                         <option :value="verse.id" x-text="verse.verse_number"></option>
                     </template>
-                    @foreach($verses as $verse)
-                        <option value="{{ $verse->id }}" x-show="false" @selected($selectedVerseId === $verse->id)>
-                            {{ $verse->verse_number }}
-                        </option>
-                    @endforeach
                 </select>
+                <span x-show="loadingVerses" class="pointer-events-none absolute inset-y-0 right-3 inline-flex items-center text-amber-600">
+                    <x-icon name="spinner" class="h-4 w-4 animate-spin" />
+                </span>
+                </div>
                 @error('verse_id')<p class="mt-1 text-xs text-rose-600">{{ $message }}</p>@enderror
             </div>
         </div>
@@ -114,6 +114,9 @@
                     books: @json($books->values()),
                     chapters: @json($chapters->values()),
                     verses: @json($verses->values()),
+                    loadingBooks: false,
+                    loadingChapters: false,
+                    loadingVerses: false,
 
                     async onVersionChange() {
                         this.bookId = '';
@@ -125,9 +128,11 @@
                             this.books = [];
                             return;
                         }
+                        this.loadingBooks = true;
                         const res = await fetch(`{{ route('admin.bible.metadata.options.books') }}?bible_version_id=${encodeURIComponent(this.versionId)}`);
                         const payload = await res.json();
                         this.books = payload.data ?? [];
+                        this.loadingBooks = false;
                     },
 
                     async onBookChange() {
@@ -138,9 +143,11 @@
                             this.chapters = [];
                             return;
                         }
+                        this.loadingChapters = true;
                         const res = await fetch(`{{ route('admin.bible.metadata.options.chapters') }}?book_id=${encodeURIComponent(this.bookId)}`);
                         const payload = await res.json();
                         this.chapters = payload.data ?? [];
+                        this.loadingChapters = false;
                     },
 
                     async onChapterChange() {
@@ -149,9 +156,11 @@
                             this.verses = [];
                             return;
                         }
+                        this.loadingVerses = true;
                         const res = await fetch(`{{ route('admin.bible.metadata.options.verses') }}?chapter_id=${encodeURIComponent(this.chapterId)}`);
                         const payload = await res.json();
                         this.verses = payload.data ?? [];
+                        this.loadingVerses = false;
                     },
                 };
             }
