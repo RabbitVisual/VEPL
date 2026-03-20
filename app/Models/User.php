@@ -197,6 +197,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Relacionamento com fotos de perfil
+     */
+    public function profilePhotos()
+    {
+        return $this->hasMany(UserPhoto::class);
+    }
+
+    /**
      * Vínculos familiares (parentesco): quem este usuário declarou como pai, mãe, cônjuge, etc.
      */
     public function relationships()

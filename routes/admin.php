@@ -160,7 +160,7 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
 
             // Bible interlinear word-tags (CRUD com paginação; recomendado usar filtros)
             Route::resource('word-tags', \Modules\Bible\App\Http\Controllers\Admin\BibleWordTagsController::class)->only([
-                'index', 'create', 'store', 'edit', 'update', 'destroy',
+                'index', 'create', 'store', 'show', 'edit', 'update', 'destroy',
             ])->parameters([
                 'word-tags' => 'wordTag',
             ]);

@@ -18,6 +18,7 @@ import collapse from '@alpinejs/collapse'
 
 // Inicializa Alpine.js
 window.Alpine = Alpine;
+window.biblePopover = biblePopover; // Exposição global para redundância em módulos
 Alpine.plugin(intersect);
 Alpine.plugin(collapse);
 Alpine.plugin(mask);

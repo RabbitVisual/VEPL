@@ -19,6 +19,7 @@
         intercessorOpen: {{ request()->routeIs('admin.intercessor*') ? 'true' : 'false' }},
         worshipOpen: {{ $routes['worship'] ? 'true' : 'false' }},
         ministriesOpen: {{ $routes['ministries'] ? 'true' : 'false' }},
+        bibleToolsOpen: {{ (request()->routeIs('admin.bible.strongs*') || request()->routeIs('admin.bible.panoramas*') || request()->routeIs('admin.bible.word-tags*')) ? 'true' : 'false' }},
     }">
 
     <div class="flex flex-col h-full">
@@ -187,22 +188,34 @@
                             <x-icon name="chart-line" style="duotone" class="w-3.5 h-3.5 shrink-0" />
                             Relatório Plano de Leitura
                         </a>
-                        <a href="{{ route('admin.bible.strongs-lexicon.index') }}" class="flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-lg transition-colors {{ request()->routeIs('admin.bible.strongs-lexicon.*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/10' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300' }}">
-                            <x-icon name="book-open" style="duotone" class="w-3.5 h-3.5 shrink-0" />
-                            Strong's Lexicon
-                        </a>
-                        <a href="{{ route('admin.bible.strongs-corrections.index') }}" class="flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-lg transition-colors {{ request()->routeIs('admin.bible.strongs-corrections.*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/10' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300' }}">
-                            <x-icon name="gavel" style="duotone" class="w-3.5 h-3.5 shrink-0" />
-                            Strong's Corrections
-                        </a>
-                        <a href="{{ route('admin.bible.panoramas.index') }}" class="flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-lg transition-colors {{ request()->routeIs('admin.bible.panoramas.*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/10' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300' }}">
-                            <x-icon name="scroll" style="duotone" class="w-3.5 h-3.5 shrink-0" />
-                            Panoramas dos Livros
-                        </a>
-                        <a href="{{ route('admin.bible.word-tags.index') }}" class="flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-lg transition-colors {{ request()->routeIs('admin.bible.word-tags.*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/10' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300' }}">
-                            <x-icon name="tags" style="duotone" class="w-3.5 h-3.5 shrink-0" />
-                            Word Tags (Interlinear)
-                        </a>
+
+                        <!-- Ferramentas Sub-Collapsible -->
+                        <div class="pt-2">
+                            <button @click="bibleToolsOpen = !bibleToolsOpen"
+                                    class="w-full flex items-center justify-between px-3 py-2 text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+                                <span>Ferramentas Acadêmicas</span>
+                                <x-icon name="chevron-down" class="w-2.5 h-2.5 transition-transform duration-200" ::class="{ 'rotate-180': bibleToolsOpen }" />
+                            </button>
+
+                            <div x-show="bibleToolsOpen" x-collapse class="space-y-1 mt-1 border-l border-gray-100 dark:border-gray-800 ml-2 shadow-inner">
+                                <a href="{{ route('admin.bible.strongs-lexicon.index') }}" class="flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-lg transition-colors {{ request()->routeIs('admin.bible.strongs-lexicon.*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/10' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300' }}">
+                                    <x-icon name="book-open" style="duotone" class="w-3.5 h-3.5 shrink-0" />
+                                    Strong's Lexicon
+                                </a>
+                                <a href="{{ route('admin.bible.strongs-corrections.index') }}" class="flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-lg transition-colors {{ request()->routeIs('admin.bible.strongs-corrections.*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/10' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300' }}">
+                                    <x-icon name="gavel" style="duotone" class="w-3.5 h-3.5 shrink-0" />
+                                    Strong's Corrections
+                                </a>
+                                <a href="{{ route('admin.bible.panoramas.index') }}" class="flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-lg transition-colors {{ request()->routeIs('admin.bible.panoramas.*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/10' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300' }}">
+                                    <x-icon name="scroll" style="duotone" class="w-3.5 h-3.5 shrink-0" />
+                                    Panoramas dos Livros
+                                </a>
+                                <a href="{{ route('admin.bible.word-tags.index') }}" class="flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-lg transition-colors {{ request()->routeIs('admin.bible.word-tags.*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/10' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300' }}">
+                                    <x-icon name="tags" style="duotone" class="w-3.5 h-3.5 shrink-0" />
+                                    Word Tags (Interlinear)
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
