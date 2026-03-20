@@ -8,6 +8,7 @@ async function getPaths() {
     const paths = [
         'resources/css/app.css',
         'resources/js/app.js',
+        'resources/js/tours.js',
     ];
 
     return await collectModuleAssetsPaths(paths, 'Modules');

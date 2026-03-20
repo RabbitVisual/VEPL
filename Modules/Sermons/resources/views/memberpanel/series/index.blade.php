@@ -22,7 +22,7 @@
                     Séries Expositivas
                 </h1>
                 <p class="text-slate-300 font-medium max-w-xl">
-                    Acompanhe nossas sequências de mensagens e estudos aprofundados.
+                    Acompanhe trilhas temáticas de mensagens e estudos para crescimento contínuo.
                 </p>
             </div>
         </div>
@@ -34,8 +34,8 @@
             <a href="{{ route('memberpanel.sermon-series.show', $s) }}" class="group flex flex-col bg-white dark:bg-gray-800 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300 hover:-translate-y-1 overflow-hidden h-full">
                 <!-- Image -->
                 <div class="aspect-video w-full bg-gray-100 dark:bg-gray-700 relative overflow-hidden">
-                    @if($s->image)
-                        <img src="{{ asset('storage/' . $s->image) }}" alt="{{ $s->title }}" class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700">
+                    @if($s->cover_image)
+                        <img src="{{ asset('storage/' . $s->cover_image) }}" alt="{{ $s->title }}" class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700">
                     @else
                         <div class="flex flex-col items-center justify-center h-full text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-800 group-hover:bg-gray-100 dark:group-hover:bg-gray-700/50 transition-colors">
                             <x-icon name="collection" class="w-16 h-16 opacity-30 mb-2" />
@@ -52,9 +52,9 @@
                              <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold bg-white/20 backdrop-blur-md text-white border border-white/10 shadow-lg">
                                 {{ $s->sermons_count }} sermões
                             </span>
-                             @if($s->studies_count > 0)
+                             @if($s->outlines_count > 0)
                             <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold bg-purple-500/80 backdrop-blur-md text-white shadow-lg">
-                                {{ $s->studies_count }} estudos
+                                {{ $s->outlines_count }} estudos
                             </span>
                             @endif
                         </div>
@@ -72,8 +72,11 @@
                     </p>
 
                     <div class="mt-auto pt-6 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between">
+                        <span class="text-xs font-bold uppercase tracking-wide text-gray-400 dark:text-gray-500">
+                            Atualizada {{ $s->updated_at?->translatedFormat('d/m/Y') }}
+                        </span>
                         <span class="text-sm font-bold text-purple-600 dark:text-purple-400 group-hover:translate-x-1 transition-transform flex items-center gap-1">
-                            Acessar Série <x-icon name="arrow-narrow-right" class="w-4 h-4" />
+                            Abrir série <x-icon name="arrow-narrow-right" class="w-4 h-4" />
                         </span>
                     </div>
                 </div>
@@ -99,4 +102,3 @@
     </div>
 </div>
 @endsection
-

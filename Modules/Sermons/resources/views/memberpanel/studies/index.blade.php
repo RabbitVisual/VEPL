@@ -22,7 +22,7 @@
                     Esboços Homiléticos
                 </h1>
                 <p class="text-slate-300 font-medium max-w-xl">
-                     Materiais aprofundados para o seu crescimento e maturidade espiritual.
+                    Materiais de apoio para aprofundamento bíblico e aplicação prática.
                 </p>
             </div>
         </div>
@@ -32,7 +32,7 @@
     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
         <form method="GET" action="{{ route('memberpanel.sermon-outlines.index') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4">
              <div class="md:col-span-1">
-                 <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Buscar</label>
+                 <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Pesquisar</label>
                 <input type="text" name="search" value="{{ request('search') }}"
                     class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white font-medium focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all placeholder-gray-400"
                     placeholder="Título, tema...">
@@ -60,7 +60,7 @@
 
             <div class="flex items-end gap-2 md:col-span-1">
                 <button type="submit" class="flex-1 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-emerald-600/20 hover:-translate-y-0.5">
-                    Filtrar
+                    Aplicar
                 </button>
                 @if (request()->hasAny(['search', 'sermon_series_id', 'category_id']))
                     <a href="{{ route('memberpanel.sermon-outlines.index') }}" class="px-4 py-2.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 font-bold rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
@@ -84,11 +84,11 @@
 
                 <!-- Cover Image (Optional) -->
                 @if($study->cover_image)
-                    <div class="w-full md:w-40 h-40 flex-shrink-0 bg-gray-100 dark:bg-gray-900 rounded-xl overflow-hidden shadow-inner">
+                    <div class="w-full md:w-40 h-40 shrink-0 bg-gray-100 dark:bg-gray-900 rounded-xl overflow-hidden shadow-inner">
                         <img src="{{ asset('storage/' . $study->cover_image) }}" alt="{{ $study->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                     </div>
                 @else
-                     <div class="w-full md:w-40 h-40 flex-shrink-0 bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 rounded-xl flex items-center justify-center text-gray-300 dark:text-gray-600">
+                     <div class="w-full md:w-40 h-40 shrink-0 bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 rounded-xl flex items-center justify-center text-gray-300 dark:text-gray-600">
                          <x-icon name="document-text" class="w-12 h-12" />
                     </div>
                 @endif
@@ -124,7 +124,8 @@
                     <div class="mt-auto flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700/50">
                         <div class="flex items-center gap-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wide">
                             <div class="flex items-center gap-1.5">
-                                <img src="{{ $study->user->avatar_url }}" alt="{{ $study->user->name }}" class="w-4 h-4 rounded-full object-cover">
+                                <img src="{{ $study->user->avatar_url ?? $study->user->profile_photo_url ?? asset('images/default-avatar.png') }}" alt="{{ $study->user->name }}" class="w-4 h-4 rounded-full object-cover">
+                                <span>{{ Str::limit($study->user->name, 14) }}</span>
                                 <span>{{ $study->published_at?->format('d M') }}</span>
                             </div>
                             @if($study->audio_file || $study->audio_url)
@@ -135,7 +136,7 @@
                         </div>
 
                          <span class="text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                            Ler <x-icon name="arrow-right" class="w-3 h-3" />
+                            Abrir <x-icon name="arrow-right" class="w-3 h-3" />
                         </span>
                     </div>
                 </div>

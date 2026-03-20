@@ -12,7 +12,7 @@
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
             <h1 class="text-2xl font-black text-gray-900 dark:text-white tracking-tight">Meus Favoritos</h1>
-            <p class="text-gray-600 dark:text-gray-400">Sua coleção pessoal de sermões e estudos.</p>
+            <p class="text-gray-600 dark:text-gray-400">Sua coleção pessoal para revisão, oração e preparação.</p>
         </div>
         <a href="{{ route('memberpanel.sermons.index') }}"
             class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 shadow-sm transition-all hover:-translate-y-0.5">
@@ -30,7 +30,7 @@
                 </div>
                 <div>
                     <h3 class="text-3xl font-black">{{ $favorites->total() }}</h3>
-                    <p class="text-pink-100 font-medium text-sm">Itens Favoritados</p>
+                    <p class="text-pink-100 font-medium text-sm">Itens salvos</p>
                 </div>
             </div>
         </div>
@@ -105,7 +105,7 @@
             <div class="mx-auto w-24 h-24 bg-pink-50 dark:bg-pink-900/20 rounded-full flex items-center justify-center mb-6 animate-pulse">
                 <x-icon name="heart" class="w-12 h-12 text-pink-400" />
             </div>
-            <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Lista de Favoritos Vazia</h3>
+            <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Nenhum item salvo até agora</h3>
             <p class="text-gray-500 dark:text-gray-400 max-w-md mx-auto leading-relaxed mb-8">
                 Você ainda não adicionou nenhum sermão aos favoritos. Explore nossa biblioteca e guarde o que mais lhe edificar.
             </p>

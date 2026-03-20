@@ -24,13 +24,19 @@
             <div class="rounded-xl border border-slate-200 p-3 dark:border-slate-600">
                 <div class="mb-2 grid grid-cols-2 gap-2">
                     <div>
-                        <label class="mb-1 block text-[11px] font-semibold text-slate-600 dark:text-slate-300">Versão</label>
-                        <select :name="`bible_references[${index}][bible_version_id]`" x-model="reference.bible_version_id" @change="loadBooks(index)" class="w-full rounded-lg border-slate-300 text-sm dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100">
+                        <label class="mb-1 block text-[11px] font-semibold text-slate-600 dark:text-slate-300">Versão bíblica</label>
+                        <select :name="`bible_references[${index}][bible_version_id]`" x-model="reference.bible_version_id" @change="loadBooks(index)"
+                            class="w-full rounded-lg border-slate-300 text-sm dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
+                            @if($versions->count() <= 1) readonly disabled @endif>
                             <option value="">Selecione</option>
                             @foreach($versions as $version)
                                 <option value="{{ $version->id }}">{{ $version->abbreviation ?? $version->name }}</option>
                             @endforeach
                         </select>
+                        @if($versions->count() <= 1 && $versions->first())
+                            <input type="hidden" :name="`bible_references[${index}][bible_version_id]`" value="{{ $versions->first()->id }}">
+                            <p class="mt-1 text-[10px] font-semibold text-slate-500 dark:text-slate-400">Versão padrão aplicada automaticamente.</p>
+                        @endif
                     </div>
                     <div>
                         <label class="mb-1 block text-[11px] font-semibold text-slate-600 dark:text-slate-300">Tipo</label>
@@ -46,29 +52,31 @@
                 <div class="mb-2 grid grid-cols-2 gap-2">
                     <div>
                         <label class="mb-1 block text-[11px] font-semibold text-slate-600 dark:text-slate-300">Livro</label>
-                        <select :name="`bible_references[${index}][book_id]`" x-model="reference.book_id" @change="loadChapters(index)" class="w-full rounded-lg border-slate-300 text-sm dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100">
-                            <option value="">Selecione</option>
+                        <select :name="`bible_references[${index}][book_id]`" x-model="reference.book_id" @change="loadChapters(index)" :disabled="reference.loadingBooks || !reference.bible_version_id" class="w-full rounded-lg border-slate-300 text-sm disabled:cursor-not-allowed disabled:bg-slate-100 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:disabled:bg-slate-800">
+                            <option value="">Selecione o livro</option>
                             <template x-for="book in reference.books" :key="book.id">
                                 <option :value="book.id" x-text="book.name"></option>
                             </template>
                         </select>
+                        <p x-show="reference.loadingBooks" class="mt-1 text-[10px] font-semibold text-amber-600">Carregando livros...</p>
                     </div>
                     <div>
                         <label class="mb-1 block text-[11px] font-semibold text-slate-600 dark:text-slate-300">Capítulo</label>
-                        <select :name="`bible_references[${index}][chapter_id]`" x-model="reference.chapter_id" @change="loadVerses(index)" class="w-full rounded-lg border-slate-300 text-sm dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100">
-                            <option value="">Selecione</option>
+                        <select :name="`bible_references[${index}][chapter_id]`" x-model="reference.chapter_id" @change="loadVerses(index)" :disabled="reference.loadingChapters || !reference.book_id" class="w-full rounded-lg border-slate-300 text-sm disabled:cursor-not-allowed disabled:bg-slate-100 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:disabled:bg-slate-800">
+                            <option value="">Selecione o capítulo</option>
                             <template x-for="chapter in reference.chapters" :key="chapter.id">
                                 <option :value="chapter.id" x-text="chapter.chapter_number"></option>
                             </template>
                         </select>
+                        <p x-show="reference.loadingChapters" class="mt-1 text-[10px] font-semibold text-amber-600">Carregando capítulos...</p>
                     </div>
                 </div>
 
                 <div class="mb-2 grid grid-cols-2 gap-2">
                     <div>
                         <label class="mb-1 block text-[11px] font-semibold text-slate-600 dark:text-slate-300">Verso inicial</label>
-                        <select :name="`bible_references[${index}][verse_start_id]`" x-model="reference.verse_start_id" class="w-full rounded-lg border-slate-300 text-sm dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100">
-                            <option value="">Selecione</option>
+                        <select :name="`bible_references[${index}][verse_start_id]`" x-model="reference.verse_start_id" :disabled="reference.loadingVerses || !reference.chapter_id" class="w-full rounded-lg border-slate-300 text-sm disabled:cursor-not-allowed disabled:bg-slate-100 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:disabled:bg-slate-800">
+                            <option value="">Selecione o versículo</option>
                             <template x-for="verse in reference.verses" :key="verse.id">
                                 <option :value="verse.id" x-text="verse.verse_number"></option>
                             </template>
@@ -76,7 +84,7 @@
                     </div>
                     <div>
                         <label class="mb-1 block text-[11px] font-semibold text-slate-600 dark:text-slate-300">Verso final</label>
-                        <select :name="`bible_references[${index}][verse_end_id]`" x-model="reference.verse_end_id" class="w-full rounded-lg border-slate-300 text-sm dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100">
+                        <select :name="`bible_references[${index}][verse_end_id]`" x-model="reference.verse_end_id" :disabled="reference.loadingVerses || !reference.chapter_id" class="w-full rounded-lg border-slate-300 text-sm disabled:cursor-not-allowed disabled:bg-slate-100 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:disabled:bg-slate-800">
                             <option value="">Mesmo do inicial</option>
                             <template x-for="verse in reference.verses" :key="`end-${verse.id}`">
                                 <option :value="verse.id" x-text="verse.verse_number"></option>
@@ -84,6 +92,7 @@
                         </select>
                     </div>
                 </div>
+                <p x-show="reference.loadingVerses" class="mb-2 text-[10px] font-semibold text-amber-600">Carregando versículos...</p>
 
                 <textarea :name="`bible_references[${index}][context]`" x-model="reference.context" rows="2" class="mb-2 w-full rounded-lg border-slate-300 text-sm dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100" placeholder="Observação exegética"></textarea>
 

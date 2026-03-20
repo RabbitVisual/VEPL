@@ -26,10 +26,10 @@ class SermonSeriesController extends Controller
 
         $series->load([
             'sermons' => function ($q) {
-                $q->published()->orderBy('created_at', 'desc');
+                $q->published()->with('user')->orderBy('created_at', 'desc');
             },
             'outlines' => function ($q) {
-                $q->where('status', 'published')->orderBy('created_at', 'desc');
+                $q->where('status', 'published')->with('user')->orderBy('created_at', 'desc');
             },
         ]);
 

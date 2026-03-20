@@ -1,5 +1,45 @@
 @php
     use Illuminate\Support\Facades\Storage;
+    use Modules\Treasury\App\Models\TreasuryPermission;
+    use Nwidart\Modules\Facades\Module;
+
+    $user = auth()->user();
+    $hasTreasuryPermission = null;
+    $isTreasuryActive = false;
+    $unreadCount = 0;
+    $hasActiveGateways = false;
+    $memberIntercessorRoomLabel = 'Sala de Oração';
+
+    if ($user) {
+        // Notificações
+        if (Module::isEnabled('Notifications')) {
+            $unreadCount = \Modules\Notifications\App\Models\UserNotification::where('user_id', $user->id)
+                ->where('is_read', false)
+                ->count();
+        }
+
+        // Tesouraria
+        if (Module::isEnabled('Treasury')) {
+            $hasTreasuryPermission = TreasuryPermission::where('user_id', $user->id)->first();
+            if (!$hasTreasuryPermission && method_exists($user, 'isAdmin') && $user->isAdmin()) {
+                $hasTreasuryPermission = TreasuryPermission::adminDefault();
+            }
+            $isTreasuryActive = request()->routeIs('memberpanel.treasury*');
+        }
+
+        // Financeiro / Doações
+        if (Module::isEnabled('PaymentGateway')) {
+            $hasActiveGateways = \Modules\PaymentGateway\App\Models\PaymentGateway::active()
+                ->get()
+                ->filter(fn($g) => $g->isConfigured())
+                ->isNotEmpty();
+        }
+
+        // Intercessor
+        if (Module::isEnabled('Intercessor')) {
+             $memberIntercessorRoomLabel = \Modules\Intercessor\App\Services\IntercessorSettings::get('room_label') ?? 'Sala de Oração';
+        }
+    }
 @endphp
 
 <style>[x-cloak] { display: none !important; }</style>
@@ -159,14 +199,6 @@
                             <a href="{{ route('memberpanel.notifications.index') }}"
                                 class="group relative flex justify-center rounded-sm px-2 py-1.5 {{ request()->routeIs('memberpanel.notifications*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
                                 <x-icon name="bell" class="size-5" />
-                                @php
-                                    $unreadCount = \Modules\Notifications\App\Models\UserNotification::where(
-                                        'user_id',
-                                        Auth::id(),
-                                    )
-                                        ->where('is_read', false)
-                                        ->count();
-                                @endphp
                                 @if ($unreadCount > 0)
                                     <span
                                         class="absolute top-0 right-0 block h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-white dark:ring-gray-800"></span>
@@ -185,14 +217,6 @@
 
 
                         {{-- Doações --}}
-                        @php
-                            $hasActiveGateways = \Modules\PaymentGateway\App\Models\PaymentGateway::active()
-                                ->get()
-                                ->filter(function ($gateway) {
-                                    return $gateway->isConfigured();
-                                })
-                                ->isNotEmpty();
-                        @endphp
                         @if ($hasActiveGateways)
                             <!-- Nova Doação -->
                             <li>
@@ -376,9 +400,6 @@
                 @if(Module::isEnabled('Intercessor'))
                     <li x-data="{ open: {{ request()->routeIs('member.intercessor*') ? 'true' : 'false' }} }">
                         <div class="flex flex-col">
-                            @php
-                                $memberIntercessorRoomLabel = \Modules\Intercessor\App\Services\IntercessorSettings::get('room_label') ?? 'Sala de Oração';
-                            @endphp
                             <button @click="open = !open"
                                 class="flex w-full cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('member.intercessor*') ? 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
                                 <span class="flex items-center gap-2">
@@ -600,20 +621,20 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('memberpanel.series.index') }}"
-                                    class="block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('memberpanel.series*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 active' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
+                                <a href="{{ route('memberpanel.sermon-series.index') }}"
+                                    class="block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('memberpanel.sermon-series*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 active' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
                                     Séries
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('memberpanel.studies.index') }}"
-                                    class="block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('memberpanel.studies*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 active' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
+                                <a href="{{ route('memberpanel.sermon-outlines.index') }}"
+                                    class="block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('memberpanel.sermon-outlines*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 active' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
                                     Estudos
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('memberpanel.commentaries.index') }}"
-                                    class="block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('memberpanel.commentaries*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 active' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
+                                <a href="{{ route('memberpanel.sermon-exegesis.index') }}"
+                                    class="block rounded-lg px-4 py-2 text-sm font-medium {{ request()->routeIs('memberpanel.sermon-exegesis*') ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 active' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300' }}">
                                     Comentários
                                 </a>
                             </li>

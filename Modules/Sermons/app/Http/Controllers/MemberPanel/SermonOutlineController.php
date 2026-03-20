@@ -14,7 +14,7 @@ class SermonOutlineController extends Controller
     public function index(Request $request): View
     {
         $query = SermonOutline::where('status', 'published')
-            ->with(['series', 'category']);
+            ->with(['series', 'category', 'user']);
 
         if ($request->filled('sermon_series_id')) {
             $query->where('sermon_series_id', $request->integer('sermon_series_id'));

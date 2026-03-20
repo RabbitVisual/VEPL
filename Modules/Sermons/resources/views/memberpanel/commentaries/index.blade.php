@@ -1,6 +1,6 @@
 @extends('memberpanel::components.layouts.master')
 
-@section('title', 'Exegese do Texto')
+@section('title', 'Comentário Exegético')
 
 @push('styles')
     @vite(['Modules/Sermons/resources/assets/sass/app.scss'])
@@ -33,10 +33,10 @@
             <div class="flex-1 space-y-2 text-center md:text-left">
                  <p class="text-cyan-200/80 font-bold uppercase tracking-widest text-xs">Exegese e Compreensão</p>
                 <h1 class="text-3xl font-black text-white tracking-tight">
-                    Explorador de Comentários
+                    Comentário Exegético
                 </h1>
                 <p class="text-slate-300 font-medium max-w-xl mx-auto md:mx-0">
-                     Navegue por comentários versículo a versículo e aprofunde seu entendimento das Escrituras.
+                    Estude comentário por referência bíblica com leitura pastoral clara e objetiva.
                 </p>
             </div>
         </div>
@@ -47,37 +47,39 @@
         <!-- Sidebar Filters -->
         <div class="lg:col-span-1">
              <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-6 sticky top-6">
-                 <h3 class="text-xs font-black text-gray-400 uppercase tracking-widest mb-6 flex items-center gap-2">
+                <h3 class="text-xs font-black text-gray-400 uppercase tracking-widest mb-6 flex items-center gap-2">
                     <x-icon name="search" class="w-4 h-4" />
-                    Referências
-                 </h3>
+                    Filtro de Referência
+                </h3>
 
                 <form method="GET" action="{{ route('memberpanel.sermon-exegesis.index') }}" class="commentaries-filters space-y-5"
                     data-book-id="{{ request('book_id') }}"
                     data-chapter-id="{{ request('chapter_id') }}"
                     data-verse-number="{{ request('verse_number') }}">
                     <div>
-                         <label for="bible_version_id" class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-2">Versão da Bíblia</label>
-                         <div class="relative">
-                             <select name="bible_version_id" id="bible_version_id"
-                                 class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white font-medium focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all appearance-none cursor-pointer">
-                                 <option value="">Selecione...</option>
-                                 @foreach($bibleVersions as $version)
-                                     <option value="{{ $version->id }}" {{ request('bible_version_id') == $version->id ? 'selected' : '' }}>{{ $version->name }}</option>
-                                 @endforeach
-                             </select>
-                             <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
+                        <label for="bible_version_id" class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-2">Versão bíblica padrão</label>
+                        <div class="relative">
+                            <select name="bible_version_id" id="bible_version_id"
+                                class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white font-medium appearance-none cursor-not-allowed"
+                                readonly disabled>
+                                @foreach($bibleVersions as $version)
+                                    <option value="{{ $version->id }}" selected>{{ $version->name }} ({{ $version->abbreviation }})</option>
+                                @endforeach
+                            </select>
+                            <input type="hidden" name="bible_version_id" value="{{ $selectedVersionId }}">
+                            <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
                                 <x-icon name="chevron-down" class="w-4 h-4" />
                             </div>
+                            <p class="mt-1 text-[10px] font-semibold text-gray-500 dark:text-gray-400">Aplicada automaticamente para evitar duplicidade de livros.</p>
                         </div>
                     </div>
 
                     <div>
                         <label for="book_id" class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-2">Livro</label>
                         <div class="relative">
-                            <select name="book_id" id="book_id"
+                            <select name="book_id" id="book_id" aria-label="Selecionar livro bíblico"
                                 class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white font-medium focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all appearance-none cursor-pointer">
-                                <option value="">Selecione a versão...</option>
+                                <option value="">Selecione o livro</option>
                             </select>
                             <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
                                 <x-icon name="chevron-down" class="w-4 h-4" />
@@ -88,7 +90,7 @@
                     <div>
                         <label for="chapter_id" class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-2">Capítulo</label>
                         <div class="relative">
-                            <select name="chapter_id" id="chapter_id"
+                            <select name="chapter_id" id="chapter_id" aria-label="Selecionar capítulo bíblico"
                                 class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white font-medium focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all appearance-none cursor-pointer">
                                 <option value="">Todos</option>
                             </select>
@@ -101,7 +103,7 @@
                     <div>
                         <label for="verse_number" class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-2">Versículo</label>
                         <div class="relative">
-                            <select name="verse_number" id="verse_number"
+                            <select name="verse_number" id="verse_number" aria-label="Selecionar versículo bíblico"
                                 class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white font-medium focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all appearance-none cursor-pointer">
                                 <option value="">Todos</option>
                             </select>
@@ -112,8 +114,8 @@
                     </div>
 
                     <div class="pt-4">
-                        <button type="submit" class="w-full py-3 px-4 bg-cyan-600 hover:bg-cyan-700 text-white font-bold rounded-xl shadow-lg shadow-cyan-600/20 transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2">
-                            <x-icon name="search" class="w-4 h-4" /> Buscar
+                        <button type="submit" aria-label="Aplicar filtro de comentário exegético" class="w-full py-3 px-4 bg-cyan-600 hover:bg-cyan-700 text-white font-bold rounded-xl shadow-lg shadow-cyan-600/20 transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                            <x-icon name="search" class="w-4 h-4" /> Aplicar filtro
                         </button>
                     </div>
                 </form>
@@ -144,7 +146,7 @@
                                     @endif
                                 </div>
                                     <a href="{{ route('memberpanel.sermon-exegesis.show', $comment) }}" class="text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 font-bold text-sm flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    Ler completo <x-icon name="arrow-right" class="w-4 h-4" />
+                                    Abrir comentário <x-icon name="arrow-right" class="w-4 h-4" />
                                 </a>
                             </div>
 
@@ -184,9 +186,9 @@
                         <div class="mx-auto w-24 h-24 bg-cyan-50 dark:bg-cyan-900/20 rounded-full flex items-center justify-center mb-6 animate-pulse">
                             <x-icon name="book-open" class="w-12 h-12 text-cyan-600 dark:text-cyan-400" />
                         </div>
-                        <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Comece sua pesquisa</h3>
+                        <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-3">Inicie seu estudo</h3>
                         <p class="text-gray-500 dark:text-gray-400 max-w-md mx-auto leading-relaxed">
-                            Selecione uma versão, livro e capítulo ao lado para explorar os comentários disponíveis.
+                            Selecione livro e capítulo para explorar os comentários disponíveis.
                         </p>
                     </div>
                 @endif

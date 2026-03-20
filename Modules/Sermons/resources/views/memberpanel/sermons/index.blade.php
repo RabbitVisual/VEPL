@@ -22,11 +22,16 @@
                     Sermões Expositivos
                 </h1>
                 <p class="text-slate-300 font-medium max-w-xl">
-                    Explore nossa biblioteca de mensagens, esboços homiléticos e exegese pastoral.
+                    Explore sermões, estudos e comentários com experiência de estudo integrada.
                 </p>
             </div>
 
              <div class="flex flex-wrap items-center gap-3">
+                <a href="{{ route('memberpanel.sermons.my-sermons') }}"
+                   class="inline-flex items-center px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-xl font-bold transition-all backdrop-blur-sm">
+                    <x-icon name="book-open" class="w-5 h-5 mr-2" />
+                    Meus Sermões
+                </a>
                  <a href="{{ route('memberpanel.sermons.my-favorites') }}"
                     class="inline-flex items-center px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-xl font-bold transition-all backdrop-blur-sm"
                     data-tour="sermons-favorites-link">
@@ -36,7 +41,7 @@
                 <a href="{{ route('memberpanel.sermons.create') }}"
                     class="inline-flex items-center px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-600/30 rounded-xl font-bold transition-all hover:-translate-y-0.5">
                     <x-icon name="plus" class="w-5 h-5 mr-2" />
-                    Criar Sermão
+                    Novo Sermão
                 </a>
             </div>
         </div>
@@ -90,7 +95,7 @@
                                 </div>
                                 <div class="flex items-center gap-1.5">
                                     <x-icon name="calendar" class="w-3.5 h-3.5" />
-                                    {{ $sermon->published_at?->format('d/m') }}
+                                    {{ $sermon->published_at?->translatedFormat('d/m') }}
                                 </div>
                             </div>
                         </div>
@@ -113,7 +118,7 @@
                 <form method="GET" action="{{ route('memberpanel.sermons.index') }}" class="space-y-5">
                     <div>
                          <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
-                            Buscar
+                            Pesquisar
                         </label>
                         <div class="relative">
                             <input type="text" name="search" value="{{ request('search') }}"
@@ -158,12 +163,12 @@
                     <div class="pt-2 flex flex-col gap-2">
                         <button type="submit"
                             class="w-full px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-600/20 hover:-translate-y-0.5">
-                            Filtrar Resultados
+                            Aplicar filtros
                         </button>
                         @if (request()->hasAny(['search', 'category_id', 'tag_id', 'featured']))
                             <a href="{{ route('memberpanel.sermons.index') }}"
                                 class="w-full px-4 py-2.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 font-bold rounded-xl transition-colors text-center">
-                                Limpar Filtros
+                                Limpar filtros
                             </a>
                         @endif
                     </div>
@@ -219,7 +224,7 @@
                                 <!-- Footer -->
                                 <div class="mt-auto pt-3 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between">
                                     <div class="flex items-center gap-2">
-                                        <img src="{{ $sermon->user->avatar_url }}" alt="{{ $sermon->user->name }}" class="w-5 h-5 rounded-full object-cover">
+                                        <img src="{{ $sermon->user->avatar_url ?? $sermon->user->profile_photo_url ?? asset('images/default-avatar.png') }}" alt="{{ $sermon->user->name }}" class="w-5 h-5 rounded-full object-cover">
                                         @if($sermon->series)
                                             <span class="text-[9px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wide">
                                                 {{ Str::limit($sermon->series->title, 15) }}
@@ -265,7 +270,7 @@
                         <a href="{{ route('memberpanel.sermons.create') }}"
                             class="inline-flex items-center px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl shadow-lg transition-all hover:-translate-y-0.5">
                             <x-icon name="plus" class="w-5 h-5 mr-2" />
-                            Criar meu primeiro sermão
+                            Criar primeiro sermão
                         </a>
                     @endif
                 </div>

@@ -35,7 +35,7 @@
     <!-- Breadcrumb -->
     <nav class="flex text-sm font-medium" aria-label="Breadcrumb">
         <ol class="flex items-center space-x-2">
-            <li><a href="{{ route('memberpanel.sermon-exegesis.index') }}" class="text-gray-500 hover:text-cyan-600 dark:text-gray-400 dark:hover:text-cyan-400 transition-colors">Exegese</a></li>
+            <li><a href="{{ route('memberpanel.sermon-exegesis.index') }}" class="text-gray-500 hover:text-cyan-600 dark:text-gray-400 dark:hover:text-cyan-400 transition-colors">Comentários</a></li>
             <li class="text-gray-300 dark:text-gray-600">/</li>
             <li class="text-gray-900 dark:text-gray-200" aria-current="page">{{ $commentary->reference }}</li>
         </ol>
@@ -63,13 +63,13 @@
                 </h1>
             @else
                 <h1 class="text-3xl md:text-5xl font-black text-gray-900 dark:text-white mb-6 leading-tight tracking-tight">
-                    Exegese do Texto
+                    Comentário Exegético
                 </h1>
             @endif
 
             <div class="flex flex-wrap items-center gap-8 mt-8 pt-8 border-t border-gray-200 dark:border-gray-700/50">
                 <div class="flex items-center gap-3">
-                    <img src="{{ $commentary->user->avatar_url }}" alt="{{ $commentary->user->name }}" class="w-12 h-12 rounded-full object-cover shadow-sm">
+                    <img src="{{ $commentary->user->avatar_url ?? $commentary->user->profile_photo_url ?? asset('images/default-avatar.png') }}" alt="{{ $commentary->user->name }}" class="w-12 h-12 rounded-full object-cover shadow-sm">
                     <div>
                         <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Autor</p>
                         <p class="font-bold text-gray-900 dark:text-white">{{ $commentary->user->name }}</p>
@@ -82,6 +82,11 @@
                         <span class="text-sm font-bold text-green-700 dark:text-green-300 uppercase tracking-wide">Conteúdo Oficial</span>
                     </div>
                 @endif
+
+                <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                    <x-icon name="calendar" class="w-4 h-4" />
+                    {{ $commentary->created_at?->translatedFormat('d \\d\\e F \\d\\e Y') }}
+                </div>
             </div>
         </header>
 
@@ -89,7 +94,7 @@
         @if($commentary->audio_path || $commentary->audio_url)
             <div class="p-6 bg-cyan-50 dark:bg-cyan-900/10 border-b border-cyan-100 dark:border-cyan-900/20">
                 <div class="flex items-center gap-4 max-w-3xl mx-auto">
-                    <div class="w-12 h-12 bg-cyan-500 rounded-full flex items-center justify-center flex-shrink-0 text-white shadow-lg shadow-cyan-500/20 animate-pulse">
+                    <div class="w-12 h-12 bg-cyan-500 rounded-full flex items-center justify-center shrink-0 text-white shadow-lg shadow-cyan-500/20 animate-pulse">
                         <x-icon name="volume-up" class="w-6 h-6" />
                     </div>
                     <div class="flex-1">
@@ -119,7 +124,7 @@
             <a href="{{ route('memberpanel.sermon-exegesis.index') }}"
                class="inline-flex items-center px-6 py-3 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl font-bold text-gray-700 dark:text-white shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
                 <x-icon name="arrow-left" class="w-4 h-4 mr-2" />
-                Voltar para Exegese
+                Voltar para comentários
             </a>
         </div>
     </article>

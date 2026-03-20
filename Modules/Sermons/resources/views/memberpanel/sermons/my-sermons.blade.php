@@ -12,7 +12,7 @@
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
             <h1 class="text-2xl font-black text-gray-900 dark:text-white tracking-tight">Meus Sermões</h1>
-            <p class="text-gray-600 dark:text-gray-400">Gerencie e acompanhe seus sermões publicados.</p>
+            <p class="text-gray-600 dark:text-gray-400">Gerencie rascunhos, publicações e desempenho ministerial dos seus sermões.</p>
         </div>
         <a href="{{ route('memberpanel.sermons.create') }}"
             class="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-600/20 transition-all hover:-translate-y-0.5">
@@ -25,7 +25,7 @@
     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
         <form method="GET" action="{{ route('memberpanel.sermons.my-sermons') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div class="md:col-span-2">
-                 <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Buscar</label>
+                 <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Pesquisar</label>
                 <div class="relative">
                     <input type="text" name="search" value="{{ request('search') }}"
                         class="w-full pl-10 pr-4 py-2.5 border border-gray-200 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white font-medium focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder-gray-400"
@@ -53,7 +53,7 @@
 
             <div class="flex items-end gap-2 md:col-span-1">
                 <button type="submit" class="flex-1 px-4 py-2.5 bg-gray-900 dark:bg-gray-600 text-white font-bold rounded-xl hover:bg-gray-800 dark:hover:bg-gray-500 transition-colors">
-                    Filtrar
+                    Aplicar
                 </button>
                 @if (request()->hasAny(['search', 'status']))
                     <a href="{{ route('memberpanel.sermons.my-sermons') }}" class="px-4 py-2.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 font-bold rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
@@ -123,11 +123,11 @@
                         <div class="flex items-center gap-3 border-t md:border-t-0 md:border-l border-gray-100 dark:border-gray-700 pt-4 md:pt-0 md:pl-6">
                             <a href="{{ route('memberpanel.sermons.show', $sermon) }}"
                                 class="flex-1 md:flex-none px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 text-sm font-bold rounded-xl transition-colors text-center">
-                                Ver
+                                Abrir
                             </a>
 
                             @if($sermon->user_id === auth()->id())
-                                <a href="{{ route('admin.sermons.sermons.edit', $sermon) }}"
+                                <a href="{{ route('memberpanel.sermons.edit', $sermon) }}"
                                     class="flex-1 md:flex-none px-4 py-2 bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-sm font-bold rounded-xl transition-colors text-center">
                                     Editar
                                 </a>
@@ -153,7 +153,7 @@
             <a href="{{ route('memberpanel.sermons.create') }}"
                 class="inline-flex items-center px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-600/20 transition-all hover:-translate-y-0.5">
                 <x-icon name="plus" class="w-5 h-5 mr-2" />
-                Criar Primeiro Sermão
+                Criar primeiro sermão
             </a>
         </div>
     @endif

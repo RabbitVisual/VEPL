@@ -53,8 +53,8 @@
                     <label for="image_file" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Imagem de Capa</label>
                     <div class="mt-1 flex items-center space-x-4">
                         <div id="image-preview" class="w-20 h-20 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center overflow-hidden border border-gray-200 dark:border-gray-600">
-                             @if($series->image)
-                                <img src="{{ asset('storage/' . $series->image) }}" class="w-full h-full object-cover">
+                             @if($series->cover_image)
+                                <img src="{{ asset('storage/' . $series->cover_image) }}" class="w-full h-full object-cover">
                              @else
                                 <x-icon name="photograph" class="w-8 h-8 text-gray-400" />
                              @endif
@@ -105,4 +105,3 @@
 </script>
 @endpush
 @endsection
-

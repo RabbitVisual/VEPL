@@ -60,8 +60,8 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="h-10 w-10 flex-shrink-0">
-                                        @if($item->image)
-                                            <img class="h-10 w-10 rounded-lg object-cover" src="{{ asset('storage/' . $item->image) }}" alt="">
+                                        @if($item->cover_image)
+                                            <img class="h-10 w-10 rounded-lg object-cover" src="{{ asset('storage/' . $item->cover_image) }}" alt="">
                                         @else
                                             <div class="h-10 w-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
                                                 <x-icon name="collection" class="h-5 w-5 text-gray-400" />
@@ -76,7 +76,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                 <span class="mr-2">{{ $item->sermons_count }} Sermões</span>
-                                <span>{{ $item->studies_count }} Estudos</span>
+                                <span>{{ $item->outlines_count }} Estudos</span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="px-2 py-1 text-xs font-medium rounded-full
@@ -135,4 +135,3 @@
     </div>
 </div>
 @endsection
-

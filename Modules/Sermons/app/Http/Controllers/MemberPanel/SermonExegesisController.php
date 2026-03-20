@@ -2,20 +2,20 @@
 
 namespace Modules\Sermons\App\Http\Controllers\MemberPanel;
 
+use App\Models\Settings;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Modules\Bible\App\Services\BibleApiService;
+use Modules\Bible\App\Models\BibleVersion;
 use Modules\Sermons\App\Models\SermonExegesis;
 
 class SermonExegesisController extends Controller
 {
-    public function __construct(
-        private BibleApiService $bibleApi
-    ) {}
-
     public function index(Request $request): View
     {
+        $defaultVersion = $this->resolveDefaultBibleVersion();
+        $selectedVersionId = $defaultVersion?->id;
+
         $query = SermonExegesis::where('status', 'published')
             ->with('user');
 
@@ -43,9 +43,9 @@ class SermonExegesisController extends Controller
             ->orderBy('book')
             ->pluck('book');
 
-        $bibleVersions = $this->bibleApi->getVersions();
+        $bibleVersions = $defaultVersion ? collect([$defaultVersion]) : collect();
 
-        return view('sermons::memberpanel.commentaries.index', compact('commentaries', 'books', 'bibleVersions'));
+        return view('sermons::memberpanel.commentaries.index', compact('commentaries', 'books', 'bibleVersions', 'selectedVersionId'));
     }
 
     public function show(SermonExegesis $commentary): View
@@ -54,7 +54,27 @@ class SermonExegesisController extends Controller
             abort(404);
         }
 
+        $commentary->load('user');
+
         return view('sermons::memberpanel.commentaries.show', compact('commentary'));
+    }
+
+    private function resolveDefaultBibleVersion(): ?BibleVersion
+    {
+        $globalAbbr = (string) Settings::get('default_bible_version_abbreviation', '');
+
+        if ($globalAbbr !== '') {
+            $bySettings = BibleVersion::query()
+                ->active()
+                ->whereRaw('LOWER(abbreviation) = ?', [strtolower($globalAbbr)])
+                ->first();
+            if ($bySettings) {
+                return $bySettings;
+            }
+        }
+
+        return BibleVersion::query()->default()->first()
+            ?? BibleVersion::query()->active()->first();
     }
 }
 

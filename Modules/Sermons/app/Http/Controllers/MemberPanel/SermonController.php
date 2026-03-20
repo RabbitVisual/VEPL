@@ -2,6 +2,7 @@
 
 namespace Modules\Sermons\App\Http\Controllers\MemberPanel;
 
+use App\Models\Settings;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -9,6 +10,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Mpdf\Mpdf;
+use Modules\Bible\App\Models\BibleVersion;
 use Modules\Bible\App\Models\Book;
 use Modules\Bible\App\Services\BibleApiService;
 use Modules\Sermons\App\Models\Sermon;
@@ -30,7 +32,7 @@ class SermonController extends Controller
     public function index(Request $request): View
     {
         $query = Sermon::visible(auth()->user())
-            ->with(['category', 'user', 'tags'])
+            ->with(['category', 'user', 'tags', 'series'])
             ->published();
 
         // Filter by category
@@ -63,7 +65,11 @@ class SermonController extends Controller
         $sermons = $query->orderBy('published_at', 'desc')->paginate(12);
         $categories = SermonCategory::active()->ordered()->get();
         $tags = SermonTag::all();
-        $featuredSermons = Sermon::visible(auth()->user())->featured()->limit(3)->get();
+        $featuredSermons = Sermon::visible(auth()->user())
+            ->featured()
+            ->with(['category'])
+            ->limit(3)
+            ->get();
 
         return view('sermons::memberpanel.sermons.index', compact('sermons', 'categories', 'tags', 'featuredSermons'));
     }
@@ -77,8 +83,8 @@ class SermonController extends Controller
         $tags = SermonTag::all();
         $series = SermonSeries::where('status', 'published')->orderBy('title')->get();
 
-        $bibleVersions = $this->bibleApi->getVersions();
-        $defaultVersion = $bibleVersions->first();
+        $defaultVersion = $this->resolveDefaultBibleVersion();
+        $bibleVersions = $defaultVersion ? collect([$defaultVersion]) : collect();
         $bibleBooks = $defaultVersion ? $this->bibleApi->getBooks($defaultVersion->id) : collect();
 
         return view('sermons::memberpanel.sermons.create', compact('categories', 'tags', 'bibleVersions', 'bibleBooks', 'series'));
@@ -169,8 +175,8 @@ class SermonController extends Controller
         $series = SermonSeries::where('status', 'published')->orderBy('title')->get();
         $sermon->load(['tags', 'bibleReferences', 'collaborators.user']);
 
-        $bibleVersions = $this->bibleApi->getVersions();
-        $defaultVersion = $bibleVersions->first();
+        $defaultVersion = $this->resolveDefaultBibleVersion();
+        $bibleVersions = $defaultVersion ? collect([$defaultVersion]) : collect();
         $bibleBooks = $defaultVersion ? $this->bibleApi->getBooks($defaultVersion->id) : collect();
 
         return view('sermons::memberpanel.sermons.edit', compact('sermon', 'categories', 'tags', 'bibleVersions', 'bibleBooks', 'series'));
@@ -273,13 +279,29 @@ class SermonController extends Controller
     {
         $this->authorize('view', $sermon);
 
-        $sermon->load(['category', 'user', 'tags', 'bibleReferences', 'comments.user', 'comments.replies.user']);
+        $sermon->load([
+            'category',
+            'user',
+            'tags',
+            'worshipSuggestion',
+            'bibleReferences.bookModel',
+            'bibleReferences.chapterModel',
+            'bibleReferences.verseStart',
+            'bibleReferences.verseEnd',
+            'comments.user',
+            'comments.replies.user',
+        ]);
         $sermon->incrementViews();
 
         $isFavorite = $sermon->isFavoritedBy(auth()->user());
         $canEdit = $sermon->canEdit(auth()->user());
+        $contextBooks = $sermon->bibleReferences
+            ->map(fn ($ref) => $ref->bookModel)
+            ->filter()
+            ->unique('id')
+            ->values();
 
-        return view('sermons::memberpanel.sermons.show', compact('sermon', 'isFavorite', 'canEdit'));
+        return view('sermons::memberpanel.sermons.show', compact('sermon', 'isFavorite', 'canEdit', 'contextBooks'));
     }
 
     /**
@@ -311,7 +333,8 @@ class SermonController extends Controller
     public function mySermons(Request $request): View
     {
         $query = Sermon::where('user_id', auth()->id())
-            ->with(['category', 'tags']);
+            ->with(['category', 'tags'])
+            ->withCount('comments');
 
         // Filter by status
         if ($request->has('status') && ! empty($request->status)) {
@@ -352,12 +375,20 @@ class SermonController extends Controller
     {
         $validated = $request->validate([
             'comment' => 'required|string|max:1000',
+            'type' => 'nullable|in:comment,question,feedback,suggestion',
+            'parent_id' => 'nullable|integer|exists:sermon_comments,id',
         ]);
+
+        if (! empty($validated['parent_id'])) {
+            $belongsToSermon = $sermon->allComments()->where('id', (int) $validated['parent_id'])->exists();
+            abort_unless($belongsToSermon, 422, 'Resposta inválida para este sermão.');
+        }
 
         $sermon->comments()->create([
             'user_id' => auth()->id(),
             'comment' => $validated['comment'],
-            'type' => 'comment', // Default type
+            'type' => $validated['type'] ?? 'comment',
+            'parent_id' => $validated['parent_id'] ?? null,
         ]);
 
         return redirect()->back()->with('success', 'Comentário adicionado com sucesso!');
@@ -476,5 +507,23 @@ class SermonController extends Controller
             }
         }
         return implode("\n", $out);
+    }
+
+    private function resolveDefaultBibleVersion(): ?BibleVersion
+    {
+        $globalAbbr = (string) Settings::get('default_bible_version_abbreviation', '');
+
+        if ($globalAbbr !== '') {
+            $bySettings = BibleVersion::query()
+                ->active()
+                ->whereRaw('LOWER(abbreviation) = ?', [strtolower($globalAbbr)])
+                ->first();
+            if ($bySettings) {
+                return $bySettings;
+            }
+        }
+
+        return BibleVersion::query()->default()->first()
+            ?? BibleVersion::query()->active()->first();
     }
 }
