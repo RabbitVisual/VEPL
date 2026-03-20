@@ -1,6 +1,6 @@
 @extends('memberpanel::components.layouts.master')
 
-@section('title', 'Séries Bíblicas')
+@section('title', 'Séries Expositivas')
 
 @push('styles')
     @vite(['Modules/Sermons/resources/assets/sass/app.scss'])
@@ -19,7 +19,7 @@
             <div class="flex-1 space-y-2">
                  <p class="text-indigo-200/80 font-bold uppercase tracking-widest text-xs">Jornadas Temáticas</p>
                 <h1 class="text-3xl font-black text-white tracking-tight">
-                    Séries Bíblicas
+                    Séries Expositivas
                 </h1>
                 <p class="text-slate-300 font-medium max-w-xl">
                     Acompanhe nossas sequências de mensagens e estudos aprofundados.
@@ -31,7 +31,7 @@
     <!-- Series Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         @forelse($series as $s)
-            <a href="{{ route('memberpanel.series.show', $s) }}" class="group flex flex-col bg-white dark:bg-gray-800 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300 hover:-translate-y-1 overflow-hidden h-full">
+            <a href="{{ route('memberpanel.sermon-series.show', $s) }}" class="group flex flex-col bg-white dark:bg-gray-800 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300 hover:-translate-y-1 overflow-hidden h-full">
                 <!-- Image -->
                 <div class="aspect-video w-full bg-gray-100 dark:bg-gray-700 relative overflow-hidden">
                     @if($s->image)

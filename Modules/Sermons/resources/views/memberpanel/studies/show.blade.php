@@ -49,12 +49,12 @@
     <nav class="flex text-sm font-medium" aria-label="Breadcrumb">
         <ol class="flex items-center space-x-2">
             <li>
-                <a href="{{ route('memberpanel.studies.index') }}" class="text-gray-500 hover:text-emerald-600 dark:text-gray-400 dark:hover:text-emerald-400 transition-colors">Estudos</a>
+                <a href="{{ route('memberpanel.sermon-outlines.index') }}" class="text-gray-500 hover:text-emerald-600 dark:text-gray-400 dark:hover:text-emerald-400 transition-colors">Esboços</a>
             </li>
             <li class="text-gray-300 dark:text-gray-600">/</li>
             @if($study->series)
                 <li>
-                    <a href="{{ route('memberpanel.series.show', $study->series) }}" class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300">
+                    <a href="{{ route('memberpanel.sermon-series.show', $study->series) }}" class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300">
                         {{ $study->series->title }}
                     </a>
                 </li>
@@ -175,14 +175,14 @@
 
         <!-- Footer -->
         <div class="px-8 md:px-16 pb-12 pt-8 border-t border-gray-100 dark:border-gray-700 flex flex-col md:flex-row justify-between items-center gap-6 bg-gray-50/30 dark:bg-gray-800">
-            <a href="{{ route('memberpanel.studies.index') }}"
+            <a href="{{ route('memberpanel.sermon-outlines.index') }}"
                class="inline-flex items-center px-6 py-3 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl font-bold text-gray-700 dark:text-white shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
                 <x-icon name="arrow-left" class="w-4 h-4 mr-2" />
-                Voltar aos Estudos
+                Voltar aos Esboços
             </a>
 
              @if($study->series)
-                <a href="{{ route('memberpanel.series.show', $study->series) }}"
+                <a href="{{ route('memberpanel.sermon-series.show', $study->series) }}"
                    class="inline-flex items-center px-6 py-3 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800 rounded-xl font-bold text-emerald-700 dark:text-emerald-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
                     Mais da série "{{ Str::limit($study->series->title, 20) }}"
                     <x-icon name="arrow-right" class="w-4 h-4 ml-2" />

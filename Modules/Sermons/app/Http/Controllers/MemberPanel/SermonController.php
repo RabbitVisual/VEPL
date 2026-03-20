@@ -9,11 +9,13 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Mpdf\Mpdf;
+use Modules\Bible\App\Models\Book;
 use Modules\Bible\App\Services\BibleApiService;
 use Modules\Sermons\App\Models\Sermon;
 use Modules\Sermons\App\Models\SermonCategory;
 use Modules\Sermons\App\Models\SermonCollaborator;
 use Modules\Sermons\App\Models\SermonFavorite;
+use Modules\Sermons\App\Models\SermonSeries;
 use Modules\Sermons\App\Models\SermonTag;
 
 class SermonController extends Controller
@@ -73,12 +75,13 @@ class SermonController extends Controller
     {
         $categories = SermonCategory::active()->ordered()->get();
         $tags = SermonTag::all();
+        $series = SermonSeries::where('status', 'published')->orderBy('title')->get();
 
         $bibleVersions = $this->bibleApi->getVersions();
         $defaultVersion = $bibleVersions->first();
         $bibleBooks = $defaultVersion ? $this->bibleApi->getBooks($defaultVersion->id) : collect();
 
-        return view('sermons::memberpanel.sermons.create', compact('categories', 'tags', 'bibleVersions', 'bibleBooks'));
+        return view('sermons::memberpanel.sermons.create', compact('categories', 'tags', 'bibleVersions', 'bibleBooks', 'series'));
     }
 
     /**
@@ -88,14 +91,18 @@ class SermonController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
+            'theme' => 'nullable|string|max:255',
             'subtitle' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'category_id' => 'nullable|exists:sermon_categories,id',
-            'series_id' => 'nullable|exists:bible_series,id',
+            'sermon_series_id' => 'nullable|exists:sermon_series,id',
+            'biblical_text_base' => 'required|string|max:255',
+            'historical_context' => 'nullable|string',
+            'central_proposition' => 'nullable|string',
             'introduction' => 'nullable|string',
-            'development' => 'nullable|string',
+            'body_outline' => 'nullable|string',
+            'practical_application' => 'nullable|string',
             'conclusion' => 'nullable|string',
-            'application' => 'nullable|string',
             'full_content' => 'nullable|string',
             'status' => 'required|in:draft,published',
             'visibility' => 'required|in:public,members,private',
@@ -103,6 +110,10 @@ class SermonController extends Controller
             'tags' => 'nullable|array',
             'tags.*' => 'exists:sermon_tags,id',
             'bible_references' => 'nullable|array',
+            'bible_references.*.book_id' => 'required|exists:books,id',
+            'bible_references.*.chapter_id' => 'required|exists:chapters,id',
+            'bible_references.*.verse_start_id' => 'required|exists:verses,id',
+            'bible_references.*.verse_end_id' => 'nullable|exists:verses,id',
             'sermon_date' => 'nullable|date',
         ]);
 
@@ -124,21 +135,21 @@ class SermonController extends Controller
 
         // Create bible references
         if ($request->has('bible_references') && is_array($request->bible_references)) {
+            $bookIds = collect($request->bible_references)->pluck('book_id')->filter()->unique();
+            $booksMap = $bookIds->isNotEmpty() ? Book::whereIn('id', $bookIds)->pluck('name', 'id') : collect();
+
             foreach ($request->bible_references as $index => $ref) {
-                if (! empty($ref['book'])) {
-                    $sermon->bibleReferences()->create([
-                        'book' => $ref['book'],
-                        'chapter' => $ref['chapter'] ?? null,
-                        'verses' => $ref['verses'] ?? null,
-                        'reference_text' => $ref['reference_text'] ?? null,
-                        'bible_version_id' => $ref['bible_version_id'] ?? null,
-                        'book_id' => $ref['book_id'] ?? null,
-                        'chapter_id' => $ref['chapter_id'] ?? null,
-                        'type' => $ref['type'] ?? 'main',
-                        'context' => $ref['context'] ?? null,
-                        'order' => $index,
-                    ]);
-                }
+                $sermon->bibleReferences()->create([
+                    'book' => $booksMap[$ref['book_id']] ?? null,
+                    'bible_version_id' => $ref['bible_version_id'] ?? null,
+                    'book_id' => $ref['book_id'],
+                    'chapter_id' => $ref['chapter_id'],
+                    'verse_start_id' => $ref['verse_start_id'],
+                    'verse_end_id' => $ref['verse_end_id'] ?? $ref['verse_start_id'],
+                    'type' => $ref['type'] ?? 'main',
+                    'context' => $ref['context'] ?? null,
+                    'order' => $index,
+                ]);
             }
         }
 
@@ -155,7 +166,7 @@ class SermonController extends Controller
 
         $categories = SermonCategory::active()->ordered()->get();
         $tags = SermonTag::all();
-        $series = \Modules\Sermons\App\Models\BibleSeries::where('status', 'published')->orderBy('title')->get();
+        $series = SermonSeries::where('status', 'published')->orderBy('title')->get();
         $sermon->load(['tags', 'bibleReferences', 'collaborators.user']);
 
         $bibleVersions = $this->bibleApi->getVersions();
@@ -174,20 +185,28 @@ class SermonController extends Controller
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
+            'theme' => 'nullable|string|max:255',
             'subtitle' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'category_id' => 'nullable|exists:sermon_categories,id',
-            'series_id' => 'nullable|exists:bible_series,id',
+            'sermon_series_id' => 'nullable|exists:sermon_series,id',
+            'biblical_text_base' => 'required|string|max:255',
+            'historical_context' => 'nullable|string',
+            'central_proposition' => 'nullable|string',
             'introduction' => 'nullable|string',
-            'development' => 'nullable|string',
+            'body_outline' => 'nullable|string',
+            'practical_application' => 'nullable|string',
             'conclusion' => 'nullable|string',
-            'application' => 'nullable|string',
             'sermon_structure_type' => 'nullable|string|in:expositivo,temático,textual',
             'full_content' => 'nullable|string',
             'status' => 'required|in:draft,published',
             'visibility' => 'required|in:public,members,private',
             'tags' => 'nullable|array',
             'bible_references' => 'nullable|array',
+            'bible_references.*.book_id' => 'required|exists:books,id',
+            'bible_references.*.chapter_id' => 'required|exists:chapters,id',
+            'bible_references.*.verse_start_id' => 'required|exists:verses,id',
+            'bible_references.*.verse_end_id' => 'nullable|exists:verses,id',
             'sermon_date' => 'nullable|date',
         ]);
 
@@ -218,30 +237,19 @@ class SermonController extends Controller
         if ($request->has('bible_references') && is_array($request->bible_references)) {
             $sermon->bibleReferences()->delete();
             $bookIds = collect($request->bible_references)->pluck('book_id')->filter()->unique();
-            $chapterIds = collect($request->bible_references)->pluck('chapter_id')->filter()->unique();
-            $booksMap = $bookIds->isNotEmpty() ? \Modules\Bible\App\Models\Book::whereIn('id', $bookIds)->pluck('name', 'id') : collect();
-            $chaptersMap = $chapterIds->isNotEmpty() ? \Modules\Bible\App\Models\Chapter::whereIn('id', $chapterIds)->pluck('chapter_number', 'id') : collect();
+            $booksMap = $bookIds->isNotEmpty() ? Book::whereIn('id', $bookIds)->pluck('name', 'id') : collect();
             foreach ($request->bible_references as $index => $ref) {
-                if (! empty($ref['book_id']) && $booksMap->has($ref['book_id'])) {
-                    $ref['book'] = $booksMap[$ref['book_id']];
-                }
-                if (! empty($ref['chapter_id']) && $chaptersMap->has($ref['chapter_id'])) {
-                    $ref['chapter'] = $chaptersMap[$ref['chapter_id']];
-                }
-                if (! empty($ref['book'])) {
-                    $sermon->bibleReferences()->create([
-                        'book' => $ref['book'],
-                        'chapter' => $ref['chapter'] ?? null,
-                        'verses' => $ref['verses'] ?? null,
-                        'reference_text' => $ref['reference_text'] ?? null,
-                        'bible_version_id' => $ref['bible_version_id'] ?? null,
-                        'book_id' => $ref['book_id'] ?? null,
-                        'chapter_id' => $ref['chapter_id'] ?? null,
-                        'type' => $ref['type'] ?? 'main',
-                        'context' => $ref['context'] ?? null,
-                        'order' => $index,
-                    ]);
-                }
+                $sermon->bibleReferences()->create([
+                    'book' => $booksMap[$ref['book_id']] ?? null,
+                    'bible_version_id' => $ref['bible_version_id'] ?? null,
+                    'book_id' => $ref['book_id'],
+                    'chapter_id' => $ref['chapter_id'],
+                    'verse_start_id' => $ref['verse_start_id'],
+                    'verse_end_id' => $ref['verse_end_id'] ?? $ref['verse_start_id'],
+                    'type' => $ref['type'] ?? 'main',
+                    'context' => $ref['context'] ?? null,
+                    'order' => $index,
+                ]);
             }
         }
 

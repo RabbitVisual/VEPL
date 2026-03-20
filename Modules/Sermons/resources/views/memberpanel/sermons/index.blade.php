@@ -19,10 +19,10 @@
             <div class="flex-1 space-y-2">
                  <p class="text-blue-200/80 font-bold uppercase tracking-widest text-xs">Edificação Espiritual</p>
                 <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight">
-                    Sermões e Estudos
+                    Sermões Expositivos
                 </h1>
                 <p class="text-slate-300 font-medium max-w-xl">
-                    Explore nossa biblioteca de mensagens, estudos bíblicos e devocionais.
+                    Explore nossa biblioteca de mensagens, esboços homiléticos e exegese pastoral.
                 </p>
             </div>
 

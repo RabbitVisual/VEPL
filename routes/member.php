@@ -244,7 +244,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     // =====================================================================
-    // Sermons - Sermões, Séries, Estudos, Comentários (painel/sermoes, etc.)
+    // Sermons - Estúdio de Pregação Expositiva (painel/sermoes)
     // =====================================================================
     Route::prefix('painel/sermoes')->name('memberpanel.sermons.')->group(function () {
         Route::get('/', [\Modules\Sermons\App\Http\Controllers\MemberPanel\SermonController::class, 'index'])->name('index');
@@ -262,17 +262,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/{sermon}/favoritar', [\Modules\Sermons\App\Http\Controllers\MemberPanel\SermonController::class, 'toggleFavorite'])->name('toggle-favorite');
         Route::post('/{sermon}/comentar', [\Modules\Sermons\App\Http\Controllers\MemberPanel\SermonController::class, 'storeComment'])->name('store-comment');
     });
-    Route::prefix('painel/series')->name('memberpanel.series.')->group(function () {
-        Route::get('/', [\Modules\Sermons\App\Http\Controllers\MemberPanel\BibleSeriesController::class, 'index'])->name('index');
-        Route::get('/{series}', [\Modules\Sermons\App\Http\Controllers\MemberPanel\BibleSeriesController::class, 'show'])->name('show');
+    Route::prefix('painel/series-expositivas')->name('memberpanel.sermon-series.')->group(function () {
+        Route::get('/', [\Modules\Sermons\App\Http\Controllers\MemberPanel\SermonSeriesController::class, 'index'])->name('index');
+        Route::get('/{series}', [\Modules\Sermons\App\Http\Controllers\MemberPanel\SermonSeriesController::class, 'show'])->name('show');
     });
-    Route::prefix('painel/estudos')->name('memberpanel.studies.')->group(function () {
-        Route::get('/', [\Modules\Sermons\App\Http\Controllers\MemberPanel\BibleStudyController::class, 'index'])->name('index');
-        Route::get('/{study}', [\Modules\Sermons\App\Http\Controllers\MemberPanel\BibleStudyController::class, 'show'])->name('show');
+    Route::prefix('painel/esbocos-homileticos')->name('memberpanel.sermon-outlines.')->group(function () {
+        Route::get('/', [\Modules\Sermons\App\Http\Controllers\MemberPanel\SermonOutlineController::class, 'index'])->name('index');
+        Route::get('/{study}', [\Modules\Sermons\App\Http\Controllers\MemberPanel\SermonOutlineController::class, 'show'])->name('show');
     });
-    Route::prefix('painel/comentarios')->name('memberpanel.commentaries.')->group(function () {
-        Route::get('/', [\Modules\Sermons\App\Http\Controllers\MemberPanel\BibleCommentaryController::class, 'index'])->name('index');
-        Route::get('/{commentary}', [\Modules\Sermons\App\Http\Controllers\MemberPanel\BibleCommentaryController::class, 'show'])->name('show');
+    Route::prefix('painel/exegese-sermoes')->name('memberpanel.sermon-exegesis.')->group(function () {
+        Route::get('/', [\Modules\Sermons\App\Http\Controllers\MemberPanel\SermonExegesisController::class, 'index'])->name('index');
+        Route::get('/{commentary}', [\Modules\Sermons\App\Http\Controllers\MemberPanel\SermonExegesisController::class, 'show'])->name('show');
     });
 
     // =====================================================================

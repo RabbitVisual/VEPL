@@ -9,13 +9,13 @@
         <div>
             <h1 class="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">Cofre de Sermões</h1>
             <p class="text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-2">
-                <i class="fa-pro fa-solid fa-vault text-blue-500"></i>
+                <x-icon name="vault" style="solid" class="text-blue-500" />
                 Gestão de Conteúdo Homilético & Ministerial
             </p>
         </div>
         <a href="{{ route('admin.sermons.sermons.create') }}"
             class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-extrabold rounded-2xl shadow-lg shadow-blue-500/20 text-white bg-blue-600 hover:bg-blue-700 transform hover:-translate-y-0.5 transition-all">
-            <i class="fa-pro fa-solid fa-plus-circle mr-2"></i>
+            <x-icon name="plus-circle" style="solid" class="mr-2" />
             Novo Esboço
         </a>
     </div>
@@ -24,7 +24,7 @@
     <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6">
         <form method="GET" action="{{ route('admin.sermons.sermons.index') }}" class="grid grid-cols-1 md:grid-cols-5 gap-4">
             <div class="relative">
-                <i class="fa-pro fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                <x-icon name="magnifying-glass" style="solid" class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs" />
                 <input type="text" name="search" value="{{ request('search') }}"
                     class="w-full pl-9 pr-3 py-2.5 border border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50 dark:bg-slate-950/30 text-slate-900 dark:text-white focus:ring-blue-500/20 focus:border-blue-500 text-sm transition-all"
                     placeholder="Pesquisar...">
@@ -55,7 +55,7 @@
                 </button>
                 @if (request()->hasAny(['search', 'category_id', 'status', 'visibility']))
                     <a href="{{ route('admin.sermons.sermons.index') }}" class="px-4 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
-                        <i class="fa-pro fa-solid fa-rotate-left"></i>
+                        <x-icon name="rotate-left" style="solid" />
                     </a>
                 @endif
             </div>
@@ -86,12 +86,12 @@
                                             <img class="h-12 w-12 rounded-xl object-cover shadow-sm group-hover:scale-105 transition-transform" src="{{ asset('storage/' . $sermon->cover_image) }}" alt="">
                                         @else
                                             <div class="h-12 w-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center border border-slate-200 dark:border-slate-800">
-                                                <i class="fa-pro fa-solid fa-book-open text-slate-400 text-lg"></i>
+                                                <x-icon name="book-open" style="solid" class="text-slate-400 text-lg" />
                                             </div>
                                         @endif
                                         @if($sermon->audio_url)
                                             <span class="absolute -top-1 -right-1 w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center text-[8px] text-white shadow-sm border border-white dark:border-slate-900">
-                                                <i class="fa-pro fa-solid fa-microphone"></i>
+                                                <x-icon name="microphone" style="solid" />
                                             </span>
                                         @endif
                                     </div>
@@ -99,7 +99,7 @@
                                         <div class="text-sm font-extrabold text-slate-900 dark:text-white">{{ $sermon->title }}</div>
                                         <div class="text-[10px] text-slate-400 dark:text-slate-500 flex items-center gap-2 mt-0.5">
                                             <span class="font-bold flex items-center gap-1">
-                                                <i class="fa-pro fa-solid fa-clock opacity-50"></i>
+                                                <x-icon name="clock" style="solid" class="opacity-50" />
                                                 {{ $sermon->sermon_date ? $sermon->sermon_date->translatedFormat('d M, Y') : 'S/ Data' }}
                                             </span>
                                             <span class="w-1 h-1 rounded-full bg-slate-300"></span>
@@ -132,18 +132,18 @@
                                     @else
                                         bg-slate-50 text-slate-400 border-slate-100 dark:bg-slate-800 dark:text-slate-500 dark:border-slate-700
                                     @endif">
-                                    <i class="fa-pro fa-solid fa-circle text-[6px] mr-1.5 opacity-50"></i>
+                                    <x-icon name="circle" style="solid" class="text-[6px] mr-1.5 opacity-50" />
                                     {{ $sermon->status_display }}
                                 </span>
                             </td>
                             <td class="px-6 py-5 whitespace-nowrap">
                                 <div class="flex items-center gap-2 text-xs font-bold text-slate-600 dark:text-slate-400">
                                     @if($sermon->visibility === 'public')
-                                        <i class="fa-pro fa-solid fa-earth-americas text-blue-500"></i>
+                                        <x-icon name="earth-americas" style="solid" class="text-blue-500" />
                                     @elseif($sermon->visibility === 'members')
-                                        <i class="fa-pro fa-solid fa-users text-blue-600"></i>
+                                        <x-icon name="users" style="solid" class="text-blue-600" />
                                     @else
-                                        <i class="fa-pro fa-solid fa-lock text-slate-400"></i>
+                                        <x-icon name="lock" style="solid" class="text-slate-400" />
                                     @endif
                                     {{ $sermon->visibility_display }}
                                 </div>
@@ -152,18 +152,18 @@
                                 <div class="flex justify-end items-center gap-3">
                                     <a href="{{ route('admin.sermons.sermons.edit', $sermon) }}"
                                         class="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-all" title="Editar Esboço">
-                                        <i class="fa-pro fa-solid fa-edit"></i>
+                                        <x-icon name="edit" style="solid" />
                                     </a>
                                     <a href="{{ route('admin.sermons.sermons.show', $sermon) }}"
                                         class="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-all" title="Visualizar">
-                                        <i class="fa-pro fa-solid fa-eye"></i>
+                                        <x-icon name="eye" style="solid" />
                                     </a>
                                     <form action="{{ route('admin.sermons.sermons.destroy', $sermon) }}" method="POST" class="inline"
                                         onsubmit="return confirm('Mover para o arquivo morto? Esta ação é irreversível.');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all" title="Deletar">
-                                            <i class="fa-pro fa-solid fa-trash-can"></i>
+                                            <x-icon name="trash-can" style="solid" />
                                         </button>
                                     </form>
                                 </div>
@@ -174,13 +174,13 @@
                             <td colspan="6" class="px-6 py-20">
                                 <div class="flex flex-col items-center justify-center text-center max-w-sm mx-auto">
                                     <div class="w-20 h-20 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center mb-6">
-                                        <i class="fa-pro fa-solid fa-scroll text-blue-500 text-3xl"></i>
+                                        <x-icon name="scroll" style="solid" class="text-blue-500 text-3xl" />
                                     </div>
                                     <h3 class="text-xl font-extrabold text-slate-900 dark:text-white mb-2">Cofre de Sermões Vazio</h3>
                                     <p class="text-sm text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">Prepare sua próxima mensagem com ferramentas profissionais de homilética e exegese.</p>
                                     <a href="{{ route('admin.sermons.sermons.create') }}"
                                         class="inline-flex items-center px-8 py-3.5 bg-slate-900 dark:bg-blue-600 hover:bg-slate-800 dark:hover:bg-blue-700 text-white text-sm font-extrabold rounded-2xl shadow-xl transition-all">
-                                        <i class="fa-pro fa-solid fa-plus-circle mr-3"></i>
+                                        <x-icon name="plus-circle" style="solid" class="mr-3" />
                                         Começar Estudo
                                     </a>
                                 </div>

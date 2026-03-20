@@ -9,14 +9,14 @@
     <div>
         <h1 class="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">Novo Estudo Teológico</h1>
         <p class="text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-2">
-            <i class="fa-pro fa-solid fa-graduation-cap text-blue-500"></i>
+            <x-icon name="graduation-cap" style="solid" class="text-blue-500" />
             Materiais de Discipulado & Acadêmicos
         </p>
     </div>
     <div class="flex items-center space-x-3">
         <a href="{{ route('admin.sermons.studies.index') }}"
             class="inline-flex items-center px-4 py-2 border border-slate-200 dark:border-slate-800 text-sm font-bold rounded-xl text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all shadow-sm">
-            <i class="fa-pro fa-solid fa-arrow-left mr-2"></i>
+            <x-icon name="arrow-left" style="solid" class="mr-2" />
             Voltar
         </a>
     </div>
@@ -32,7 +32,7 @@
                 <div class="space-y-6">
                     <div>
                         <label for="title" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-2">
-                            <i class="fa-pro fa-solid fa-heading text-blue-500"></i>
+                            <x-icon name="heading" style="solid" class="text-blue-500" />
                             Título do Estudo
                         </label>
                         <input type="text" name="title" id="title" value="{{ old('title') }}" required
@@ -42,7 +42,7 @@
 
                     <div>
                         <label for="subtitle" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-2">
-                            <i class="fa-pro fa-solid fa-subscript text-slate-400 text-xs"></i>
+                            <x-icon name="subscript" style="solid" class="text-slate-400 text-xs" />
                             Subtítulo ou Tema Central
                         </label>
                         <input type="text" name="subtitle" id="subtitle" value="{{ old('subtitle') }}"
@@ -52,22 +52,22 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label for="series_id" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-2">
-                                <i class="fa-pro fa-solid fa-layer-group text-slate-400"></i>
+                            <label for="sermon_series_id" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-2">
+                                <x-icon name="layer-group" style="solid" class="text-slate-400" />
                                 Série Teológica
                             </label>
-                            <select name="series_id" id="series_id"
+                            <select name="sermon_series_id" id="sermon_series_id"
                                 class="block w-full rounded-xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/30 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-blue-500/20 sm:text-sm transition-all font-bold">
                                 <option value="">Estudo Avulso</option>
                                 @foreach($series as $s)
-                                    <option value="{{ $s->id }}" {{ old('series_id') == $s->id ? 'selected' : '' }}>{{ $s->title }}</option>
+                                    <option value="{{ $s->id }}" {{ old('sermon_series_id') == $s->id ? 'selected' : '' }}>{{ $s->title }}</option>
                                 @endforeach
                             </select>
                         </div>
 
                         <div>
                             <label for="category_id" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-2">
-                                <i class="fa-pro fa-solid fa-tag text-slate-400"></i>
+                                <x-icon name="tag" style="solid" class="text-slate-400" />
                                 Categoria Acadêmica
                             </label>
                             <select name="category_id" id="category_id" required
@@ -85,14 +85,14 @@
                 <div class="border-t border-slate-100 dark:border-slate-800 pt-8 mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="md:col-span-2">
                         <h3 class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest mb-4 flex items-center gap-2">
-                            <i class="fa-pro fa-solid fa-play-circle text-blue-500"></i>
+                            <x-icon name="play-circle" style="solid" class="text-blue-500" />
                             Anexos Multinível
                         </h3>
                     </div>
 
                     <div>
                         <label for="video_url" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-2">
-                            <i class="fa-pro fa-brands fa-youtube text-red-500"></i>
+                            <x-icon name="youtube" style="brands" class="text-red-500" />
                             Link do Vídeo
                         </label>
                         <input type="url" name="video_url" id="video_url" value="{{ old('video_url') }}"
@@ -102,7 +102,7 @@
 
                     <div>
                         <label for="audio_url" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-2">
-                            <i class="fa-pro fa-solid fa-waveform-lines text-blue-500"></i>
+                            <x-icon name="waveform-lines" style="solid" class="text-blue-500" />
                             Link do Áudio/Podcast
                         </label>
                         <input type="url" name="audio_url" id="audio_url" value="{{ old('audio_url') }}"
@@ -120,7 +120,7 @@
                 <!-- Content -->
                 <div class="border-t border-slate-100 dark:border-slate-800 pt-8 mt-4">
                     <label for="content" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-4 flex items-center gap-2">
-                        <i class="fa-pro fa-solid fa-feather-pointed text-blue-500"></i>
+                        <x-icon name="feather-pointed" style="solid" class="text-blue-500" />
                         Plexo do Estudo (Conteúdo Profundo)
                     </label>
                     <textarea name="content" id="content" rows="15" required
@@ -136,7 +136,7 @@
         <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 p-6">
             <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-6 flex items-center justify-between">
                 <span>Engrenagens</span>
-                <i class="fa-pro fa-solid fa-gears"></i>
+                <x-icon name="gears" style="solid" />
             </h3>
 
             <div class="space-y-6">
@@ -172,7 +172,7 @@
             <div class="mt-8">
                 <button type="submit" form="studyForm"
                     class="w-full py-4 bg-slate-900 dark:bg-blue-600 hover:bg-slate-800 dark:hover:bg-blue-700 text-white font-black rounded-2xl shadow-xl shadow-blue-500/10 transform hover:-translate-y-1 transition-all flex items-center justify-center gap-3">
-                    <i class="fa-pro fa-solid fa-cloud-upload"></i>
+                    <x-icon name="cloud-arrow-up" style="solid" />
                     PUBLICAR ESTUDO
                 </button>
             </div>
@@ -182,17 +182,17 @@
         <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 text-center">
             <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-6 flex items-center justify-between">
                 <span>Visual Acadêmico</span>
-                <i class="fa-pro fa-solid fa-image"></i>
+                <x-icon name="image" style="solid" />
             </h3>
 
             <div class="relative group mx-auto w-full aspect-video rounded-[2rem] bg-slate-50 dark:bg-slate-950 border-2 border-dashed border-slate-200 dark:border-slate-800 flex flex-col items-center justify-center overflow-hidden transition-all hover:border-blue-500/50">
                 <div id="cover-preview" class="absolute inset-0 z-0">
-                     <i class="fa-pro fa-solid fa-scroll-old text-5xl text-slate-300 dark:text-slate-800 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></i>
+                     <x-icon name="scroll-old" style="solid" class="text-5xl text-slate-300 dark:text-slate-800 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
                 </div>
                 <div class="relative z-10 p-4">
                     <button type="button" onclick="document.getElementById('cover_image_file').click()"
                         class="bg-white dark:bg-slate-900 text-slate-900 dark:text-white p-3 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 transform hover:scale-110 transition-all">
-                        <i class="fa-pro fa-solid fa-camera"></i>
+                        <x-icon name="camera" style="solid" />
                     </button>
                 </div>
                 <input type="file" name="cover_image_file" id="cover_image_file" form="studyForm" accept="image/*" class="hidden" onchange="previewCover(event)">

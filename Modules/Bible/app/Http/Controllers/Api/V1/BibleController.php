@@ -16,6 +16,7 @@ use Modules\Bible\App\Http\Resources\ChapterResource;
 use Modules\Bible\App\Http\Resources\FindByReferenceResource;
 use Modules\Bible\App\Http\Resources\RandomVerseResource;
 use Modules\Bible\App\Http\Resources\VerseResource;
+use Modules\Bible\App\Models\StrongsLexicon;
 use Modules\Bible\App\Services\BibleApiService;
 
 class BibleController extends Controller
@@ -245,6 +246,31 @@ class BibleController extends Controller
 
         return response()->json([
             'data' => $data,
+        ]);
+    }
+
+    /**
+     * GET /strong/{number}
+     */
+    public function strong(string $number): JsonResponse
+    {
+        $normalized = strtoupper(trim($number));
+        $entry = StrongsLexicon::query()->where('number', $normalized)->first();
+
+        if (! $entry) {
+            return response()->json(['message' => 'Strong não encontrado.'], 404);
+        }
+
+        return response()->json([
+            'data' => [
+                'number' => $entry->number,
+                'lang' => $entry->lang,
+                'lemma' => $entry->lemma,
+                'pronounce' => $entry->pronounce,
+                'xlit' => $entry->xlit,
+                'description_pt' => $entry->description_pt,
+                'lemma_br' => $entry->lemma_br,
+            ],
         ]);
     }
 }

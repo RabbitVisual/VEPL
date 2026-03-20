@@ -57,6 +57,7 @@ Route::middleware(['throttle:60,1'])->prefix('v1/bible')->name('bible.api.')->gr
     Route::get('/compare', [$bibleV1, 'compare'])->name('compare');
     Route::get('/audio-url', [$bibleV1, 'audioUrl'])->name('audio-url');
     Route::get('/panorama', [$bibleV1, 'panorama'])->name('panorama');
+    Route::get('/strong/{number}', [$bibleV1, 'strong'])->name('strong');
 });
 
 // =====================================================================

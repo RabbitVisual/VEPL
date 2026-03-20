@@ -11,7 +11,7 @@ use Modules\Sermons\App\Models\Sermon;
 class SermonApiService
 {
     /**
-     * Lista sermões (paginado). Filtros: status, visibility, category_id, series_id, featured.
+     * Lista sermões (paginado). Filtros: status, visibility, category_id, sermon_series_id, featured.
      *
      * @return LengthAwarePaginator<Sermon>
      */
@@ -23,7 +23,7 @@ class SermonApiService
         ?int $seriesId = null,
         ?bool $featuredOnly = null
     ): LengthAwarePaginator {
-        $query = Sermon::with(['category', 'series', 'user'])->latest('sermon_date');
+        $query = Sermon::with(['category', 'sermonSeries', 'user'])->latest('sermon_date');
 
         if ($status !== null && $status !== '') {
             $query->where('status', $status);
@@ -35,7 +35,7 @@ class SermonApiService
             $query->where('category_id', $categoryId);
         }
         if ($seriesId !== null) {
-            $query->where('series_id', $seriesId);
+            $query->where('sermon_series_id', $seriesId);
         }
         if ($featuredOnly === true) {
             $query->where('is_featured', true);
@@ -49,7 +49,7 @@ class SermonApiService
      */
     public function getById(int $id): ?Sermon
     {
-        return Sermon::with(['category', 'series', 'user', 'tags', 'bibleReferences'])->find($id);
+        return Sermon::with(['category', 'sermonSeries', 'user', 'tags', 'bibleReferences'])->find($id);
     }
 
     /**
@@ -57,7 +57,7 @@ class SermonApiService
      */
     public function getBySlug(string $slug): ?Sermon
     {
-        return Sermon::with(['category', 'series', 'user', 'tags', 'bibleReferences'])
+        return Sermon::with(['category', 'sermonSeries', 'user', 'tags', 'bibleReferences'])
             ->where('slug', $slug)
             ->first();
     }
@@ -80,7 +80,7 @@ class SermonApiService
             $this->syncBibleReferences($sermon, $refs);
         }
 
-        return $sermon->fresh(['category', 'series', 'user', 'tags', 'bibleReferences']);
+        return $sermon->fresh(['category', 'sermonSeries', 'user', 'tags', 'bibleReferences']);
     }
 
     /**
@@ -102,7 +102,7 @@ class SermonApiService
             $this->syncBibleReferences($sermon, $refs);
         }
 
-        return $sermon->fresh(['category', 'series', 'user', 'tags', 'bibleReferences']);
+        return $sermon->fresh(['category', 'sermonSeries', 'user', 'tags', 'bibleReferences']);
     }
 
     private function syncTags(Sermon $sermon, array $tags): void
@@ -125,17 +125,17 @@ class SermonApiService
     private function syncBibleReferences(Sermon $sermon, array $refs): void
     {
         foreach ($refs as $i => $ref) {
-            if (empty($ref['book'] ?? null)) {
+            if (empty($ref['book_id'] ?? null) || empty($ref['chapter_id'] ?? null) || empty($ref['verse_start_id'] ?? null)) {
                 continue;
             }
+            $bookName = \Modules\Bible\App\Models\Book::query()->whereKey($ref['book_id'])->value('name');
             $sermon->bibleReferences()->create([
-                'book' => $ref['book'],
-                'chapter' => $ref['chapter'] ?? null,
-                'verses' => $ref['verses'] ?? null,
-                'reference_text' => $ref['reference_text'] ?? null,
+                'book' => $bookName,
                 'bible_version_id' => $ref['bible_version_id'] ?? null,
-                'book_id' => $ref['book_id'] ?? null,
-                'chapter_id' => $ref['chapter_id'] ?? null,
+                'book_id' => $ref['book_id'],
+                'chapter_id' => $ref['chapter_id'],
+                'verse_start_id' => $ref['verse_start_id'],
+                'verse_end_id' => $ref['verse_end_id'] ?? $ref['verse_start_id'],
                 'type' => $ref['type'] ?? 'main',
                 'context' => $ref['context'] ?? null,
                 'order' => $i,

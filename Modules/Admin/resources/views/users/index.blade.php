@@ -192,18 +192,14 @@
                                 <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Função</th>
                                 <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Contato</th>
                                 <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
-                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nível</th>
+
                                 <th class="px-6 py-4 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Família</th>
                                 <th class="px-6 py-4 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ações</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                             @foreach($users as $user)
-                                @php
-                                    $level = $user->getGamificationLevel();
-                                    $points = $user->getGamificationPoints();
-                                    $levelColorClass = isset($level['color']) ? ($levelColorMap[$level['color']] ?? 'text-gray-600 dark:text-gray-400') : 'text-gray-600 dark:text-gray-400';
-                                @endphp
+
                                 <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors group">
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
@@ -242,19 +238,7 @@
                                             </span>
                                         @endif
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center gap-2">
-                                            @if(isset($level['icon']) && $level['icon'])
-                                                <div class="{{ $levelColorClass }}">
-                                                    <x-icon name="{{ $level['icon'] }}" class="w-5 h-5" />
-                                                </div>
-                                            @endif
-                                            <div>
-                                                <div class="text-xs font-bold text-gray-900 dark:text-white">{{ $level['name'] ?? '—' }}</div>
-                                                <div class="text-[10px] text-gray-500 dark:text-gray-400">{{ $points }} pts</div>
-                                            </div>
-                                        </div>
-                                    </td>
+
                                     <td class="px-6 py-4 whitespace-nowrap text-center">
                                         @if($user->relationships_count > 0)
                                             <span class="inline-flex items-center justify-center gap-1 px-2 py-1 rounded-lg bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400" title="{{ $user->relationships_count }} vínculo(s)">

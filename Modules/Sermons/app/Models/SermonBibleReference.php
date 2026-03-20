@@ -7,29 +7,23 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Bible\App\Models\BibleVersion;
 use Modules\Bible\App\Models\Book;
 use Modules\Bible\App\Models\Chapter;
+use Modules\Bible\App\Models\Verse;
 
 class SermonBibleReference extends Model
 {
     protected $fillable = [
         'sermon_id',
         'book',
-        'chapter',
-        'verses',
-        'reference_text',
         'bible_version_id',
         'book_id',
         'chapter_id',
+        'verse_start_id',
+        'verse_end_id',
         'type',
         'context',
         'exegesis_notes',
-        'study_note_id',
         'order',
     ];
-
-    public function studyNote(): BelongsTo
-    {
-        return $this->belongsTo(SermonStudyNote::class, 'study_note_id');
-    }
 
     // Type constants
     const TYPE_MAIN = 'main';
@@ -72,19 +66,32 @@ class SermonBibleReference extends Model
         return $this->belongsTo(Chapter::class, 'chapter_id');
     }
 
+    public function verseStart(): BelongsTo
+    {
+        return $this->belongsTo(Verse::class, 'verse_start_id');
+    }
+
+    public function verseEnd(): BelongsTo
+    {
+        return $this->belongsTo(Verse::class, 'verse_end_id');
+    }
+
     /**
      * Get formatted reference
      */
     public function getFormattedReferenceAttribute(): string
     {
-        $reference = $this->book;
+        $reference = $this->bookModel?->name ?? $this->book;
 
-        if ($this->chapter) {
-            $reference .= ' '.$this->chapter;
+        if ($this->chapterModel) {
+            $reference .= ' '.$this->chapterModel->chapter_number;
         }
 
-        if ($this->verses) {
-            $reference .= ':'.$this->verses;
+        if ($this->verseStart) {
+            $reference .= ':'.$this->verseStart->verse_number;
+            if ($this->verseEnd && $this->verseEnd->id !== $this->verseStart->id) {
+                $reference .= '-'.$this->verseEnd->verse_number;
+            }
         }
 
         return $reference;

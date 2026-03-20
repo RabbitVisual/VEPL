@@ -7,24 +7,23 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
-use Modules\Sermons\App\Models\BibleSeries;
+use Modules\Sermons\App\Models\SermonSeries;
 
-class BibleSeriesController extends Controller
+class SermonSeriesController extends Controller
 {
     public function index(Request $request): View
     {
-        $query = BibleSeries::withCount(['sermons', 'studies']);
+        $query = SermonSeries::withCount(['sermons', 'outlines']);
 
-        if ($request->has('status') && ! empty($request->status)) {
-            $query->where('status', $request->status);
+        if ($request->filled('status')) {
+            $query->where('status', $request->string('status'));
         }
 
-        if ($request->has('search') && ! empty($request->search)) {
-            $search = $request->search;
-            $query->where('title', 'like', "%{$search}%");
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%'.$request->string('search').'%');
         }
 
-        $series = $query->orderBy('created_at', 'desc')->paginate(15);
+        $series = $query->orderByDesc('created_at')->paginate(15);
 
         return view('sermons::admin.series.index', compact('series'));
     }
@@ -48,22 +47,20 @@ class BibleSeriesController extends Controller
         $validated['slug'] = Str::slug($validated['title']).'-'.Str::random(6);
 
         if ($request->hasFile('image_file')) {
-            $path = $request->file('image_file')->store('sermons/series', 'public');
-            $validated['image'] = $path;
+            $validated['cover_image'] = $request->file('image_file')->store('sermons/series', 'public');
         }
 
-        BibleSeries::create($validated);
+        SermonSeries::create($validated);
 
-        return redirect()->route('admin.sermons.series.index')
-            ->with('success', 'Série criada com sucesso!');
+        return redirect()->route('admin.sermons.series.index')->with('success', 'Série criada com sucesso!');
     }
 
-    public function edit(BibleSeries $series): View
+    public function edit(SermonSeries $series): View
     {
         return view('sermons::admin.series.edit', compact('series'));
     }
 
-    public function update(Request $request, BibleSeries $series): RedirectResponse
+    public function update(Request $request, SermonSeries $series): RedirectResponse
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -73,30 +70,27 @@ class BibleSeriesController extends Controller
             'is_featured' => 'boolean',
         ]);
 
-        if ($request->has('title') && $request->title !== $series->title) {
+        if ($request->string('title') !== $series->title) {
             $validated['slug'] = Str::slug($validated['title']).'-'.Str::random(6);
         }
 
         if ($request->hasFile('image_file')) {
-            // Delete old image
-            if ($series->image && \Storage::disk('public')->exists($series->image)) {
-                \Storage::disk('public')->delete($series->image);
+            if ($series->cover_image && \Storage::disk('public')->exists($series->cover_image)) {
+                \Storage::disk('public')->delete($series->cover_image);
             }
-            $path = $request->file('image_file')->store('sermons/series', 'public');
-            $validated['image'] = $path;
+            $validated['cover_image'] = $request->file('image_file')->store('sermons/series', 'public');
         }
 
         $series->update($validated);
 
-        return redirect()->route('admin.sermons.series.index')
-            ->with('success', 'Série atualizada com sucesso!');
+        return redirect()->route('admin.sermons.series.index')->with('success', 'Série atualizada com sucesso!');
     }
 
-    public function destroy(BibleSeries $series): RedirectResponse
+    public function destroy(SermonSeries $series): RedirectResponse
     {
         $series->delete();
 
-        return redirect()->route('admin.sermons.series.index')
-            ->with('success', 'Série removida com sucesso!');
+        return redirect()->route('admin.sermons.series.index')->with('success', 'Série removida com sucesso!');
     }
 }
+

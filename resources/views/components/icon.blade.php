@@ -1,7 +1,6 @@
 @props([
     'name',
     'style' => 'duotone',
-    'class' => '',
 ])
 
 @php
@@ -27,4 +26,4 @@
     }
 @endphp
 
-<i {{ $attributes->merge(['class' => "$faStyle fa-$name $class"]) }} aria-hidden="true"></i>
+<i {{ $attributes->merge(['class' => "$faStyle fa-$name"]) }} aria-hidden="true"></i>

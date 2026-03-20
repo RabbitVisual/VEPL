@@ -1,13 +1,13 @@
 @extends('admin::components.layouts.master')
 
-@section('title', 'Séries Bíblicas - Administração')
+@section('title', 'Séries Expositivas - Administração')
 
 @section('content')
 <div class="space-y-6">
     <div class="flex items-center justify-between">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Séries Bíblicas</h1>
-            <p class="text-gray-600 dark:text-gray-400 mt-1">Gerencie coleções de sermões e estudos</p>
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Séries Expositivas</h1>
+            <p class="text-gray-600 dark:text-gray-400 mt-1">Gerencie coleções de sermões e esboços homiléticos</p>
         </div>
         <a href="{{ route('admin.sermons.series.create') }}"
             class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600">
@@ -116,7 +116,7 @@
                                         <x-icon name="collection" class="w-10 h-10 text-amber-500" />
                                     </div>
                                     <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Nenhuma série ainda</h3>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Agrupe sermões por livro ou tema. Crie sua primeira série bíblica.</p>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Agrupe sermões por livro ou tema. Crie sua primeira série expositiva.</p>
                                     <a href="{{ route('admin.sermons.series.create') }}"
                                         class="inline-flex items-center px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white text-sm font-medium rounded-xl transition-all">
                                         <x-icon name="plus" class="w-5 h-5 mr-2" />

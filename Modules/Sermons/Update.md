@@ -1,4 +1,4 @@
-# PROJETO: Upgrade "Sermon Studio" (Laboratório de Homilética e Exegese) - VertexCBAV
+# PROJETO: Upgrade "Sermon Studio" (Laboratório de Homilética e Exegese) - VEPL
 # OBJETIVO: Criar uma ferramenta de estudo e preparação teológica de elite, pessoal e profissional.
 
 Atue como Engenheiro de Software Sênior e Especialista em Teologia Bíblica. Quero transformar o módulo `Modules\Sermons` em um "Sermon Studio" completo, focado no estudo exegético e na construção do sermão, sem automações de secretaria/eventos, priorizando o uso pessoal do pregador.
@@ -103,7 +103,7 @@ Upgrade completo do módulo Sermons para \"Sermon Studio\": ferramentas de exege
 - No editor: dropdown "Tipo de estrutura" e, conforme o tipo, exibir seções pré-definidas (podem mapear para os campos existentes `introduction`, `development`, `conclusion`, `application` + `full_content` com headings). Não obrigatório preencher todas; apenas guia visual.
 
 **Séries e tópicos**
-- Já existem `series_id` (BibleSeries) e `category_id` (SermonCategory). Usar **tags** (SermonTag) para temas doutrinários (Escatologia, Mordomia, etc.): garantir CRUD de tags no admin e no formulário do sermão (multiselect). Agrupar sermões "por livro" via série (série = livro) ou por tag. Nenhuma tabela nova; apenas uso consistente de séries + categorias + tags.
+- Já existem `sermon_series_id` (SermonSeries) e `category_id` (SermonCategory). Usar **tags** (SermonTag) para temas doutrinários (Escatologia, Mordomia, etc.): garantir CRUD de tags no admin e no formulário do sermão (multiselect). Agrupar sermões "por livro" via série (série = livro) ou por tag. Nenhuma tabela nova; apenas uso consistente de séries + categorias + tags.
 
 **Arquivos principais:** Migration `add_sermon_structure_type_to_sermons_table`; [Modules/Sermons/app/Models/Sermon.php](../../../../../Users/Administrator/.cursor/plans/Modules/Sermons/app/Models/Sermon.php) (constantes/fillable); views create/edit (toggle visibilidade, dropdown estrutura, tags); MemberPanel mesmo padrão onde o membro pode editar.
 
@@ -233,7 +233,7 @@ Upgrade completo do módulo Sermons para "Sermon Studio": ferramentas de exegese
   - **Temático:** Tese, Divisões (com referências espalhadas).
   - **Textual:** Divisões baseadas no próprio versículo.
     O conteúdo pode continuar em `full_content` (HTML) e/ou nos campos existentes (introduction, development, conclusion, application); o template apenas organiza a UI e placeholders.
-- **Séries e tópicos:** Já existem `series_id` (BibleSeries) e `category_id` (SermonCategory). Usar **tags** (SermonTag) para temas doutrinários (Escatologia, Mordomia, etc.). Garantir no create/edit (admin e member) dropdowns de série e categoria e multiselect de tags; filtros na listagem por série e tag.
+- **Séries e tópicos:** Já existem `sermon_series_id` (SermonSeries) e `category_id` (SermonCategory). Usar **tags** (SermonTag) para temas doutrinários (Escatologia, Mordomia, etc.). Garantir no create/edit (admin e member) dropdowns de série e categoria e multiselect de tags; filtros na listagem por série e tag.
 - **Ícones:** `fa-pen-fancy` para rascunhos/lista de sermões em elaboração; `fa-scroll` no painel de panorama; `fa-gavel` na exegese (já citados).
 
 ---

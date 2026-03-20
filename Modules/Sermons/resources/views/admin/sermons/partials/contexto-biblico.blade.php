@@ -2,11 +2,11 @@
 <div x-data="contextoBiblico()" class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-sm">
     <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left font-extrabold text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all">
         <span class="flex items-center gap-3">
-            <i class="fa-pro fa-solid fa-scroll-old text-blue-500"></i>
+            <x-icon name="scroll-old" style="solid" class="text-blue-500" />
             Contexto Bíblico
             <span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 text-[10px] font-bold cursor-help" title="Autor, data, tema e destinatários do livro selecionado (Panorama).">?</span>
         </span>
-        <i class="fa-pro fa-solid fa-chevron-down text-[10px] transition-transform duration-300" :class="open ? 'rotate-180' : ''"></i>
+        <x-icon name="chevron-down" style="solid" class="text-[10px] transition-transform duration-300" ::class="open ? 'rotate-180' : ''" />
     </button>
     <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="border-t border-slate-100 dark:border-slate-800">
         <div class="p-5 space-y-5">
@@ -52,7 +52,7 @@
 
             <template x-if="!loading && selectedBookNumber && !panorama">
                 <div class="flex flex-col items-center justify-center py-4 text-center">
-                    <i class="fa-pro fa-solid fa-file-magnifying-glass text-slate-200 dark:text-slate-700 text-2xl mb-2"></i>
+                    <x-icon name="file-magnifying-glass" style="solid" class="text-slate-200 dark:text-slate-700 text-2xl mb-2" />
                     <p class="text-xs text-slate-400 font-medium">Draft de panorama indisponível.</p>
                 </div>
             </template>

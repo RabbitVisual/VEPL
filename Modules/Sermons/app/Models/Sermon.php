@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Modules\Bible\App\Models\Verse;
 use Modules\Worship\App\Models\WorshipSong;
 
 class Sermon extends Model
@@ -17,23 +18,22 @@ class Sermon extends Model
 
     protected $fillable = [
         'title',
+        'theme',
         'slug',
         'subtitle',
         'description',
         'biblical_text_base',
         'central_proposition',
         'historical_context',
-        'exegesis_notes',
-        'practical_application',
         'introduction',
-        'development',
+        'body_outline',
+        'practical_application',
         'conclusion',
-        'application',
         'sermon_structure_type',
         'structure_meta',
         'full_content',
         'category_id',
-        'series_id',
+        'sermon_series_id',
         'user_id',
         'cover_image',
         'attachments',
@@ -123,7 +123,12 @@ class Sermon extends Model
      */
     public function series(): BelongsTo
     {
-        return $this->belongsTo(BibleSeries::class, 'series_id');
+        return $this->belongsTo(SermonSeries::class, 'sermon_series_id');
+    }
+
+    public function sermonSeries(): BelongsTo
+    {
+        return $this->belongsTo(SermonSeries::class, 'sermon_series_id');
     }
 
     /**
@@ -172,6 +177,13 @@ class Sermon extends Model
     public function bibleReferences(): HasMany
     {
         return $this->hasMany(SermonBibleReference::class, 'sermon_id')->orderBy('order');
+    }
+
+    public function bibleVerses()
+    {
+        return Verse::query()
+            ->whereIn('id', $this->bibleReferences()->pluck('verse_start_id')->filter())
+            ->orWhereIn('id', $this->bibleReferences()->pluck('verse_end_id')->filter());
     }
 
     /**
@@ -393,9 +405,6 @@ class Sermon extends Model
             return asset('storage/'.$this->cover_image);
         }
 
-        // Fallback placeholder based on category
-        $category = $this->category?->name ?? 'Sermon';
-
-        return 'https://images.unsplash.com/photo-1504052434569-70ad5836ab65?q=80&w=1200&auto=format&fit=crop&text='.urlencode($category);
+        return asset('images/placeholders/sermon-cover.jpg');
     }
 }

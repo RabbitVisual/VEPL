@@ -23,13 +23,13 @@
         <div class="px-8 py-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-950/20">
             <div>
                 <h3 class="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-3">
-                    <i class="fa-pro fa-solid fa-book-sparkles text-blue-500"></i>
+                    <x-icon name="book-sparkles" style="solid" class="text-blue-500" />
                     Citar Manuscrito Sagrado
                 </h3>
                 <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Busca Direta na API de Originais</p>
             </div>
             <button @click="close()" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
-                <i class="fa-pro fa-solid fa-xmark text-lg"></i>
+                <x-icon name="xmark" style="solid" class="text-lg" />
             </button>
         </div>
 
@@ -66,10 +66,10 @@
                     <button type="button" @click="fetchText()" :disabled="fetching"
                         class="px-3 py-1.5 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-[10px] font-extrabold uppercase tracking-widest hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-all disabled:opacity-50 flex items-center gap-2">
                         <template x-if="fetching">
-                            <span class="flex items-center gap-2"><i class="fa-pro fa-solid fa-spinner-third animate-spin"></i> Consultando...</span>
+                            <span class="flex items-center gap-2"><x-icon name="spinner-third" style="solid" class="animate-spin" /> Consultando...</span>
                         </template>
                         <template x-if="!fetching">
-                            <span class="flex items-center gap-2"><i class="fa-pro fa-solid fa-cloud-arrow-down"></i> Sincronizar Texto</span>
+                            <span class="flex items-center gap-2"><x-icon name="cloud-arrow-down" style="solid" /> Sincronizar Texto</span>
                         </template>
                     </button>
                 </div>
@@ -88,7 +88,7 @@
             <button @click="insert()"
                 class="px-8 py-3 text-sm font-extrabold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-lg shadow-blue-500/20 transition-all transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
                 :disabled="!text || !selectedBook">
-                <i class="fa-pro fa-solid fa-file-import mr-2"></i>
+                <x-icon name="file-import" style="solid" class="mr-2" />
                 Inserir Citação
             </button>
         </div>

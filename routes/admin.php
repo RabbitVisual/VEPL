@@ -227,9 +227,9 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
         Route::get('/sermons/{sermon}/export-pdf', [\Modules\Sermons\App\Http\Controllers\Admin\SermonController::class, 'exportPdf'])->name('sermons.export-pdf');
         Route::post('/sermons/{sermon}/collaborators', [\Modules\Sermons\App\Http\Controllers\Admin\SermonController::class, 'inviteCollaborator'])->name('sermons.collaborators.invite');
         Route::resource('categories', \Modules\Sermons\App\Http\Controllers\Admin\CategoryController::class)->except(['show']);
-        Route::resource('series', \Modules\Sermons\App\Http\Controllers\Admin\BibleSeriesController::class);
-        Route::resource('studies', \Modules\Sermons\App\Http\Controllers\Admin\BibleStudyController::class);
-        Route::resource('commentaries', \Modules\Sermons\App\Http\Controllers\Admin\BibleCommentaryController::class);
+        Route::resource('series', \Modules\Sermons\App\Http\Controllers\Admin\SermonSeriesController::class);
+        Route::resource('studies', \Modules\Sermons\App\Http\Controllers\Admin\SermonOutlineController::class);
+        Route::resource('commentaries', \Modules\Sermons\App\Http\Controllers\Admin\SermonExegesisController::class);
     });
 
     // =====================================================================

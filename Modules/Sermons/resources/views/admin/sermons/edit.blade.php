@@ -14,19 +14,19 @@
             <div>
                 <h1 class="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">Cofre de Sermões</h1>
                 <p class="text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-2">
-                    <i class="fa-pro fa-solid fa-pen-to-square text-blue-500"></i>
+                    <x-icon name="pen-to-square" style="solid" class="text-blue-500" />
                     Editando Esboço Homilético
                 </p>
             </div>
             <div class="flex gap-3">
                 <a href="{{ route('admin.sermons.sermons.show', $sermon) }}" target="_blank"
                     class="inline-flex items-center px-4 py-2 border border-slate-200 dark:border-slate-800 text-sm font-bold rounded-xl text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all shadow-sm">
-                    <i class="fa-pro fa-solid fa-eye mr-2 text-blue-500"></i>
+                    <x-icon name="eye" style="solid" class="mr-2 text-blue-500" />
                     Ver
                 </a>
                 <a href="{{ route('admin.sermons.sermons.index') }}"
                     class="inline-flex items-center px-4 py-2 border border-slate-200 dark:border-slate-800 text-sm font-bold rounded-xl text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all shadow-sm">
-                    <i class="fa-pro fa-solid fa-arrow-left mr-2"></i>
+                    <x-icon name="arrow-left" style="solid" class="mr-2" />
                     Voltar
                 </a>
             </div>
@@ -41,7 +41,7 @@
             <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-8">
                 <div class="flex items-center justify-between mb-8 border-b border-slate-100 dark:border-slate-800 pb-4">
                     <h3 class="text-lg font-extrabold text-slate-900 dark:text-white flex items-center gap-3">
-                        <i class="fa-pro fa-solid fa-file-signature text-blue-600"></i>
+                        <x-icon name="file-signature" style="solid" class="text-blue-600" />
                         Estrutura do Sermão
                     </h3>
                     <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full">ID: #{{ $sermon->id }}</span>
@@ -68,6 +68,16 @@
                         <input type="text" name="subtitle" id="subtitle" value="{{ old('subtitle', $sermon->subtitle) }}"
                             class="block w-full rounded-xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-blue-500/20 sm:text-sm transition-all">
                     </div>
+                    <div>
+                        <label for="theme" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1">Tema</label>
+                        <input type="text" name="theme" id="theme" value="{{ old('theme', $sermon->theme) }}"
+                            class="block w-full rounded-xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-blue-500/20 sm:text-sm transition-all">
+                    </div>
+                    <div>
+                        <label for="biblical_text_base" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1">Texto Bíblico Base *</label>
+                        <input type="text" name="biblical_text_base" id="biblical_text_base" value="{{ old('biblical_text_base', $sermon->biblical_text_base) }}" required
+                            class="block w-full rounded-xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-blue-500/20 sm:text-sm transition-all">
+                    </div>
 
                     <!-- Category & Series -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:col-span-2">
@@ -89,14 +99,14 @@
 
                         <!-- Série -->
                         <div>
-                            <label for="series_id" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1">
-                                Série Bíblica
+                            <label for="sermon_series_id" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1">
+                                Série Expositiva
                             </label>
-                            <select name="series_id" id="series_id"
+                            <select name="sermon_series_id" id="sermon_series_id"
                                 class="block w-full rounded-xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-blue-500/20 sm:text-sm transition-all">
                                 <option value="">Opcional</option>
                                 @foreach ($series as $s)
-                                    <option value="{{ $s->id }}" {{ old('series_id', $sermon->series_id) == $s->id ? 'selected' : '' }}>
+                                    <option value="{{ $s->id }}" {{ old('sermon_series_id', $sermon->sermon_series_id) == $s->id ? 'selected' : '' }}>
                                         {{ $s->title }}
                                     </option>
                                 @endforeach
@@ -124,7 +134,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:col-span-2 border-t border-slate-100 dark:border-slate-800 pt-6 mt-2">
                         <div>
                             <label for="audio_url" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1 flex items-center gap-2">
-                                <i class="fa-pro fa-solid fa-waveform-lines text-blue-500"></i>
+                                <x-icon name="waveform-lines" style="solid" class="text-blue-500" />
                                 URL de Áudio
                             </label>
                             <input type="url" name="audio_url" id="audio_url" value="{{ old('audio_url', $sermon->audio_url) }}"
@@ -133,7 +143,7 @@
                         </div>
                         <div>
                             <label for="video_url" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1 flex items-center gap-2">
-                                <i class="fa-pro fa-solid fa-play-circle text-red-500"></i>
+                                <x-icon name="circle-play" style="solid" class="text-red-500" />
                                 URL de Vídeo
                             </label>
                             <input type="url" name="video_url" id="video_url" value="{{ old('video_url', $sermon->video_url) }}"
@@ -154,7 +164,7 @@
                                     @if($sermon->cover_image)
                                         <img src="{{ asset('storage/' . $sermon->cover_image) }}" class="w-full h-full object-cover">
                                     @else
-                                        <i class="fa-pro fa-solid fa-image text-slate-300 text-xl"></i>
+                                        <x-icon name="image" style="solid" class="text-slate-300 text-xl" />
                                     @endif
                                 </div>
                                 <div class="flex-1">
@@ -180,7 +190,7 @@
                                     <div class="flex flex-wrap gap-2">
                                         @foreach($sermon->attachments as $file)
                                             <div class="flex items-center gap-2 px-2.5 py-1.5 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-lg shadow-sm">
-                                                <i class="fa-pro fa-solid fa-file-pdf text-red-500 text-xs"></i>
+                                                <x-icon name="file-pdf" style="solid" class="text-red-500 text-xs" />
                                                 <a href="{{ Storage::url($file['path'] ?? '') }}" target="_blank" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-blue-600">{{ $file['name'] ?? 'Arquivo' }}</a>
                                             </div>
                                         @endforeach
@@ -195,7 +205,7 @@
                         <!-- Data -->
                         <div>
                             <label for="sermon_date" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1 flex items-center gap-2">
-                                <i class="fa-pro fa-solid fa-calendar-day text-blue-500"></i>
+                                <x-icon name="calendar-day" style="solid" class="text-blue-500" />
                                 Data de Ministração
                             </label>
                             <input type="date" name="sermon_date" id="sermon_date" value="{{ old('sermon_date', $sermon->sermon_date ? $sermon->sermon_date->format('Y-m-d') : '') }}"
@@ -205,7 +215,7 @@
                         <!-- Status/Visibility -->
                         <div class="flex flex-col gap-2">
                             <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1 flex items-center gap-2">
-                                <i class="fa-pro fa-solid fa-globe text-blue-500"></i>
+                                <x-icon name="globe" style="solid" class="text-blue-500" />
                                 Publicação & Visibilidade
                             </label>
                             <div class="flex gap-4">
@@ -230,7 +240,7 @@
                     <!-- Tipo de estrutura homilética -->
                     <div class="md:col-span-2 border-t border-slate-100 dark:border-slate-800 pt-6 mt-2">
                         <label for="sermon_structure_type" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1 flex items-center gap-2">
-                            <i class="fa-pro fa-solid fa-scroll text-slate-400"></i>
+                            <x-icon name="scroll" style="solid" class="text-slate-400" />
                             Método Homilético
                         </label>
                         <select name="sermon_structure_type" id="sermon_structure_type"
@@ -242,7 +252,7 @@
                         </select>
                         <div class="mt-4 p-5 rounded-2xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900/30">
                             <p class="text-[10px] font-extrabold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-                                <i class="fa-pro fa-solid fa-lightbulb"></i> Guia Rápido de Isaltino Coelho
+                                <x-icon name="lightbulb" style="solid" /> Guia Rápido de Isaltino Coelho
                             </p>
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
                                 <div class="space-y-1">
@@ -258,7 +268,6 @@
                                     <p class="text-slate-500 dark:text-slate-400">Divisões extraídas do próprio versículo.</p>
                                 </div>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -266,7 +275,7 @@
             <!-- Tags -->
             <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                 <h3 class="text-lg font-extrabold text-slate-900 dark:text-white mb-4 flex items-center gap-3">
-                    <i class="fa-pro fa-solid fa-tags text-blue-600"></i>
+                    <x-icon name="tags" style="solid" class="text-blue-600" />
                     Tags & Palavras-chave
                 </h3>
                 <div class="flex items-center gap-2 mb-4">
@@ -275,7 +284,7 @@
                         placeholder="Adicione tags (ex: 'graça', 'fé', 'amor')">
                     <button type="button" id="add-tag"
                         class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-bold rounded-xl text-white bg-blue-600 hover:bg-blue-700 shadow-sm">
-                        <i class="fa-pro fa-solid fa-plus mr-2"></i>
+                        <x-icon name="plus" style="solid" class="mr-2" />
                         Adicionar
                     </button>
                 </div>
@@ -288,7 +297,7 @@
             <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-8">
                 <div class="flex items-center justify-between mb-6 border-b border-slate-100 dark:border-slate-800 pb-4">
                     <h3 class="text-lg font-extrabold text-slate-900 dark:text-white flex items-center gap-3">
-                        <i class="fa-pro fa-solid fa-pen-nib text-blue-600"></i>
+                        <x-icon name="pen-nib" style="solid" class="text-blue-600" />
                         Manuscrito / Esboço
                     </h3>
                 </div>
@@ -307,11 +316,23 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Desenvolvimento</label>
-                            <textarea name="development" rows="3" class="w-full rounded-md border-gray-300 dark:bg-gray-700">{{ old('development', $sermon->development) }}</textarea>
+                            <textarea name="body_outline" rows="3" class="w-full rounded-md border-gray-300 dark:bg-gray-700">{{ old('body_outline', $sermon->body_outline) }}</textarea>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Conclusão</label>
                             <textarea name="conclusion" rows="3" class="w-full rounded-md border-gray-300 dark:bg-gray-700">{{ old('conclusion', $sermon->conclusion) }}</textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Contexto histórico-gramatical</label>
+                            <textarea name="historical_context" rows="3" class="w-full rounded-md border-gray-300 dark:bg-gray-700">{{ old('historical_context', $sermon->historical_context) }}</textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Proposição central</label>
+                            <textarea name="central_proposition" rows="3" class="w-full rounded-md border-gray-300 dark:bg-gray-700">{{ old('central_proposition', $sermon->central_proposition) }}</textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Aplicação prática</label>
+                            <textarea name="practical_application" rows="3" class="w-full rounded-md border-gray-300 dark:bg-gray-700">{{ old('practical_application', $sermon->practical_application) }}</textarea>
                         </div>
                     </div>
                 </details>
@@ -371,7 +392,7 @@
                 </a>
                 <button type="submit"
                     class="px-10 py-3.5 border border-transparent text-sm font-extrabold rounded-2xl text-white bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 transform hover:-translate-y-0.5 transition-all">
-                    <i class="fa-pro fa-solid fa-cloud-arrow-up mr-2"></i>
+                    <x-icon name="cloud-arrow-up" style="solid" class="mr-2" />
                     Atualizar no Cofre
                 </button>
             </div>
@@ -401,10 +422,10 @@
                 const tag = document.createElement('span');
                 tag.className = 'inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border border-blue-100 dark:border-blue-800/50 shadow-sm transition-all animate-in fade-in zoom-in duration-200';
                 tag.innerHTML = `
-                    <i class="fa-pro fa-solid fa-hashtag mr-2 text-[10px] opacity-50"></i>
+                    <x-icon name="hashtag" style="solid" class="mr-2 text-[10px] opacity-50" />
                     ${name}
                     <button type="button" class="ml-2 text-blue-400 hover:text-blue-600 transition-colors" onclick="this.parentElement.remove()">
-                        <i class="fa-pro fa-solid fa-xmark"></i>
+                        <x-icon name="xmark" style="solid" />
                     </button>
                     <input type="hidden" name="tags[]" value="${name}">
                 `;

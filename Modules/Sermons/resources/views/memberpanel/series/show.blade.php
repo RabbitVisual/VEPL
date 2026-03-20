@@ -21,7 +21,7 @@
 
             <div class="absolute inset-0 flex flex-col justify-end p-8 md:p-12 z-10">
                  <div class="flex items-center gap-3 mb-4">
-                     <a href="{{ route('memberpanel.series.index') }}"
+                     <a href="{{ route('memberpanel.sermon-series.index') }}"
                         class="inline-flex items-center px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white backdrop-blur-md rounded-lg text-xs font-bold uppercase tracking-wider transition-all">
                         <x-icon name="arrow-left" class="w-3 h-3 mr-1" /> Voltar
                     </a>
@@ -115,15 +115,15 @@
                          <div class="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400 shadow-sm">
                             <x-icon name="book-open" class="w-5 h-5" />
                         </div>
-                        Estudos Relacionados
+                        Esboços Relacionados
                     </h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         @foreach($series->studies as $study)
-                            <a href="{{ route('memberpanel.studies.show', $study) }}"
+                            <a href="{{ route('memberpanel.sermon-outlines.show', $study) }}"
                                class="group bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-lg hover:border-purple-500/30 dark:hover:border-purple-500/30 transition-all duration-300 hover:-translate-y-1 flex flex-col h-full">
                                 <div class="mb-4">
                                      <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold bg-purple-50 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300 uppercase tracking-wide">
-                                        Estudo
+                                        Esboço
                                     </span>
                                 </div>
 

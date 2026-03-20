@@ -35,7 +35,7 @@
     <!-- Breadcrumb -->
     <nav class="flex text-sm font-medium" aria-label="Breadcrumb">
         <ol class="flex items-center space-x-2">
-            <li><a href="{{ route('memberpanel.commentaries.index') }}" class="text-gray-500 hover:text-cyan-600 dark:text-gray-400 dark:hover:text-cyan-400 transition-colors">Comentários</a></li>
+            <li><a href="{{ route('memberpanel.sermon-exegesis.index') }}" class="text-gray-500 hover:text-cyan-600 dark:text-gray-400 dark:hover:text-cyan-400 transition-colors">Exegese</a></li>
             <li class="text-gray-300 dark:text-gray-600">/</li>
             <li class="text-gray-900 dark:text-gray-200" aria-current="page">{{ $commentary->reference }}</li>
         </ol>
@@ -63,7 +63,7 @@
                 </h1>
             @else
                 <h1 class="text-3xl md:text-5xl font-black text-gray-900 dark:text-white mb-6 leading-tight tracking-tight">
-                    Comentário Bíblico
+                    Exegese do Texto
                 </h1>
             @endif
 
@@ -116,10 +116,10 @@
 
         <!-- Footer -->
         <div class="px-8 md:px-16 pb-12 pt-8 border-t border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-900/30">
-            <a href="{{ route('memberpanel.commentaries.index') }}"
+            <a href="{{ route('memberpanel.sermon-exegesis.index') }}"
                class="inline-flex items-center px-6 py-3 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl font-bold text-gray-700 dark:text-white shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
                 <x-icon name="arrow-left" class="w-4 h-4 mr-2" />
-                Voltar aos Comentários
+                Voltar para Exegese
             </a>
         </div>
     </article>

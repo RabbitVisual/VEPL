@@ -9,14 +9,14 @@
     <div>
         <h1 class="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">Editar Exegese</h1>
         <p class="text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-2">
-            <i class="fa-pro fa-solid fa-pen-nib text-blue-500"></i>
+            <x-icon name="pen-nib" style="solid" class="text-blue-500" />
             Refinando Comentários: {{ $commentary->reference_display }}
         </p>
     </div>
     <div class="flex items-center space-x-3">
         <a href="{{ route('admin.sermons.commentaries.index') }}"
             class="inline-flex items-center px-4 py-2 border border-slate-200 dark:border-slate-800 text-sm font-bold rounded-xl text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all shadow-sm">
-            <i class="fa-pro fa-solid fa-arrow-left mr-2"></i>
+            <x-icon name="arrow-left" style="solid" class="mr-2" />
             Voltar
         </a>
     </div>
@@ -32,7 +32,7 @@
                 <!-- Bible Reference Section -->
                 <div class="space-y-6 bg-slate-50 dark:bg-slate-950/30 rounded-3xl p-6 border border-slate-100 dark:border-slate-800">
                     <h3 class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest mb-4 flex items-center gap-2">
-                        <i class="fa-pro fa-solid fa-book-bible text-blue-500"></i>
+                        <x-icon name="book-bible" style="solid" class="text-blue-500" />
                         Referência Bíblica Atual
                     </h3>
 
@@ -70,7 +70,7 @@
                                     value="{{ $versesString }}"
                                     class="block w-full rounded-xl border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-blue-500/20 text-xs font-bold py-2.5 cursor-pointer pr-10"
                                     placeholder="Selecionar...">
-                                <i class="fa-pro fa-solid fa-list-ol absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-[10px]"></i>
+                                <x-icon name="list-ol" style="solid" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-[10px]" />
                             </div>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                 <div class="space-y-6">
                     <div>
                         <label for="title" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-2">
-                            <i class="fa-pro fa-solid fa-feather-pointed text-slate-400"></i>
+                            <x-icon name="feather-pointed" style="solid" class="text-slate-400" />
                             Cabeçalho do Comentário
                         </label>
                         <input type="text" name="title" id="title" value="{{ old('title', $commentary->title) }}"
@@ -90,7 +90,7 @@
 
                     <div>
                         <label for="content" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-4 flex items-center gap-2">
-                            <i class="fa-pro fa-solid fa-quote-left text-blue-500"></i>
+                            <x-icon name="quote-left" style="solid" class="text-blue-500" />
                             Corpo da Exegese
                         </label>
                         <textarea name="content" id="content" rows="12" required
@@ -101,7 +101,7 @@
                 <!-- Media Section -->
                 <div class="border-t border-slate-100 dark:border-slate-800 pt-8 mt-4">
                     <h3 class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest mb-6 flex items-center gap-2">
-                        <i class="fa-pro fa-solid fa-waveform-lines text-blue-500"></i>
+                        <x-icon name="waveform-lines" style="solid" class="text-blue-500" />
                         Apoio em Áudio
                     </h3>
 
@@ -113,7 +113,7 @@
                                 <span class="text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest bg-blue-100 dark:bg-blue-900/40 px-3 py-1 rounded-full">Áudio Ativo</span>
                                 <button type="button" onclick="if(confirm('Remover o áudio permanentemente?')) { document.getElementById('remove_audio').value = '1'; document.getElementById('audio-current-container').style.display='none'; }"
                                     class="text-red-500 hover:text-red-700 text-[10px] font-black uppercase tracking-widest flex items-center gap-2 transition-all">
-                                    <i class="fa-pro fa-solid fa-trash-can"></i>
+                                    <x-icon name="trash-can" style="solid" />
                                     Remover
                                 </button>
                             </div>
@@ -148,7 +148,7 @@
         <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 p-6">
             <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-6 flex items-center justify-between">
                 <span>Controle</span>
-                <i class="fa-pro fa-solid fa-sliders"></i>
+                <x-icon name="sliders" style="solid" />
             </h3>
 
             <div class="space-y-6">
@@ -173,7 +173,7 @@
             <div class="mt-8">
                 <button type="submit" form="commentaryForm"
                     class="w-full py-4 bg-slate-900 dark:bg-blue-600 hover:bg-slate-800 dark:hover:bg-blue-700 text-white font-black rounded-2xl shadow-xl shadow-blue-500/10 transform hover:-translate-y-1 transition-all flex items-center justify-center gap-3">
-                    <i class="fa-pro fa-solid fa-sync"></i>
+                    <x-icon name="arrows-rotate" style="solid" />
                     ATUALIZAR EXEGESE
                 </button>
             </div>
@@ -183,7 +183,7 @@
         <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 text-center">
             <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-6 flex items-center justify-between">
                 <span>Miniatura</span>
-                <i class="fa-pro fa-solid fa-image"></i>
+                <x-icon name="image" style="solid" />
             </h3>
 
             <div class="relative group mx-auto w-full aspect-square rounded-[2rem] bg-slate-50 dark:bg-slate-950 border-2 border-dashed border-slate-200 dark:border-slate-800 flex flex-col items-center justify-center overflow-hidden transition-all hover:border-blue-500/50">
@@ -191,13 +191,13 @@
                     @if($commentary->cover_image)
                         <img src="{{ asset('storage/' . $commentary->cover_image) }}" class="w-full h-full object-cover">
                     @else
-                        <i class="fa-pro fa-solid fa-microscope text-4xl text-slate-300 dark:text-slate-800 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></i>
+                        <x-icon name="microscope" style="solid" class="text-4xl text-slate-300 dark:text-slate-800 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
                     @endif
                 </div>
                 <div class="relative z-10 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button type="button" onclick="document.getElementById('cover_image_file').click()"
                         class="bg-white dark:bg-slate-900 text-slate-900 dark:text-white p-3 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 transform hover:scale-110 transition-all">
-                        <i class="fa-pro fa-solid fa-camera"></i>
+                        <x-icon name="camera" style="solid" />
                     </button>
                 </div>
                 <input type="file" name="cover_image_file" id="cover_image_file" form="commentaryForm" accept="image/*" class="hidden" onchange="previewCover(event)">

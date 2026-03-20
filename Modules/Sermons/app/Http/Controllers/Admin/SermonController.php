@@ -12,6 +12,7 @@ use Mpdf\Mpdf;
 use Modules\Bible\App\Services\BibleApiService;
 use Modules\Sermons\App\Models\Sermon;
 use Modules\Sermons\App\Models\SermonCategory;
+use Modules\Sermons\App\Models\SermonSeries;
 use Modules\Sermons\App\Models\SermonTag;
 use Modules\Sermons\App\Jobs\NotifyMembersOfNewContent;
 
@@ -74,7 +75,7 @@ class SermonController extends Controller
     {
         $categories = SermonCategory::active()->ordered()->get();
         $tags = SermonTag::all();
-        $series = \Modules\Sermons\App\Models\BibleSeries::where('status', 'published')->orderBy('title')->get();
+        $series = SermonSeries::where('status', 'published')->orderBy('title')->get();
         $worshipSongs = \Modules\Worship\App\Models\WorshipSong::orderBy('title')->get(['id', 'title']);
 
         $bibleVersions = $this->bibleApi->getVersions();
@@ -94,11 +95,15 @@ class SermonController extends Controller
             'subtitle' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'category_id' => 'nullable|exists:sermon_categories,id',
-            'series_id' => 'nullable|exists:bible_series,id',
+            'theme' => 'nullable|string|max:255',
+            'sermon_series_id' => 'nullable|exists:sermon_series,id',
+            'biblical_text_base' => 'required|string|max:255',
+            'historical_context' => 'nullable|string',
+            'central_proposition' => 'nullable|string',
             'introduction' => 'nullable|string',
-            'development' => 'nullable|string',
+            'body_outline' => 'nullable|string',
+            'practical_application' => 'nullable|string',
             'conclusion' => 'nullable|string',
-            'application' => 'nullable|string',
             'sermon_structure_type' => 'nullable|string|in:expositivo,temático,textual',
             'structure_meta' => 'nullable|array',
             'full_content' => 'nullable|string',
@@ -196,12 +201,11 @@ class SermonController extends Controller
                 if (! empty($ref['book'])) {
                     $sermon->bibleReferences()->create([
                         'book' => $ref['book'],
-                        'chapter' => $ref['chapter'] ?? null,
-                        'verses' => $ref['verses'] ?? null,
-                        'reference_text' => $ref['reference_text'] ?? null,
                         'bible_version_id' => $ref['bible_version_id'] ?? null,
                         'book_id' => $ref['book_id'] ?? null,
                         'chapter_id' => $ref['chapter_id'] ?? null,
+                        'verse_start_id' => $ref['verse_start_id'] ?? null,
+                        'verse_end_id' => $ref['verse_end_id'] ?? ($ref['verse_start_id'] ?? null),
                         'type' => $ref['type'] ?? 'main',
                         'context' => $ref['context'] ?? null,
                         'order' => $index,
@@ -234,7 +238,7 @@ class SermonController extends Controller
         $this->authorize('update', $sermon);
         $categories = SermonCategory::active()->ordered()->get();
         $tags = SermonTag::all();
-        $series = \Modules\Sermons\App\Models\BibleSeries::where('status', 'published')->orderBy('title')->get();
+        $series = SermonSeries::where('status', 'published')->orderBy('title')->get();
         $worshipSongs = \Modules\Worship\App\Models\WorshipSong::orderBy('title')->get(['id', 'title']);
         $sermon->load(['tags', 'bibleReferences', 'collaborators.user']);
 
@@ -257,11 +261,15 @@ class SermonController extends Controller
             'subtitle' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'category_id' => 'nullable|exists:sermon_categories,id',
-            'series_id' => 'nullable|exists:bible_series,id',
+            'theme' => 'nullable|string|max:255',
+            'sermon_series_id' => 'nullable|exists:sermon_series,id',
+            'biblical_text_base' => 'required|string|max:255',
+            'historical_context' => 'nullable|string',
+            'central_proposition' => 'nullable|string',
             'introduction' => 'nullable|string',
-            'development' => 'nullable|string',
+            'body_outline' => 'nullable|string',
+            'practical_application' => 'nullable|string',
             'conclusion' => 'nullable|string',
-            'application' => 'nullable|string',
             'sermon_structure_type' => 'nullable|string|in:expositivo,temático,textual',
             'structure_meta' => 'nullable|array',
             'full_content' => 'nullable|string',
@@ -355,12 +363,11 @@ class SermonController extends Controller
                 if (! empty($ref['book'])) {
                     $sermon->bibleReferences()->create([
                         'book' => $ref['book'],
-                        'chapter' => $ref['chapter'] ?? null,
-                        'verses' => $ref['verses'] ?? null,
-                        'reference_text' => $ref['reference_text'] ?? null,
                         'bible_version_id' => $ref['bible_version_id'] ?? null,
                         'book_id' => $ref['book_id'] ?? null,
                         'chapter_id' => $ref['chapter_id'] ?? null,
+                        'verse_start_id' => $ref['verse_start_id'] ?? null,
+                        'verse_end_id' => $ref['verse_end_id'] ?? ($ref['verse_start_id'] ?? null),
                         'type' => $ref['type'] ?? 'main',
                         'context' => $ref['context'] ?? null,
                         'order' => $index,
@@ -451,9 +458,9 @@ class SermonController extends Controller
         );
 
         $introductionHtml = $sermon->introduction ? $mark($sermon->introduction) : '';
-        $developmentHtml = $sermon->development ? $mark($sermon->development) : '';
+        $developmentHtml = $sermon->body_outline ? $mark($sermon->body_outline) : '';
         $conclusionHtml = $sermon->conclusion ? $mark($sermon->conclusion) : '';
-        $applicationHtml = $sermon->application ? $mark($sermon->application) : '';
+        $applicationHtml = $sermon->practical_application ? $mark($sermon->practical_application) : '';
         $fullContentHtml = $sermon->full_content ? $mark($sermon->full_content) : '';
 
         $topicsFromFullContentHtml = '';

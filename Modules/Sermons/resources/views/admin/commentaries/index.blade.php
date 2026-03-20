@@ -1,21 +1,21 @@
 @extends('admin::components.layouts.master')
 
-@section('title', 'Comentários Bíblicos - Administração')
+@section('title', 'Exegese do Texto - Administração')
 
 @section('content')
 <div class="space-y-6">
     <div class="flex items-center justify-between">
         <div>
-            <h1 class="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">Comentários Bíblicos</h1>
+            <h1 class="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">Exegese do Texto</h1>
             <p class="text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-2">
-                <i class="fa-pro fa-solid fa-microscope text-blue-500"></i>
+                <x-icon name="microscope" style="solid" class="text-blue-500" />
                 Gestão de Exegese & Análise Versículo a Versículo
             </p>
         </div>
         <a href="{{ route('admin.sermons.commentaries.create') }}"
             class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-extrabold rounded-2xl shadow-lg shadow-blue-500/20 text-white bg-blue-600 hover:bg-blue-700 transform hover:-translate-y-0.5 transition-all">
-            <i class="fa-pro fa-solid fa-plus-circle mr-2"></i>
-            Novo Comentário
+            <x-icon name="plus-circle" style="solid" class="mr-2" />
+            Nova Exegese
         </a>
     </div>
 
@@ -23,14 +23,14 @@
     <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6">
         <form method="GET" action="{{ route('admin.sermons.commentaries.index') }}" class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div class="relative">
-                <i class="fa-pro fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                <x-icon name="magnifying-glass" style="solid" class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs" />
                 <input type="text" name="search" value="{{ request('search') }}"
                     class="w-full pl-9 pr-3 py-2.5 border border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50 dark:bg-slate-950/30 text-slate-900 dark:text-white focus:ring-blue-500/20 focus:border-blue-500 text-sm transition-all"
                     placeholder="Pesquisar no conteúdo...">
             </div>
 
             <div class="relative">
-                <i class="fa-pro fa-solid fa-book-bible absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                <x-icon name="book-bible" style="solid" class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs" />
                 <input type="text" name="book" value="{{ request('book') }}"
                     class="w-full pl-9 pr-3 py-2.5 border border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50 dark:bg-slate-950/30 text-slate-900 dark:text-white focus:ring-blue-500/20 focus:border-blue-500 text-sm transition-all font-bold"
                     placeholder="Filtrar por Livro (Ex: Gênesis)">
@@ -42,7 +42,7 @@
                 </button>
                 @if (request()->hasAny(['search', 'book']))
                     <a href="{{ route('admin.sermons.commentaries.index') }}" class="px-4 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
-                        <i class="fa-pro fa-solid fa-rotate-left"></i>
+                        <x-icon name="rotate-left" style="solid" />
                     </a>
                 @endif
             </div>
@@ -72,7 +72,7 @@
                                             <img class="h-12 w-12 rounded-xl object-cover shadow-sm group-hover:scale-105 transition-transform" src="{{ asset('storage/' . $comment->cover_image) }}" alt="">
                                         @else
                                             <div class="h-12 w-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center border border-slate-200 dark:border-slate-800 text-slate-400">
-                                                <i class="fa-pro fa-solid fa-scroll text-lg"></i>
+                                                <x-icon name="scroll" style="solid" class="text-lg" />
                                             </div>
                                         @endif
                                     </div>
@@ -104,7 +104,7 @@
                                     @else
                                         bg-slate-50 text-slate-600 border-slate-100 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700
                                     @endif">
-                                    <i class="fa-pro fa-solid fa-circle text-[6px] mr-1.5 opacity-50"></i>
+                                    <x-icon name="circle" style="solid" class="text-[6px] mr-1.5 opacity-50" />
                                     {{ $comment->status === 'published' ? 'Publicado' : 'Rascunho' }}
                                 </span>
                             </td>
@@ -112,14 +112,14 @@
                                 <div class="flex justify-end items-center gap-3">
                                     <a href="{{ route('admin.sermons.commentaries.edit', $comment) }}"
                                         class="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-all" title="Editar">
-                                        <i class="fa-pro fa-solid fa-edit"></i>
+                                        <x-icon name="edit" style="solid" />
                                     </a>
                                     <form action="{{ route('admin.sermons.commentaries.destroy', $comment) }}" method="POST" class="inline"
-                                        onsubmit="return confirm('Excluir este comentário bíblico permanentemente?');">
+                                        onsubmit="return confirm('Excluir esta exegese permanentemente?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all" title="Deletar">
-                                            <i class="fa-pro fa-solid fa-trash-can"></i>
+                                            <x-icon name="trash-can" style="solid" />
                                         </button>
                                     </form>
                                 </div>
@@ -130,13 +130,13 @@
                             <td colspan="5" class="px-6 py-20">
                                 <div class="flex flex-col items-center justify-center text-center max-w-sm mx-auto">
                                     <div class="w-20 h-20 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center mb-6">
-                                        <i class="fa-pro fa-solid fa-microscope text-blue-500 text-3xl"></i>
+                                        <x-icon name="microscope" style="solid" class="text-blue-500 text-3xl" />
                                     </div>
                                     <h3 class="text-xl font-extrabold text-slate-900 dark:text-white mb-2">Sem Exegeses Registradas</h3>
                                     <p class="text-sm text-slate-500 dark:text-slate-400 mb-8 leading-relaxed">Comece a documentar análises profundas de versículos específicos.</p>
                                     <a href="{{ route('admin.sermons.commentaries.create') }}"
                                         class="inline-flex items-center px-8 py-3.5 bg-slate-900 dark:bg-blue-600 hover:bg-slate-800 dark:hover:bg-blue-700 text-white text-sm font-extrabold rounded-2xl shadow-xl transition-all">
-                                        <i class="fa-pro fa-solid fa-plus-circle mr-3"></i>
+                                        <x-icon name="plus-circle" style="solid" class="mr-3" />
                                         Nova Análise
                                     </a>
                                 </div>

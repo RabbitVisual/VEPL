@@ -1,6 +1,6 @@
 @extends('memberpanel::components.layouts.master')
 
-@section('title', 'Comentários Bíblicos')
+@section('title', 'Exegese do Texto')
 
 @push('styles')
     @vite(['Modules/Sermons/resources/assets/sass/app.scss'])
@@ -52,7 +52,7 @@
                     Referências
                  </h3>
 
-                <form method="GET" action="{{ route('memberpanel.commentaries.index') }}" class="commentaries-filters space-y-5"
+                <form method="GET" action="{{ route('memberpanel.sermon-exegesis.index') }}" class="commentaries-filters space-y-5"
                     data-book-id="{{ request('book_id') }}"
                     data-chapter-id="{{ request('chapter_id') }}"
                     data-verse-number="{{ request('verse_number') }}">
@@ -143,7 +143,7 @@
                                         </span>
                                     @endif
                                 </div>
-                                <a href="{{ route('memberpanel.commentaries.show', $comment) }}" class="text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 font-bold text-sm flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <a href="{{ route('memberpanel.sermon-exegesis.show', $comment) }}" class="text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 font-bold text-sm flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                     Ler completo <x-icon name="arrow-right" class="w-4 h-4" />
                                 </a>
                             </div>

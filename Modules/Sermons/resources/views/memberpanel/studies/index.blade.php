@@ -1,6 +1,6 @@
 @extends('memberpanel::components.layouts.master')
 
-@section('title', 'Estudos Bíblicos')
+@section('title', 'Esboços Homiléticos')
 
 @push('styles')
     @vite(['Modules/Sermons/resources/assets/sass/app.scss'])
@@ -19,7 +19,7 @@
             <div class="flex-1 space-y-2">
                  <p class="text-emerald-200/80 font-bold uppercase tracking-widest text-xs">Aprofundamento</p>
                 <h1 class="text-3xl font-black text-white tracking-tight">
-                    Estudos Bíblicos
+                    Esboços Homiléticos
                 </h1>
                 <p class="text-slate-300 font-medium max-w-xl">
                      Materiais aprofundados para o seu crescimento e maturidade espiritual.
@@ -30,7 +30,7 @@
 
     <!-- Filters -->
     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
-        <form method="GET" action="{{ route('memberpanel.studies.index') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <form method="GET" action="{{ route('memberpanel.sermon-outlines.index') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4">
              <div class="md:col-span-1">
                  <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Buscar</label>
                 <input type="text" name="search" value="{{ request('search') }}"
@@ -40,10 +40,10 @@
 
             <div class="md:col-span-1">
                  <label class="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Série</label>
-                <select name="series_id" class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white font-medium focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+                <select name="sermon_series_id" class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white font-medium focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
                     <option value="">Todas as Séries</option>
                     @foreach($series as $s)
-                        <option value="{{ $s->id }}" {{ request('series_id') == $s->id ? 'selected' : '' }}>{{ $s->title }}</option>
+                        <option value="{{ $s->id }}" {{ request('sermon_series_id') == $s->id ? 'selected' : '' }}>{{ $s->title }}</option>
                     @endforeach
                 </select>
             </div>
@@ -62,8 +62,8 @@
                 <button type="submit" class="flex-1 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-emerald-600/20 hover:-translate-y-0.5">
                     Filtrar
                 </button>
-                @if (request()->hasAny(['search', 'series_id', 'category_id']))
-                    <a href="{{ route('memberpanel.studies.index') }}" class="px-4 py-2.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 font-bold rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                @if (request()->hasAny(['search', 'sermon_series_id', 'category_id']))
+                    <a href="{{ route('memberpanel.sermon-outlines.index') }}" class="px-4 py-2.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 font-bold rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
                         Limpar
                     </a>
                 @endif
@@ -74,7 +74,7 @@
     <!-- Studies List -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         @forelse($studies as $study)
-            <a href="{{ route('memberpanel.studies.show', $study) }}"
+            <a href="{{ route('memberpanel.sermon-outlines.show', $study) }}"
                class="group relative bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-xl hover:border-emerald-500/30 dark:hover:border-emerald-500/30 transition-all duration-300 hover:-translate-y-1 flex flex-col md:flex-row gap-6 overflow-hidden">
 
                 <!-- Background Pattern -->
@@ -146,7 +146,7 @@
                     <div class="mx-auto w-20 h-20 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mb-6">
                         <x-icon name="search" class="w-10 h-10 text-gray-400" />
                     </div>
-                    <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2">Nenhum estudo encontrado</h3>
+                    <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2">Nenhum esboço encontrado</h3>
                     <p class="text-gray-500 dark:text-gray-400 max-w-sm mx-auto leading-relaxed">
                          Não encontramos resultados para sua busca. Tente alterar os filtros.
                     </p>
