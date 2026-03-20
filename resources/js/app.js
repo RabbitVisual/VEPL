@@ -11,6 +11,7 @@ import "flowbite";
 import "./notifications";
 import Sortable from "sortablejs";
 import RichEditor from './components/rich-editor';
+import biblePopover from './components/bible-popover';
 
 import mask from '@alpinejs/mask'
 import collapse from '@alpinejs/collapse'
@@ -22,6 +23,7 @@ Alpine.plugin(collapse);
 Alpine.plugin(mask);
 
 Alpine.data('richEditor', RichEditor);
+Alpine.data('biblePopover', biblePopover);
 
 Alpine.start();
 

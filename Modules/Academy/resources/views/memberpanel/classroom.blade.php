@@ -39,7 +39,11 @@
                             @endif
                         </div>
                         <article class="prose prose-slate max-w-none text-sm leading-7">
-                            {!! nl2br(e($currentLesson?->content_text ?? 'O conteúdo textual desta aula estará disponível aqui.')) !!}
+                            @if (filled($currentLesson?->content_text))
+                                {!! nl2br(app(\Modules\Bible\App\Services\BibleReferenceParserService::class)->parseText($currentLesson->content_text)) !!}
+                            @else
+                                <p class="text-slate-500">O conteúdo textual desta aula estará disponível aqui.</p>
+                            @endif
                         </article>
                     </div>
                 </div>

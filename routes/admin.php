@@ -137,6 +137,33 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
             Route::put('plans/content/{contentId}', [\Modules\Bible\App\Http\Controllers\Admin\BiblePlanController::class, 'updateContent'])->name('plans.content.update');
             Route::delete('plans/content/{contentId}', [\Modules\Bible\App\Http\Controllers\Admin\BiblePlanController::class, 'destroyContent'])->name('plans.content.destroy');
             Route::get('reports/church-plan', [\Modules\Bible\App\Http\Controllers\Admin\BibleReportController::class, 'churchPlan'])->name('reports.church-plan');
+
+            // Strong's Lexicon (CRUD permitido)
+            Route::resource('strongs-lexicon', \Modules\Bible\App\Http\Controllers\Admin\StrongsLexiconController::class)->parameters([
+                'strongs-lexicon' => 'lexicon',
+            ]);
+
+            // Strong's Corrections (aprovação e aplicação no lexicon)
+            Route::get('strongs-corrections', [\Modules\Bible\App\Http\Controllers\Admin\StrongsCorrectionsController::class, 'index'])
+                ->name('strongs-corrections.index');
+            Route::get('strongs-corrections/{id}', [\Modules\Bible\App\Http\Controllers\Admin\StrongsCorrectionsController::class, 'show'])
+                ->name('strongs-corrections.show');
+            Route::post('strongs-corrections/{id}/approve', [\Modules\Bible\App\Http\Controllers\Admin\StrongsCorrectionsController::class, 'approve'])
+                ->name('strongs-corrections.approve');
+            Route::post('strongs-corrections/{id}/reject', [\Modules\Bible\App\Http\Controllers\Admin\StrongsCorrectionsController::class, 'reject'])
+                ->name('strongs-corrections.reject');
+
+            // Bible panoramas por livro (CRUD permitido)
+            Route::resource('panoramas', \Modules\Bible\App\Http\Controllers\Admin\BibleBookPanoramaAdminController::class)->parameters([
+                'panoramas' => 'panorama',
+            ]);
+
+            // Bible interlinear word-tags (CRUD com paginação; recomendado usar filtros)
+            Route::resource('word-tags', \Modules\Bible\App\Http\Controllers\Admin\BibleWordTagsController::class)->only([
+                'index', 'create', 'store', 'edit', 'update', 'destroy',
+            ])->parameters([
+                'word-tags' => 'wordTag',
+            ]);
         });
 
         Route::resource('bible', \Modules\Bible\App\Http\Controllers\Admin\BibleController::class);

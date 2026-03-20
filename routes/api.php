@@ -46,7 +46,9 @@ Route::middleware(['web', 'auth'])->prefix('v1/notifications')->name('notificati
 // Bible API v1 – API central única (pública, throttle, formato { data })
 // =====================================================================
 $bibleV1 = \Modules\Bible\App\Http\Controllers\Api\V1\BibleController::class;
-Route::middleware(['throttle:60,1'])->prefix('v1/bible')->name('bible.api.')->group(function () use ($bibleV1) {
+$bibleContextV1 = \Modules\Bible\App\Http\Controllers\Api\V1\BibleContextApiController::class;
+Route::middleware(['throttle:60,1'])->prefix('v1/bible')->name('bible.api.')->group(function () use ($bibleV1, $bibleContextV1) {
+    Route::get('/context', [$bibleContextV1, 'context'])->name('context');
     Route::get('/versions', [$bibleV1, 'versions'])->name('versions');
     Route::get('/books', [$bibleV1, 'books'])->name('books');
     Route::get('/chapters', [$bibleV1, 'chapters'])->name('chapters');

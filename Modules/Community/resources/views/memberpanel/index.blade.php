@@ -23,7 +23,7 @@
                     </div>
                     <h2 class="mt-3 text-lg font-bold text-slate-900">{{ $topic->title }}</h2>
                     <p class="mt-2 line-clamp-3 text-sm leading-7 text-slate-700">
-                        {{ $topic->body }}
+                        {!! nl2br(app(\Modules\Bible\App\Services\BibleReferenceParserService::class)->parseText(strip_tags($topic->body))) !!}
                     </p>
                     <div class="mt-4 flex flex-wrap items-center gap-4 text-xs text-slate-500">
                         <span class="inline-flex items-center gap-1">

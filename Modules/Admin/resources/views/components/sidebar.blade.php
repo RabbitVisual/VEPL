@@ -187,6 +187,22 @@
                             <x-icon name="chart-line" style="duotone" class="w-3.5 h-3.5 shrink-0" />
                             Relatório Plano de Leitura
                         </a>
+                        <a href="{{ route('admin.bible.strongs-lexicon.index') }}" class="flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-lg transition-colors {{ request()->routeIs('admin.bible.strongs-lexicon.*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/10' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300' }}">
+                            <x-icon name="book-open" style="duotone" class="w-3.5 h-3.5 shrink-0" />
+                            Strong's Lexicon
+                        </a>
+                        <a href="{{ route('admin.bible.strongs-corrections.index') }}" class="flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-lg transition-colors {{ request()->routeIs('admin.bible.strongs-corrections.*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/10' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300' }}">
+                            <x-icon name="gavel" style="duotone" class="w-3.5 h-3.5 shrink-0" />
+                            Strong's Corrections
+                        </a>
+                        <a href="{{ route('admin.bible.panoramas.index') }}" class="flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-lg transition-colors {{ request()->routeIs('admin.bible.panoramas.*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/10' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300' }}">
+                            <x-icon name="scroll" style="duotone" class="w-3.5 h-3.5 shrink-0" />
+                            Panoramas dos Livros
+                        </a>
+                        <a href="{{ route('admin.bible.word-tags.index') }}" class="flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-lg transition-colors {{ request()->routeIs('admin.bible.word-tags.*') ? 'text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/10' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300' }}">
+                            <x-icon name="tags" style="duotone" class="w-3.5 h-3.5 shrink-0" />
+                            Word Tags (Interlinear)
+                        </a>
                     </div>
                 </div>
             </div>
@@ -216,6 +232,20 @@
 
 
 
+
+            <!-- Modules sem telas administrativas (placeholder no sidebar) -->
+            @if(\Nwidart\Modules\Facades\Module::isEnabled('Community'))
+                <div class="flex items-center px-4 py-2.5 text-sm font-medium rounded-xl text-gray-500 dark:text-gray-400 cursor-not-allowed opacity-80">
+                    <x-icon name="comments" style="duotone" class="w-5 h-5 mr-3" />
+                    Comunidade (em breve)
+                </div>
+            @endif
+            @if(\Nwidart\Modules\Facades\Module::isEnabled('NepeSearch'))
+                <div class="flex items-center px-4 py-2.5 text-sm font-medium rounded-xl text-gray-500 dark:text-gray-400 cursor-not-allowed opacity-80">
+                    <x-icon name="search" style="duotone" class="w-5 h-5 mr-3" />
+                    Nepe Search (em breve)
+                </div>
+            @endif
 
             <!-- Sermons (Collapsible) -->
              <div class="space-y-1">

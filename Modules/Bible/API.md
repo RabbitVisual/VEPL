@@ -145,6 +145,59 @@ Busca por referência (ex.: "João 3:16", "Salmos 23:1-3").
 
 ---
 
+### GET `/api/v1/bible/context`
+
+Contexto avançado para popover/UI: texto consolidado na versão padrão, termos originais (interlinear + Strong), panorama do livro e placeholder de comentário oficial.
+
+**Query:**
+
+| Parâmetro | Tipo  | Obrigatório | Descrição |
+|-----------|-------|-------------|-----------|
+| `ref`     | string| Sim         | Mesmo formato de `/find` (ex.: `João 3:16`, `Salmos 23:1-3`). |
+
+**Resposta 200:**
+```json
+{
+  "data": {
+    "reference": "João 3:16",
+    "book": "João",
+    "book_number": 43,
+    "chapter": 3,
+    "text": "Porque Deus amou o mundo...",
+    "original_language": [
+      {
+        "verse_id": 123,
+        "position": 1,
+        "word_surface": "...",
+        "strong_number_raw": "G2316",
+        "strong_number": "G2316",
+        "morphology": "...",
+        "lang": "gr",
+        "lexicon": {
+          "number": "G2316",
+          "lang": "gr",
+          "lemma": "...",
+          "description_pt": "..."
+        }
+      }
+    ],
+    "panorama": {
+      "author": "...",
+      "date_written": "...",
+      "theme_central": "...",
+      "recipients": "...",
+      "testament": "new"
+    },
+    "official_commentary": null,
+    "full_chapter_url": "https://..."
+  }
+}
+```
+
+**Resposta 404:** referência não encontrada ou formato inválido.
+
+---
+
 ### GET `/api/v1/bible/search`
 
 Busca por texto ou referência. Tenta referência exata primeiro; se não achar, faz busca por texto no conteúdo.
@@ -258,6 +311,16 @@ $verses = $bibleApi->getVerses($chapterId, null, null, '1-5');
 $result = $bibleApi->findByReference('João 3:16');
 $verse = $bibleApi->getRandomVerse($versionId);
 ```
+
+Para **detectar citações em texto livre** e gerar HTML com botões `.bible-reference-link` (popover global no painel de membros), use o **`BibleReferenceParserService`**:
+
+```php
+use Modules\Bible\App\Services\BibleReferenceParserService;
+
+$html = app(BibleReferenceParserService::class)->parseText($conteudoBrutoOuHtml);
+```
+
+Ou o trait **`HasBibleReferences`** em models: `parseBibleReferences($text)`.
 
 Após import/atualização de dados, limpe o cache:
 

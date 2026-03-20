@@ -52,6 +52,7 @@
 
 <body class="antialiased bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
     <x-loading-overlay />
+    @include('bible::components.bible-popover')
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
         @include('memberpanel::components.sidebar')

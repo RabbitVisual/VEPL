@@ -117,29 +117,32 @@
         @endif
 
         <!-- Content -->
+        @php
+            $bibleRefs = app(\Modules\Bible\App\Services\BibleReferenceParserService::class);
+        @endphp
         <article class="prose-sermon relative text-base min-w-0 overflow-x-hidden sermon-content-with-refs" id="sermon-content">
             @if($sermon->full_content)
-                {!! $sermon->full_content !!}
+                {!! $bibleRefs->parseText($sermon->full_content) !!}
             @else
                 <!-- Legacy Fallback -->
                 @if($sermon->introduction)
                     <h3>Introdução</h3>
-                    {!! nl2br(e($sermon->introduction)) !!}
+                    {!! nl2br($bibleRefs->parseText($sermon->introduction)) !!}
                 @endif
 
                 @if($sermon->development)
                     <h3>Desenvolvimento</h3>
-                    {!! nl2br(e($sermon->development)) !!}
+                    {!! nl2br($bibleRefs->parseText($sermon->development)) !!}
                 @endif
 
                 @if($sermon->conclusion)
                     <h3>Conclusão</h3>
-                    {!! nl2br(e($sermon->conclusion)) !!}
+                    {!! nl2br($bibleRefs->parseText($sermon->conclusion)) !!}
                 @endif
 
                 @if($sermon->application)
                     <h3>Aplicação</h3>
-                    {!! nl2br(e($sermon->application)) !!}
+                    {!! nl2br($bibleRefs->parseText($sermon->application)) !!}
                 @endif
             @endif
         </article>

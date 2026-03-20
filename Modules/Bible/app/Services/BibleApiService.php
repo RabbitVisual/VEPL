@@ -4,6 +4,7 @@ namespace Modules\Bible\App\Services;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Modules\Bible\App\Services\BibleReferenceParserService;
 use Modules\Bible\App\Models\BibleBookPanorama;
 use Modules\Bible\App\Models\BibleVersion;
 use Modules\Bible\App\Models\Book;
@@ -124,9 +125,9 @@ class BibleApiService
      *
      * @return array{reference: string, book: string, chapter: int, verses: Collection, full_chapter_url: string}|null
      */
-    public function findByReference(string $reference): ?array
+    public function findByReference(string $reference, ?int $versionId = null): ?array
     {
-        $reference = trim($reference);
+        $reference = trim(preg_replace('/\s+/u', ' ', $reference));
         if ($reference === '') {
             return null;
         }
@@ -140,8 +141,19 @@ class BibleApiService
         $verseStart = (int) $matches[3];
         $verseEnd = (int) ($matches[4] ?? $verseStart);
 
-        $book = Book::where('name', 'like', $bookName)
-            ->orWhere('abbreviation', 'like', $bookName)
+        $versionId = $versionId ?? $this->getDefaultVersionId();
+        if (! $versionId) {
+            return null;
+        }
+
+        $book = Book::query()
+            ->where('bible_version_id', $versionId)
+            ->where(function ($q) use ($bookName) {
+                $q->where('name', $bookName)
+                    ->orWhere('abbreviation', $bookName)
+                    ->orWhereRaw('LOWER(name) = LOWER(?)', [$bookName])
+                    ->orWhereRaw('LOWER(COALESCE(abbreviation, "")) = LOWER(?)', [$bookName]);
+            })
             ->with('bibleVersion')
             ->first();
 
@@ -313,9 +325,12 @@ class BibleApiService
         Cache::forget(self::CACHE_PREFIX.'versions');
         // Books/chapters keys are per-id; without tag support we forget only versions.
         // Consider using Redis with tags in production for full invalidation.
+        if (app()->bound(BibleReferenceParserService::class)) {
+            app(BibleReferenceParserService::class)->clearBookPatternCache();
+        }
     }
 
-    private function getDefaultVersionId(): ?int
+    public function getDefaultVersionId(): ?int
     {
         $v = BibleVersion::where('is_active', true)
             ->orderByRaw('is_default DESC')

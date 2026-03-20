@@ -111,7 +111,7 @@
 
         <!-- Content Body -->
         <div class="p-8 md:p-16 commentary-content text-gray-800 dark:text-gray-200">
-            {!! nl2br(e($commentary->content)) !!}
+            {!! nl2br(app(\Modules\Bible\App\Services\BibleReferenceParserService::class)->parseText($commentary->content)) !!}
         </div>
 
         <!-- Footer -->
